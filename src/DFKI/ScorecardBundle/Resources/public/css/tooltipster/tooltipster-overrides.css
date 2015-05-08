@@ -1,0 +1,18 @@
+.tooltipster-content dt {
+	margin-top: 9px;
+	font-weight: bold;
+}
+
+.tooltipster-content p.mqm-id {
+	text-align: center;
+	font-style: italic;
+}
+
+.toolstipter-content ul {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+.toolstipter-content ul li:first-child {
+	margin-top:0px;
+}

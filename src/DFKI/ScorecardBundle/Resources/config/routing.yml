@@ -1,0 +1,69 @@
+sc_start:
+    path:     /
+    defaults: { _controller: DFKIScorecardBundle:User:index }
+
+sc_list_projects:
+    path:     /list
+    defaults: { _controller: DFKIScorecardBundle:User:listProjects }
+      
+sc_editor:
+    pattern:  /editor/{projectId}
+    defaults: { _controller: DFKIScorecardBundle:Editor:editor }
+      
+sc_mark_as_finished:
+    pattern:  /editor/mark_as_finished/{projectId}
+    defaults: { _controller: DFKIScorecardBundle:Editor:markAsFinished }
+    
+sc_admin_dashboard:
+    pattern: /admin/dashboard       
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'DFKIScorecardBundle:Admin:dashboard.html.twig'
+    
+sc_create_project:
+    pattern: /admin/create_project       
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'DFKIScorecardBundle:Admin:create_project.html.twig'
+
+sc_edit_project:
+    pattern: /admin/edit_project/{projectId}
+    defaults: { _controller: DFKIScorecardBundle:Admin:editProject }
+
+sc_post_edit_project:
+    pattern: /admin/post_edit_project
+    defaults: { _controller: DFKIScorecardBundle:Admin:postEditProject }
+
+sc_delete_project:
+    pattern: /admin/delete_project/{projectId}
+    defaults: { _controller: DFKIScorecardBundle:Admin:deleteProject }
+
+sc_post_project:
+    pattern: /admin/post_project
+    defaults: { _controller: DFKIScorecardBundle:Admin:postProject }
+
+sc_remove_user_project:
+    pattern: /admin/remove_user_from_project
+    defaults: { _controller: DFKIScorecardBundle:Admin:removeUserFromProject}
+
+sc_superadmin_dashboard:
+    pattern: /superadmin/dashboard       
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'DFKIScorecardBundle:Superadmin:dashboard.html.twig'
+
+sc_manage_users:
+    pattern: superadmin/manage_users
+    defaults: { _controller: DFKIScorecardBundle:Superadmin:listUsers}
+    
+sc_set_user_role:
+    pattern: superadmin/set_user_role
+    defaults: { _controller: DFKIScorecardBundle:Superadmin:setUserRole}
+
+sc_profile:   
+    pattern: user/profile
+    defaults: { _controller: DFKIScorecardBundle:User:editProfile}
+
+sc_delete_user:
+    pattern: superadmin/delete_user/{userid}
+    defaults: { _controller: DFKIScorecardBundle:Superadmin:deleteUser}

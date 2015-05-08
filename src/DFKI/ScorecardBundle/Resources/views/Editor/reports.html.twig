@@ -1,0 +1,204 @@
+<script type="text/javascript">
+
+report = {
+
+	issues: {},
+
+	reset: function(){
+		// create matrix
+		$('#report tr[issue-id]').each(function(){
+			var id = $(this).attr("issue-id");
+			var issue = {
+				"source-minor": 0,
+				"source-major": 0,
+				"source-critical": 0,
+				"target-minor": 0,
+				"target-major": 0,
+				"target-critical": 0,
+				"group": $(this).attr("group")
+			};
+			report.issues[id] = issue;
+		});
+	},
+
+	setVal: function(key, value){
+		if( !isNaN(parseInt(value)) && parseInt(value) != 0 ){
+			value = '<span class="red">' + value + '</span>';	
+		}
+		$(key).html(value);
+	},
+
+	show: function(){
+		var subtotal = Array();
+		for( id in report.issues ){
+
+			// values for issues
+			var issue = report.issues[id];
+			for( var key in issue ){
+				var value = issue[key];
+				if( issue.group == "accuracy" && key.substring(0,6) == "source" ) value = "-";
+				this.setVal( '#' + key + '-' + id, value );
+			}
+			var sourceTotal = issue["source-minor"] + issue["source-major"] + issue["source-critical"];
+			var targetTotal = issue["target-minor"] + issue["target-major"] + issue["target-critical"];
+			var total = sourceTotal + targetTotal;
+
+			var value = issue.group == "accuracy" ? "-" : sourceTotal;
+			$('#source-subtotal-' + id ).html(value);
+			$('#target-subtotal-' + id ).html(targetTotal);
+			$('#total-' + id ).html(total);
+
+			// count subtotal
+			if( subtotal[issue.group] == undefined ){
+				subtotal[issue.group] = {
+					"source-minor": 0,
+					"source-major": 0,
+					"source-critical": 0,
+					"source-subtotal": 0,
+					"target-minor": 0,
+					"target-major": 0,
+					"target-critical": 0,
+					"target-subtotal": 0,
+					"total": 0,
+				};
+			}
+
+			subtotal[issue.group]["source-minor"] += issue["source-minor"];
+			subtotal[issue.group]["source-major"] += issue["source-major"];
+			subtotal[issue.group]["source-critical"] += issue["source-critical"];
+			subtotal[issue.group]["source-subtotal"] += sourceTotal;
+			subtotal[issue.group]["target-minor"] += issue["target-minor"];
+			subtotal[issue.group]["target-major"] += issue["target-major"];
+			subtotal[issue.group]["target-critical"] += issue["target-critical"];
+			subtotal[issue.group]["target-subtotal"] += targetTotal;
+			subtotal[issue.group]["total"] += sourceTotal + targetTotal;
+		}
+
+		// write subtotal and count total
+		total = {
+			"total-source-minor": 0,
+			"total-source-major": 0,
+			"total-source-critical": 0,
+			"total-source-subtotal": 0,
+			"total-target-minor": 0,
+			"total-target-major": 0,
+			"total-target-critical": 0,
+			"total-target-subtotal": 0,
+			"total": 0
+		};
+		
+		for( var key in subtotal ){
+
+			if( key == "accuracy" ){
+				this.setVal('#subtotal-source-minor-' + key, "-" );
+				this.setVal('#subtotal-source-major-' + key, "-" );
+				this.setVal('#subtotal-source-critical-' + key, "-" );
+				this.setVal('#subtotal-source-subtotal-' + key, "-" );
+			} else{
+				this.setVal('#subtotal-source-minor-' + key, subtotal[key]["source-minor"] );
+				this.setVal('#subtotal-source-major-' + key, subtotal[key]["source-major"] );
+				this.setVal('#subtotal-source-critical-' + key, subtotal[key]["source-critical"] );
+				this.setVal('#subtotal-source-subtotal-' + key, subtotal[key]["source-subtotal"] );
+			}
+			this.setVal('#subtotal-target-minor-' + key, subtotal[key]["target-minor"] );
+			this.setVal('#subtotal-target-major-' + key, subtotal[key]["target-major"] );
+			this.setVal('#subtotal-target-critical-' + key, subtotal[key]["target-critical"] );
+			this.setVal('#subtotal-target-subtotal-' + key, subtotal[key]["target-subtotal"] );
+			this.setVal('#subtotal-total-' + key, subtotal[key]["total"] );
+
+			total["total-source-minor"] += subtotal[key]["source-minor"];
+			total["total-source-major"] += subtotal[key]["source-major"]; 
+			total["total-source-critical"] += subtotal[key]["source-critical"]; 
+			total["total-source-subtotal"] += subtotal[key]["source-subtotal"]; 
+			total["total-target-minor"] += subtotal[key]["target-minor"]; 
+			total["total-target-major"] += subtotal[key]["target-major"]; 
+			total["total-target-critical"] += subtotal[key]["target-critical"]; 
+			total["total-target-subtotal"] += subtotal[key]["target-subtotal"]; 
+			total["total"] += subtotal[key]["source-subtotal"] + subtotal[key]["target-subtotal"]; 
+		}
+
+		// write total
+		for( var key in total ){
+			//console.debug(key + ", " + $('#' + key).size() + ", " + total[key]);
+			this.setVal('#' + key, total[key]);
+		}
+	},
+
+	importIssues: function(list){
+		this.reset();
+
+		for( var i=0; i<list.length; i++ ){
+			var issue = list[i];
+			this.issues[issue.issueId][issue.target + "-" + issue.severity]++;
+		}
+
+		this.show();
+	}
+}
+</script>
+
+<h2>Report on Annotation Results</h2>
+
+<table id="report">
+	<tr>
+		<th rowspan="2">Issue</th>
+		<th colspan="4">Source</th>
+		<th colspan="4">Target</th>
+		<th rowspan="2">Total</th>
+	</tr>
+	<tr>
+		<th class="minor">Minor</th>
+		<th class="major">Major</th>
+		<th class="critical">Critical</th>
+		<th class="total">Subtotal</th>
+		<th class="minor">Minor</th>
+		<th class="major">Major</th>
+		<th class="critical">Critical</th>
+		<th class="white">Subtotal</th>
+	</tr>
+	{% if issues|length > 0 %}
+	{% for i in 0..(issues|length)-1 %}
+	<tr>
+		<td colspan="10" class="subheading">{{ issues[i][0].name }}</td>
+	</tr>
+	{% for issue in issues[i] %}
+	<tr issue-id="{{ issue.id }}" group="{{ issues[i][0].id }}">
+		<td class="white strong">{{ issue.name }}</td>
+		<td class="minor" id="source-minor-{{ issue.id }}"></td>
+		<td class="major" id="source-major-{{ issue.id }}"></td>
+		<td class="critical" id="source-critical-{{ issue.id }}"></td>
+		<td class="white" id="source-subtotal-{{ issue.id }}"></td>
+		<td class="minor" id="target-minor-{{ issue.id }}"></td>
+		<td class="major" id="target-major-{{ issue.id }}"></td>
+		<td class="critical" id="target-critical-{{ issue.id }}"></td>
+		<td class="white" id="target-subtotal-{{ issue.id }}"></td>
+		<td class="white" id="total-{{ issue.id }}"></td>
+		</tr>
+	{% endfor %}
+	<tr class="subtotal">
+		<td class="subtotal-heading strong">Subtotal</td>
+		<td id="subtotal-source-minor-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-source-major-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-source-critical-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-source-subtotal-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-target-minor-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-target-major-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-target-critical-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-target-subtotal-{{ issues[i][0].id }}"></td>
+		<td id="subtotal-total-{{ issues[i][0].id }}"></td>
+	</tr>
+	{% endfor %}
+	{% endif %}
+	<tr class="total">
+		<td class="subtotal-heading strong">Total</td>
+		<td id="total-source-minor"></td>
+		<td id="total-source-major"></td>
+		<td id="total-source-critical"></td>
+		<td id="total-source-subtotal"></td>
+		<td id="total-target-minor"></td>
+		<td id="total-target-major"></td>
+		<td id="total-target-critical"></td>
+		<td id="total-target-subtotal"></td>
+		<td id="total"></td>
+	</tr>
+</table>

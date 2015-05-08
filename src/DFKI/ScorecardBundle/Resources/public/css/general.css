@@ -1,0 +1,149 @@
+body {
+	background-color: #BDCDFF;
+	padding: 9px 18px;
+	font-family: Helvetica, Arial, sansserif;
+	font-size:11pt;
+	min-width:1000px;
+}
+#outer {
+	background-color: white;
+	min-height: 700px;
+	padding: 8px;
+}
+
+/* TITLE BLOCK */
+
+#top {
+	padding:6px 0px;
+	margin-bottom:12px;
+}
+#center {
+	width: 550px ;
+	margin-left: auto ;
+	margin-right: auto ;
+		background:gray;
+	padding:6px 0px;
+	margin-top:100px;
+	margin-bottom:500px;
+}
+#logo {
+	float:left;
+	margin-right:8px;
+}
+#login {
+	float:right;
+	margin-left:50px;
+	padding:0px;
+}
+#login p {
+	margin:0px;
+	padding:0px;
+}
+#title_block {
+	margin: 0px 12px 0px 120px;
+}
+#title_block h1 {
+	margin-top:-5px;
+	font-size: 18pt;
+}
+#title_inner {
+	float:left;
+	margin-right:50px;
+}
+#score_block h2 {
+	color:red;
+	font-size: 14pt;
+	margin:-1px 0px;
+	text-align:center;
+}
+
+#boilerplate {
+	margin-top: 15px;
+	border-top: 1px solid black;
+	padding-top: 10px;
+	font-size: 90%;
+}
+
+.warning {
+	color: red;
+	font-weight: bold;
+	size: 60%;
+}
+
+#composite_score, #source_score {
+	display: none;
+}
+
+.innerbox {
+	background-color: white;
+	padding:10px 20px 10px 20px;
+	margin-top:12px;
+	border: 1px solid black
+}
+
+.searchbox{
+	position:relative;
+	border: 1px solid black;
+	display:none;
+	width:500px;
+}
+
+table.sctable{
+	border:1px solid #eeeeee;
+	width: 100%
+}
+
+table.sctable th{
+	text-align:left;
+}
+
+table.sctable tr.color{
+	background-color: #eeeeee;
+}
+
+table.sctable td, table.paginationtable th{
+	padding:5px;
+}
+
+table.sctable th a{
+	color:black;
+	text-decoration:none;
+}
+
+.pagination .current{
+	border:0;
+}
+
+div.flash-notice{
+	background:#C9CEFF;
+	border:1px solid #0015FF;
+	margin-top:28px;
+	padding: 6px;
+}
+
+div.flash-warning{
+	background:#FFF79E;
+	border:1px solid #E99948;
+	margin-top:28px;
+	padding: 6px;
+}
+
+#mainmenu{
+	clear:both;
+	display:block;
+	margin: 8px 0 36px 0;
+}
+
+#mainmenu ul{
+	margin:0;
+	padding:0;
+}
+#mainmenu li{
+	float:left;
+	list-style-type:none;
+	margin-right:16px;
+}
+
+div.sc-form label{
+	width:200px;
+}

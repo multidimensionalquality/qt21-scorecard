@@ -1,0 +1,14 @@
+users : 
+  type: rest
+  resource:     "DFKIScorecardBundle:UserRest"
+  name_prefix:  api_
+  
+projects : 
+  type: rest
+  resource:     "DFKIScorecardBundle:ProjectRest"
+  name_prefix:  api_
+  
+editor : 
+  type: rest
+  resource:     "DFKIScorecardBundle:EditorRest"
+  name_prefix:  api_

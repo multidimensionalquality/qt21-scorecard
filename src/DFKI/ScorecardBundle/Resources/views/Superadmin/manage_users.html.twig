@@ -1,0 +1,74 @@
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Manage users{% endblock %} {% block body %}
+<h1>Manage users</h1>
+
+<script type="text/javascript">
+
+var deleteUserId = -1;
+
+$(document).ready(function(){
+	$('#reallyDelete').dialog({
+		autoOpen:false,
+		buttons:{
+			"Yes": function(){
+				document.location.href = "{{ path("sc_start") }}superadmin/delete_user/" + deleteUserId;
+			},
+			"No": function(){
+				$('#reallyDelete').dialog('close');
+			}
+		}
+	});
+
+	$('a.delete-user').click(function(){
+		deleteUserId = $(this).attr('user-id');
+		var name = $('#user-name-'+deleteUserId).html();
+		var str = "Do you really want to delete user &quot;" + name + "&quot;";
+		$('#reallyDelete').html(str);
+		$('#reallyDelete').dialog('open');
+	});
+});
+</script>
+<div id="reallyDelete" title="alert"></div>
+
+<table class="sctable">
+	<tr>
+		{# sorting of properties based on query components #}
+		<th width="50">{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
+		<th {% if pagination.isSorted('u.name') %} class="sorted" {% endif %}>{{
+			knp_pagination_sortable(pagination, 'Real name', 'u.name') }}</th>
+		<th {% if pagination.isSorted('u.username') %} class="sorted" {% endif %}>{{
+			knp_pagination_sortable(pagination, 'User name', 'u.username') }}</th>
+		<th {% if pagination.isSorted('u.email') %} class="sorted" {% endif %}>{{
+			knp_pagination_sortable(pagination, 'Email', 'u.email') }}</th>
+		<th {% if pagination.isSorted('u.roles[0]') %} class="sorted" {% endif %}>{{
+			knp_pagination_sortable(pagination, 'Role', 'u.roles[0]') }}</th>
+			<th>Actions</th>
+	</tr>
+
+	{# table body #} {% for u in pagination %}
+	<tr  {% if loop.index is odd %} class="color" {% endif %}>
+		<td>{{ u.id }}</td>
+		<td id="user-name-{{ u.id }}">{{ u.name }}</td>
+		<td>{{ u.username }}</td>
+		<td>{{ u.email}}</td>
+		<td>
+			{% if u.roles[0] == 'ROLE_SUPER_ADMIN' %}
+				superadmin
+			{% elseif u.roles[0] == 'ROLE_ADMIN' %}
+				admin
+			{% else %}
+				user
+			{% endif %}
+		</td>
+		<td>
+			<a class="delete-user" user-id="{{ u.id }}" href="javascript:void(0);">delete</a> 
+			<a href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_USER">set user</a>   
+			<a href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_ADMIN">set admin</a>   
+			<a href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_SUPER_ADMIN">set superadmin</a>   
+			</td>
+	</tr>
+	{% endfor %}
+</table>
+{# display navigation #}
+<div class="navigation">{{ knp_pagination_render(pagination) }}</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'DFKIScorecardBundle::base.html.twig' %}
+
+{% block title %}Editor{% endblock %}
+
+{% block body %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$( "#accordion" ).accordion();
+			$( "#tabs" ).tabs();
+			$('.tooltip').tooltipster({
+				contentAsHTML: true,
+				animation: 'fade',
+				delay: 1000,
+				position: 'bottom',
+				maxWidth: 400,
+				minWidth: 400
+			});
+		});
+	</script>
+	
+	<h1 style="display:inline">Editor</h1>
+	<span style="float:right; margin-top:14px;">
+		source score: <span id="sourceScore"></span>, target score: <span id="targetScore"></span>, composite score: <span id="compositeScore"></span>,
+		<form style="display:inline" action="{{ path("sc_mark_as_finished", { 'projectId': project.id } ) }}">
+			{% if project.finished %}
+				<input type="submit" value="mark project as not finished" />
+			{% else %}
+				<input type="submit" value="mark project as finished" />
+			{% endif %}
+		</form>
+	</span>
+	<div style="clear:both"></div>
+	
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Scorecard</a></li>			
+			<li><a href="#tabs-3">Project specifications</a></li>
+			<li><a href="#tabs-4">Reports</a></li>
+			<li><a href="#tabs-5">Training and help</a></li>
+		</ul>
+		<div id="tabs-1">
+			{% include 'DFKIScorecardBundle:Editor:scorecard.html.twig' %}
+		</div>
+		<div id="tabs-3">
+			{% include 'DFKIScorecardBundle:Editor:specifications.html.twig' %}
+		</div>
+		<div id="tabs-4">
+			{% include 'DFKIScorecardBundle:Editor:reports.html.twig' %}
+		</div>
+		<div id="tabs-5">
+			{% include 'DFKIScorecardBundle:Editor:training_help.html.twig' %}
+		</div>
+	</div>
+{% endblock %}

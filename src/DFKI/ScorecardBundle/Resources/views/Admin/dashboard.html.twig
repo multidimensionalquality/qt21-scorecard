@@ -1,0 +1,12 @@
+{% extends 'DFKIScorecardBundle::base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+	<h1>Admin Dashboard</h1>
+	<ul>
+		<li><a href="{{ path('sc_superadmin_dashboard') }}">Start</a></li>
+		<li><a href="{{ path('sc_create_project') }}">Create project</a></li>
+		<li><a href="{{ path('sc_list_projects') }}">List projects</a></li>
+	</ul>
+{% endblock %}
