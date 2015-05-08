@@ -1,6 +1,6 @@
 # QT21-Scorecard
 
-http://www.qt21.eu/scorecard/login
+http://www.qt21.eu/scorecard
 
 ## Installation Instructions
 
