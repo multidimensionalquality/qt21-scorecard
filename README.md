@@ -1,2 +1,2 @@
 # qt21-scorecard
-This is qt21 scorecard repo.
+This is qt21 scorecard repo. 
