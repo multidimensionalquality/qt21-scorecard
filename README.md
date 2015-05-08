@@ -7,6 +7,7 @@ git clone https://github.com/multidimensionalquality/qt21-scorecard.git
 ```
 
 Follow http://symfony.com/doc/current/cookbook/deployment/tools.html
+
 create mysql database, import data/issues.sql
 
 ```
