@@ -365,7 +365,16 @@ class ProjectService {
 		
 		$maxSegment = intval($maxSegmentRaw[0][1]);
 		
-		$completion = (float)($lastTouchedSegment->getSegNum()-1)/($maxSegment-1);
-		return $completion;
+		if( $lastTouchedSegment == null ){
+			return 0.0;
+		} else if( $maxSegment == 1 ){
+			if( $lastTouchedSegment->getSegNum() == $maxSegment ){
+				return 1.0;
+			} else{
+				return 0.0;
+			}
+		} else{
+			return (float)($lastTouchedSegment->getSegNum()-1)/($maxSegment-1);				
+		}
 	}
 }
