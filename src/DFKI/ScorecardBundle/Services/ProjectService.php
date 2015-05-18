@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use DFKI\ScorecardBundle\Entity\IssueReport;
 use Exception;
+use DFKI\ScorecardBundle\DFKIScorecardBundle;
 
 class ProjectService {
 	
@@ -350,5 +351,21 @@ class ProjectService {
  		$project->setSpecificationsFileName($file->getClientOriginalName() );
  		$this->em->persist($project);
  		$this->em->flush();
+	}
+	
+	/**
+	 * Calculate completion of project as (lastTouchedSegment-1)/(highestSegment-1)
+	 * @param unknown $project
+	 * @param unknown $lastTouchedSegment
+	 * @return number
+	 */
+	public function getProjectCompletion($project, $lastTouchedSegment){
+		$maxSegmentRaw = $this->em->createQuery("SELECT MAX(s.segNum) FROM DFKIScorecardBundle:Segment s, DFKIScorecardBundle:Project p
+			WHERE s.project=:project")->setParameter("project", $project)->getResult();
+		
+		$maxSegment = intval($maxSegmentRaw[0][1]);
+		
+		$completion = (float)($lastTouchedSegment->getSegNum()-1)/($maxSegment-1);
+		return $completion;
 	}
 }

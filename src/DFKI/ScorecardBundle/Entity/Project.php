@@ -116,7 +116,8 @@ class Project
     protected $issueProjectMapping;
     
     /**
-     * @ORM\OneToOne(targetEntity="Segment", mappedBy="project")
+     * @ORM\OneToOne(targetEntity="Segment")
+     * @ORM\JoinColumn(name="lastTouchedSegment", referencedColumnName="id")
      */
     protected $lastTouchedSegment;
     
@@ -126,6 +127,13 @@ class Project
      * @ORM\Column(name="finished", type="boolean")
      */
     private $finished = false;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="completion", type="float")
+     */
+    private $completion = 0;
     
 
     /**
@@ -575,5 +583,51 @@ class Project
     public function getLastTouchedSegment()
     {
         return $this->lastTouchedSegment;
+    }
+
+    /**
+     * Set float
+     *
+     * @param float $float
+     * @return Project
+     */
+    public function setFloat($float)
+    {
+        $this->float = $float;
+
+        return $this;
+    }
+
+    /**
+     * Get float
+     *
+     * @return float 
+     */
+    public function getFloat()
+    {
+        return $this->float;
+    }
+
+    /**
+     * Set completion
+     *
+     * @param float $completion
+     * @return Project
+     */
+    public function setCompletion($completion)
+    {
+        $this->completion = $completion;
+
+        return $this;
+    }
+
+    /**
+     * Get completion
+     *
+     * @return float 
+     */
+    public function getCompletion()
+    {
+        return $this->completion;
     }
 }

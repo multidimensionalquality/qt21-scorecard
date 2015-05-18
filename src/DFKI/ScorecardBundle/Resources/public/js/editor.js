@@ -4,6 +4,7 @@ var sc = {
 
 	api: "",
 	projectId: -1,
+	initSegment: -1,
 	
 	init: function(){
 		this.selector.init();
@@ -129,6 +130,8 @@ var sc = {
 			// set source / target headings
 			var index = $('tr[segment-id=' + segmentId + '] td.yellow').html();
 			$('.selected-segment').html(index);
+
+			$.post( sc.api + "editor/segment/touch/" + segmentId );		
 		}
 	},
 

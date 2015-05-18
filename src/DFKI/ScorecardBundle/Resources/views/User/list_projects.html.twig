@@ -54,7 +54,7 @@ $(document).ready(function(){
 		<td id="project-name-{{ project.id }}">{{ project.name }}</td>
 		<td>
 			{% if project.finished %} finished
-			{% else %} not finished{% endif %}
+			{% else %} not finished - {{ (project.completion*100)|round(2) }}% complete{% endif %}
 			</td>
 		<td>
 			{% if actions.open %}

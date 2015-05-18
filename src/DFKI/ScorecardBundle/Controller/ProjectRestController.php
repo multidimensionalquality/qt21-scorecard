@@ -73,6 +73,7 @@ class ProjectRestController extends Controller {
 		}
 		
 		$project->removeUser($user);
+		
 		$em->persist($project);
 		$em->flush();
 	}

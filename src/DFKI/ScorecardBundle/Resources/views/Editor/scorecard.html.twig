@@ -3,10 +3,16 @@ $(document).ready(function(){
 	sc.api = '{{ path("sc_start") }}api/';
 	sc.projectId = {{ project.id }};
 
+	
 	sc.init();
 	
 	// select first segment
+	var selection = -1;
+	{% if project.lastTouchedSegment is not null %}
+	sc.selector.selectSegment({{ project.lastTouchedSegment.id }});
+	{% else %}
 	sc.selector.selectSegment({{ project.segments[0].id }});
+	{% endif %}
 	
 	// add issue reports
 	{% for report in issueReports %}

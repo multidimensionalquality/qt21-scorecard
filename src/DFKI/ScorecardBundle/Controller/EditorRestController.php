@@ -213,4 +213,32 @@ class EditorRestController extends Controller {
 		$editorService = $this->get("editorService");
 		return $editorService->getProjectScore($project);
 	}
+	
+	/**
+	 * set last touched segment
+	 *
+	 * @Route("/editor/segment/touch/{segmentid}", name="rest_editor_touch_segment")
+	 */
+	public function postTouchSegmentAction($segmentid){
+		$em = $this->getDoctrine()->getManager();
+		$segment = $em->getRepository("DFKIScorecardBundle:Segment")->findOneById($segmentid);
+		
+		if( !is_object($segment)){
+			throw new NotFoundHttpException();
+		}
+		
+		$project = $segment->getProject();
+		if (false === $this->get('security.context')->isGranted('view', $project)) {
+			throw new AccessDeniedException('Unauthorised access!');
+		}
+		
+		$projectService = $this->get("projectService");
+		$completion = $projectService->getProjectCompletion($project, $segment);
+		
+		$project->setLastTouchedSegment($segment);
+		$project->setCompletion($completion);
+
+		$em->persist($project);
+		$em->flush();
+	}
 }
