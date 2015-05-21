@@ -78,8 +78,8 @@ $(document).ready(function(){
 					{% set segment = project.segments[i] %}
 					<tr segment-id="{{ segment.id }}" class="segment-text" notes="{{ segment.notes|escape("html") }}">
 						<td width="36" rowspan="2" class="yellow">{{ i+1 }}</td>
-						<td width="400" class="source">{{ segment.source }}</td>
-						<td width="400" class="target">{{ segment.target }}</td>
+						<td width="400" class="source">{{ segment.source|raw }}</td>
+						<td width="400" class="target">{{ segment.target|raw }}</td>
 					</tr>
 					<tr segment-id="{{ segment.id }}" class="issues gray">
 						<td class="issue-source">&nbsp;</td>
