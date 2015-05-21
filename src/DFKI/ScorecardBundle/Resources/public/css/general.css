@@ -123,6 +123,13 @@ div.flash-notice{
 
 div.flash-warning{
 	background:#FFF79E;
+	border:1px solid #FF0000;
+	margin-top:28px;
+	padding: 6px;
+}
+
+div.flash-error{
+	background:#FF8000;
 	border:1px solid #E99948;
 	margin-top:28px;
 	padding: 6px;

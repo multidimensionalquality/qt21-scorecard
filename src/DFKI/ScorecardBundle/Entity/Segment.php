@@ -8,6 +8,7 @@ namespace DFKI\ScorecardBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use DFKI\ScorecardBundle\Entity\Project;
 use DFKI\ScorecardBundle\Entity\IssueReport;
+use DFKI\ScorecardBundle\Entity\SegmentMetadata;
 
 /**
  * Segment
@@ -79,6 +80,11 @@ class Segment
      * @ORM\OneToMany(targetEntity="IssueReport", mappedBy="segment", cascade="remove")
      */
     protected $issueReports;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SegmentMetadata", mappedBy="segment", cascade="remove")
+     */
+    protected $metadata;
 
     /**
      * @var string
@@ -362,5 +368,38 @@ class Segment
     public function getHighlightsTarget()
     {
         return $this->highlightsTarget;
+    }
+
+    /**
+     * Add metadata
+     *
+     * @param \DFKI\ScorecardBundle\Entity\SegmentMetadata $metadata
+     * @return Segment
+     */
+    public function addMetadatum(\DFKI\ScorecardBundle\Entity\SegmentMetadata $metadata)
+    {
+        $this->metadata[] = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Remove metadata
+     *
+     * @param \DFKI\ScorecardBundle\Entity\SegmentMetadata $metadata
+     */
+    public function removeMetadatum(\DFKI\ScorecardBundle\Entity\SegmentMetadata $metadata)
+    {
+        $this->metadata->removeElement($metadata);
+    }
+
+    /**
+     * Get metadata
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 }

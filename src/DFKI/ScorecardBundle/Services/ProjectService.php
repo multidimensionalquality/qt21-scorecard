@@ -135,8 +135,13 @@ class ProjectService {
 		$sourceCount = 0;
 		$targetCount = 0;
 		
+		$lineNumber = 0;
 		foreach ( $filecontent as $thisLine ) {
+			$lineNumber++;
 			$thisLine = explode ( "\t", $thisLine );
+			if( sizeof( $thisLine ) != 2 ){
+				throw new Exception("Error reading bitext file in line $lineNumber");
+			}
 			
 			//TODO one is non breaking space
 			$sourceSeg = preg_replace ( "@[  ]+@", " ", $thisLine [0] );
@@ -317,8 +322,12 @@ class ProjectService {
 	 * @param unknown $file
 	 * @param unknown $project
 	 */
-	public function importSpecificationsFile($file, $project){
-		$xml = new \SimpleXMLElement( file_get_contents ( $file->getPathname () ));
+	public function importSpecificationsFile($file, $project) {
+		try{
+			$xml = new \SimpleXMLElement( file_get_contents ( $file->getPathname () ));
+		} catch( \Exception $e ){
+			throw new \Exception("Specifications file is not valid xml");
+		}
 		$html = "";
 		
 		if( empty($xml->section )){
