@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <title>{% block title %}MQM Scorecard{% endblock %}</title> {% block
-stylesheets %} {% stylesheets 'bundles/dfkiscorecard/css/*'
+stylesheets %} {% stylesheets 'bundles/dfkiscorecard/css/general.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets 'bundles/dfkiscorecard/css/viewer.css'
 filter='cssrewrite' %}
 <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %} {% stylesheets
@@ -98,3 +101,4 @@ javascripts
 	</div>
 </body>
 </html>
+
