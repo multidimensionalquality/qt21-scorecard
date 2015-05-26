@@ -1,9 +1,6 @@
 <h2>Project Specifications</h2>
 
-{% if project.specifications is null %}
-No specifications are available for this project.
-{% else %} 
-<div id="accordion">
-	{{ project.specifications|raw }}
-</div>
+{% if project.specifications is null %} No specifications are available
+for this project. {% else %}
+<div id="accordion">{{ project.specifications|raw }}</div>
 {% endif %}

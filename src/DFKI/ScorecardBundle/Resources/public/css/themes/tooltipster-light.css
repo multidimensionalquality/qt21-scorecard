@@ -1,9 +1,10 @@
 .tooltipster-light {
-	border-radius: 5px; 
+	border-radius: 5px;
 	border: 1px solid #cccccc;
 	background: #ededed;
 	color: #666666;
 }
+
 .tooltipster-light .tooltipster-content {
 	font-family: Arial, sans-serif;
 	font-size: 14px;

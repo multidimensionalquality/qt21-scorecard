@@ -1,109 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>{% block title %}MQM Scorecard{% endblock %}</title>
-	
-	{% block stylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/*' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.theme.min.css' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/tooltipster/tooltipster.css' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-		{% stylesheets 'bundles/dfkiscorecard/css/tooltipster/tooltipster-overrides.css' filter='cssrewrite' %}
-		    <link rel="stylesheet" href="{{ asset_url }}" />
-		{% endstylesheets %}
-	{% endblock %}
-	
-	{% block javascripts %}
-	    {% javascripts '@DFKIScorecardBundle/Resources/public/js/jquery/jquery.min.js' %}
-	        <script src="{{ asset_url }}"></script>
-	    {% endjavascripts %}
-	    {% javascripts '@DFKIScorecardBundle/Resources/public/js/jquery/jquery-ui.min.js' %}
-	        <script src="{{ asset_url }}"></script>
-	    {% endjavascripts %}
-	    {% javascripts '@DFKIScorecardBundle/Resources/public/js/editor.js' %}
-	        <script src="{{ asset_url }}"></script>
-	    {% endjavascripts %}
-	    {% javascripts '@DFKIScorecardBundle/Resources/public/js/jquery.textHighlighter.js' %}
-	        <script src="{{ asset_url }}"></script>
-	    {% endjavascripts %}
-	    {% javascripts '@DFKIScorecardBundle/Resources/public/js/jquery.tooltipster.min.js' %}
-	        <script src="{{ asset_url }}"></script>
-	    {% endjavascripts %}
-	    {% endblock %}
+<meta charset="utf-8" />
+<title>{% block title %}MQM Scorecard{% endblock %}</title> {% block
+stylesheets %} {% stylesheets 'bundles/dfkiscorecard/css/*'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets
+'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets
+'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets
+'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.theme.min.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets
+'bundles/dfkiscorecard/css/tooltipster/tooltipster.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% stylesheets
+'bundles/dfkiscorecard/css/tooltipster/tooltipster-overrides.css'
+filter='cssrewrite' %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %} {% endblock %} {% block javascripts %} {%
+javascripts
+'@DFKIScorecardBundle/Resources/public/js/jquery/jquery.min.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %} {% javascripts
+'@DFKIScorecardBundle/Resources/public/js/jquery/jquery-ui.min.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %} {% javascripts
+'@DFKIScorecardBundle/Resources/public/js/editor.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %} {% javascripts
+'@DFKIScorecardBundle/Resources/public/js/jquery.textHighlighter.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %} {% javascripts
+'@DFKIScorecardBundle/Resources/public/js/jquery.tooltipster.min.js' %}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %} {% endblock %}
 
 </head>
 <body>
 	<div id="outer">
 		<div id="top">
-<!-- start content of the title block -->
-<div id="logo">
-	{% image '@DFKIScorecardBundle/Resources/public/images/MQM_Logo.png' %}
-	    <img height="36" width="88" alt="[MQM logo]" src="{{ asset_url }}" />
-	{% endimage %}
-</div>
-<div id="login">
-	            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout')	 }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            {% endif %}
-</div>
-<div id="title_block">
-	<div id="title_inner">
-		<h1>MQM Evaluation Scorecard</h1>
-	</div>
-</div>
+			<!-- start content of the title block -->
+			<div id="logo">
+				{% image '@DFKIScorecardBundle/Resources/public/images/MQM_Logo.png'
+				%} <img height="36" width="88" alt="[MQM logo]"
+					src="{{ asset_url }}" /> {% endimage %}
+			</div>
+			<div id="login">
+				{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %} {{
+				'layout.logged_in_as'|trans({'%username%': app.user.username},
+				'FOSUserBundle') }} | <a
+					href="{{ path('fos_user_security_logout')	 }}"> {{
+					'layout.logout'|trans({}, 'FOSUserBundle') }} </a> {% else %} <a
+					href="{{ path('fos_user_security_login') }}">{{
+					'layout.login'|trans({}, 'FOSUserBundle') }}</a> {% endif %}
+			</div>
+			<div id="title_block">
+				<div id="title_inner">
+					<h1>MQM Evaluation Scorecard</h1>
+				</div>
+			</div>
 
-<div id="mainmenu">
-{% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
-	{% include( "DFKIScorecardBundle:Superadmin:menu.html.twig") %}
-{% elseif app.user and is_granted('ROLE_ADMIN' ) %}
-	{% include( "DFKIScorecardBundle:Admin:menu.html.twig") %}
-{% elseif app.user and is_granted('ROLE_USER') %}
-	{% include( "DFKIScorecardBundle:User:menu.html.twig") %}
-{% else %}
-	{% include( "DFKIScorecardBundle:Default:menu.html.twig") %}
-{% endif %}
-</div>
-		
-<div style="clear:both;"></div>
+			<div id="mainmenu">{% if app.user and is_granted('ROLE_SUPER_ADMIN')
+				%} {% include( "DFKIScorecardBundle:Superadmin:menu.html.twig") %}
+				{% elseif app.user and is_granted('ROLE_ADMIN' ) %} {% include(
+				"DFKIScorecardBundle:Admin:menu.html.twig") %} {% elseif app.user
+				and is_granted('ROLE_USER') %} {% include(
+				"DFKIScorecardBundle:User:menu.html.twig") %} {% else %} {% include(
+				"DFKIScorecardBundle:Default:menu.html.twig") %} {% endif %}</div>
 
-{% for flashMessage in app.session.flashbag.get('notice') %}
-    <div class="flash-notice">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-{% for flashMessage in app.session.flashbag.get('warning') %}
-    <div class="flash-warning">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-{% for flashMessage in app.session.flashbag.get('error') %}
-    <div class="flash-error">
-        {{ flashMessage }}
-    </div>
-{% endfor %}
-			
-			{% block body %}{% endblock %}
+			<div style="clear: both;"></div>
+
+			{% for flashMessage in app.session.flashbag.get('notice') %}
+			<div class="flash-notice">{{ flashMessage }}</div>
+			{% endfor %} {% for flashMessage in
+			app.session.flashbag.get('warning') %}
+			<div class="flash-warning">{{ flashMessage }}</div>
+			{% endfor %} {% for flashMessage in app.session.flashbag.get('error')
+			%}
+			<div class="flash-error">{{ flashMessage }}</div>
+			{% endfor %} {% block body %}{% endblock %}
 
 		</div>
-		<div style="clear:both;"></div>
-		<div id="boilerplate">(c)2014 DFKI GMbH. For more information on this tool, please contact <a href="mailto:info@qt21.eu">info@qt21.eu</a></div>
+		<div style="clear: both;"></div>
+		<div id="boilerplate">
+			(c)2014 DFKI GMbH. For more information on this tool, please contact
+			<a href="mailto:info@qt21.eu">info@qt21.eu</a>
+		</div>
 	</div>
 </body>
 </html>

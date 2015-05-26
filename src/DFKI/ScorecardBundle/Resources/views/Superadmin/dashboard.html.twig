@@ -1,12 +1,9 @@
-{% extends 'DFKIScorecardBundle::base.html.twig' %}
-
-{% block title %}Superadmin Dashboard{% endblock %}
-
-{% block body %}
-	<h1>Superadmin Dashboard</h1>
-	<ul>
-		<li><a href="{{ path('sc_create_project') }}">Create project</a></li>
-		<li><a href="{{ path('sc_list_projects') }}">List projects</a></li>
-		<li><a href="{{ path('sc_manage_users') }}">Manage users</a></li>
-	</ul>
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Superadmin Dashboard{% endblock %} {% block body %}
+<h1>Superadmin Dashboard</h1>
+<ul>
+	<li><a href="{{ path('sc_create_project') }}">Create project</a></li>
+	<li><a href="{{ path('sc_list_projects') }}">List projects</a></li>
+	<li><a href="{{ path('sc_manage_users') }}">Manage users</a></li>
+</ul>
 {% endblock %}

@@ -1,15 +1,14 @@
-{% extends 'DFKIScorecardBundle::base.html.twig' %}
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Create project{% endblock %} {% block body %}
+<h1>Create project</h1>
 
-{% block title %}Create project{% endblock %}
-
-{% block body %}
-	<h1>Create project</h1>
-	
-	<form action="{{ path('sc_post_project') }}" method="post" enctype="multipart/form-data" id="file-submitter">
+<form action="{{ path('sc_post_project') }}" method="post"
+	enctype="multipart/form-data" id="file-submitter">
 	<table class="sctable">
 		<tr class="color">
 			<td width="200">Project name</td>
 			<td><input type="text" name="project_name" />
+		
 		</tr>
 		<tr>
 			<td>Bi-text file (tab-delimited, UTF-8</td>
@@ -21,15 +20,14 @@
 		</tr>
 		<tr>
 			<td>Specifications file</td>
-			<td>
-				<input name="specificationFile" id="specificationFile" type="file">
-			</td>
+			<td><input name="specificationFile" id="specificationFile"
+				type="file"></td>
 		</tr>
 		<tr class="color">
 			<td colspan="2"><input name="submit" value="Submit" type="submit"></td>
 		</tr>
 	</table>
-	</form>
-		
-	<div style="clear:both;"></div>
+</form>
+
+<div style="clear: both;"></div>
 {% endblock %}

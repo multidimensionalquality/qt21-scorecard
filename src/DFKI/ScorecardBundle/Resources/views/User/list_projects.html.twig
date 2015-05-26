@@ -36,35 +36,29 @@ $(document).ready(function(){
 	<tr>
 		{# sorting of properties based on query components #}
 		<th width="50">{{ knp_pagination_sortable(pagination, 'Id', 'p.id') }}</th>
-		<th {% if pagination.isSorted('p.finished') %} class="sorted" {% endif %}>{{
-			knp_pagination_sortable(pagination, 'Project Name', 'p.name') }}</th>
+		<th  {% if pagination.isSorted('p.finished') %} class="sorted"
+			 {% endif %}>{{ knp_pagination_sortable(pagination, 'Project Name',
+			'p.name') }}</th>
 		<th>{{ knp_pagination_sortable(pagination, 'Status', 'p.finished') }}</th>
 		<th>Actions</th>
 	</tr>
-	
+
 	{% if pagination|length == 0 %}
 	<tr>
 		<td colspan="3">You are not assigned to any projects.</td>
 	</tr>
-	{% endif %}
-
-	{# table body #} {% for project in pagination %}
-	<tr {% if loop.index is odd %} class="color" {% endif %}>
+	{% endif %} {# table body #} {% for project in pagination %}
+	<tr  {% if loop.index is odd %} class="color"  {% endif %}>
 		<td>{{ project.id }}</td>
 		<td id="project-name-{{ project.id }}">{{ project.name }}</td>
-		<td>
-			{% if project.finished %} finished
-			{% else %} not finished - {{ (project.completion*100)|round(2) }}% complete{% endif %}
-			</td>
-		<td>
-			{% if actions.open %}
-			<a href="{{ path( "sc_editor", {'projectId': project.id})  }}">open</a> 
-			{% endif %}
-			{% if actions.edit %}
-			<a href="{{ path( "sc_edit_project", {'projectId': project.id})  }}">edit</a> 
-			{% endif %}
-			{% if actions.delete %}
-			<a class="delete-project" project-id="{{ project.id }}" href="javascript:void(0);">delete</a>  
+		<td>{% if project.finished %} finished {% else %} not finished - {{
+			(project.completion*100)|round(2) }}% complete{% endif %}</td>
+		<td>{% if actions.open %} <a
+			href="{{ path( "sc_editor", {'projectId': project.id})  }}">open</a>
+			{% endif %} {% if actions.edit %} <a
+			href="{{ path( "sc_edit_project", {'projectId': project.id})  }}">edit</a>
+			{% endif %} {% if actions.delete %} <a class="delete-project"
+			project-id="{{ project.id }}" href="javascript:void(0);">delete</a>
 			{% endif %}
 		</td>
 	</tr>

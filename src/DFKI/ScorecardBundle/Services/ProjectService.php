@@ -95,7 +95,7 @@ class ProjectService {
 		$issue = $this->em->getRepository ( "DFKIScorecardBundle:Issue" )->findOneById ( $id );
 		
 		if (! is_object ( $issue )) {
-			throw new Exception ( sprintf ( "Could not find issue \"%s\"", $id ) );
+			throw new Exception ( sprintf ( "Could not find issue \"%s\" which is referenced in metric file.", $id ) );
 		} else {
 			
 			$ipo = new IssueProjectMapping ();
@@ -106,7 +106,7 @@ class ProjectService {
 			} else if (strtolower ( $attr ["display"] ) == "no") {
 				$display = false;
 			} else {
-				throw new Exception ( "Bad xml input file. Could not parse display attribute \"" . $attr ["display"] . "\"" );
+				throw new Exception ( "Bad metric xml input file. Could not parse display attribute \"" . $attr ["display"] . "\"" );
 			}
 			$ipo->setDisplay ( $display );
 			$ipo->setProject ( $project );
@@ -126,11 +126,10 @@ class ProjectService {
 	 */
 	public function importSegmentsFile($project, $file) {
 		$filecontent = file_get_contents ( $file->getPathname () );
-		if (strlen ( trim($filecontent) ) == 0) {
+		if (strlen ( trim ( $filecontent ) ) == 0) {
 			throw new \Exception ( "invalid bitext file" );
 		}
 		$filecontent = explode ( "\n", $filecontent );
-		
 		
 		$project->setFileName ( $file->getClientOriginalName () );
 		
@@ -160,7 +159,7 @@ class ProjectService {
 			$this->em->persist ( $meta );
 			$categories [$i - 2] = $meta;
 		}
-		$this->em->flush();
+		$this->em->flush ();
 		
 		// import bitext file
 		$seg_number = 0;
@@ -177,7 +176,7 @@ class ProjectService {
 				continue;
 			}
 			
-			$line = explode ( "\t", $filecontent [$i] );
+			$line = explode ( "\t", $line );
 			
 			$seg_number ++;
 			if (sizeof ( $line ) != $nColumns) {
@@ -249,7 +248,7 @@ class ProjectService {
 	
 	/**
 	 * helper function that strips html from bitext files
-	 * 
+	 *
 	 * @param unknown $text        	
 	 */
 	private function cleanHtml($text) {
@@ -261,7 +260,7 @@ class ProjectService {
 	/**
 	 * helper function for importing bitext files.
 	 * creates a single segment
-	 * 
+	 *
 	 * @param unknown $line
 	 *        	an array representing a bitext file line column wise
 	 * @param unknown $seg_number        	

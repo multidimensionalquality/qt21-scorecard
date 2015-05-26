@@ -41,7 +41,7 @@ var sc = {
 
 		show: function(){
 			$('#scorecard .issues td').each(function(){
-				$(this).html('');
+				$(this).html('&nbsp;');
 			});
 			for( var i=0; i<this.reports.length; i++ ){
 				var issueReport = this.reports[i];
@@ -110,7 +110,7 @@ var sc = {
 			$('#scorecard tr').removeClass('selection-bottom');
 			var rows = $('#scorecard tr[segment-id=' + segmentId + ']');
 			$(rows[0]).addClass( 'selection-top' );
-			$(rows[1]).addClass( 'selection-bottom' );
+			$(rows[2]).addClass( 'selection-bottom' );
 			
 			// show notes
 			var notes = $('tr[segment-id=' + segmentId + ']').first().attr('notes');

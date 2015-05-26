@@ -1,167 +1,176 @@
-table.viewer{
-	display:inline-block;
+table.viewer {
+	display: inline-block;
 	border-collapse: collapse;
 }
 
-table.viewer th, table.viewer td{
+table.viewer th, table.viewer td {
 	padding: 5px;
 	margin: 0px;
-	border:1px solid black;
+	border: 1px solid black;
 }
 
-.viewer th{
+.viewer th {
 	font-size: 90%;
 	padding: 6px 0px;
 	background-color: #77809B;
 	color: #FFF494;
 }
 
-table.viewer td.segment_cell{
-	margin:0;
-	padding:0;
+table.viewer td.segment_cell {
+	margin: 0;
+	padding: 0;
 }
 
-table.viewer tr.issues td{
-	border-top:0;
+table.viewer tr.issues td {
+	border-top: 0;
+	min-height: 45px;
 }
 
-table.viewer td.source{
-	border-bottom:0;
+table.viewer td.source {
+	border-bottom: 0;
 }
 
-table.viewer td.target{
-	border-bottom:0;
+table.viewer td.target {
+	border-bottom: 0;
 }
 
-table.viewer .gray{
-	background-color:#cccccc;
+table.viewer .gray {
+	background-color: #cccccc;
 }
 
-table.viewer td.beginning{
-	color:#666666;
-	text-align:center;
-	font-style:italic;
-	padding:8px;
+table.viewer tr.segment-metadata {
+	background-color: #FFFFE5;
+	font-size: 75%;
 }
 
-table.viewer .yellow{
-	background-color:#FFFACD;
-	vertical-align:top;
-	text-align:right;
-	font-size:90%;
+table.viewer tr.segment-metadata span.category {
+	color: #007BFF;
 }
 
-table.viewer tr.issues, table.viewer tr.segment-text{
-	font-size:90%;
+table.viewer td.beginning {
+	color: #666666;
+	text-align: center;
+	font-style: italic;
+	padding: 8px;
 }
 
-table.viewer td.td-segtable{
-	padding:0;
+table.viewer .yellow {
+	background-color: #FFFACD;
+	vertical-align: top;
+	text-align: right;
+	font-size: 90%;
 }
 
-table.segtable{
+table.viewer tr.issues, table.viewer tr.segment-text {
+	font-size: 90%;
+}
+
+table.viewer td.td-segtable {
+	padding: 0;
+}
+
+table.segtable {
 	border-collapse: collapse;
-	margin:0;
-	padding:0;
-	border:0;
-	display:block;
-	overflow-y:scroll;
-	height:300px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	display: block;
+	overflow-y: scroll;
+	height: 300px;
 }
 
-table.segtable tr.selection-top{
-	border-top:2px solid red;
+table.segtable tr.selection-top {
+	border-top: 2px solid red;
 }
 
-table.segtable tr.selection-top td.yellow{
-	background-color:#fff185;
+table.segtable tr.selection-top td.yellow {
+	background-color: #fff185;
 }
 
-table.segtable tr.selection-bottom{
-	border-bottom:2px solid red;
+table.segtable tr.selection-bottom {
+	border-bottom: 2px solid red;
 }
 
-table.segtable tr.issues div.issue-report{
-	float:left;
-	padding:3px;
-	margin:5px;
+table.segtable tr.issues div.issue-report {
+	float: left;
+	padding: 3px;
+	margin: 5px;
 	border-radius: 9px;
 }
 
-table.segtable tr.issues div.issue-report a{
-	color:red;
-	font-size:80%;
-	position:relative;
-	top:-3px;
-	text-decoration:none;
+table.segtable tr.issues div.issue-report a {
+	color: red;
+	font-size: 80%;
+	position: relative;
+	top: -3px;
+	text-decoration: none;
 }
 
-table.segtable tr.issues div.minor{
-	border:1px solid #998e13;
-	background-color:#fbffbf;
+table.segtable tr.issues div.minor {
+	border: 1px solid #998e13;
+	background-color: #fbffbf;
 }
 
-table.segtable tr.issues div.major{
-	border:1px solid #996413;
-	background-color:#ffe7ba;
+table.segtable tr.issues div.major {
+	border: 1px solid #996413;
+	background-color: #ffe7ba;
 }
 
-table.segtable tr.issues div.critical{
-	border:1px solid #991916;
-	background-color:#ffdbd6;
+table.segtable tr.issues div.critical {
+	border: 1px solid #991916;
+	background-color: #ffdbd6;
 }
 
-table.nav{
-	height:300px;
+table.nav {
+	height: 300px;
 	width: 24px;
-	margin:0;
-	padding:0;	
-	cell-spacing:0;
-	border:0;
+	margin: 0;
+	padding: 0;
+	cell-spacing: 0;
+	border: 0;
 	border-collapse: collapse;
 }
 
-table.nav tr.button{
-	height:40px;
+table.nav tr.button {
+	height: 40px;
 }
 
-table.nav td{
-	border:0;
-	padding:0;
-	margin:0;
+table.nav td {
+	border: 0;
+	padding: 0;
+	margin: 0;
 }
-
 
 #scorecard a.nav_up {
-    background-image: url("../images/arrow_up_unlit.png");
-    background-repeat: no-repeat;
-    border-bottom:1px solid black;
+	background-image: url("../images/arrow_up_unlit.png");
+	background-repeat: no-repeat;
+	border-bottom: 1px solid black;
 }
 
-#scorecard a.nav_up:hover{
-    background-image: url("../images/arrow_up_lit.png");
+#scorecard a.nav_up:hover {
+	background-image: url("../images/arrow_up_lit.png");
 }
 
 #scorecard a.nav_down {
-    background-image: url("../images/arrow_down_unlit.png");
-    background-repeat: no-repeat;
-    border-top:1px solid black;
+	background-image: url("../images/arrow_down_unlit.png");
+	background-repeat: no-repeat;
+	border-top: 1px solid black;
 }
 
 #scorecard a.nav_down:hover {
-    background-image: url("../images/arrow_down_lit.png");
+	background-image: url("../images/arrow_down_lit.png");
 }
 
 #scorecard a.nav_down, #scorecard a.nav_up {
-    height: 40px;
-    max-height: 40px;
-    max-width: 24px !important;
-    padding: 0;
-    width: 24px !important;
-    display:block;
+	height: 40px;
+	max-height: 40px;
+	max-width: 24px !important;
+	padding: 0;
+	width: 24px !important;
+	display: block;
 }
 
-#segment-notes{
+#segment-notes {
 	border: 1px solid gray;
 	width: 190px;
 	height: 190px;
@@ -169,191 +178,190 @@ table.nav td{
 	resize: none;
 }
 
-
-#metrics{
-	border-collapse:collapse;
-	padding:0;
-	border:0;
+#metrics {
+	border-collapse: collapse;
+	padding: 0;
+	border: 0;
 }
 
-#metrics tr, #metrics td{
-	padding:0;
-	margin:0;
+#metrics tr, #metrics td {
+	padding: 0;
+	margin: 0;
 }
 
-#metrics div.metric{
-	width:150px;
-	height:100px;
-	float:left;
-	border:1px solid black;
-	margin-right:5px;
-	margin-bottom:5px;
+#metrics div.metric {
+	width: 150px;
+	height: 100px;
+	float: left;
+	border: 1px solid black;
+	margin-right: 5px;
+	margin-bottom: 5px;
 }
 
-#metrics .buttons-left{
-	width:25px;
-	border-right:1px solid black;
-	text-align:center;
-	float:left;
-	visibility:hidden;
-	
+#metrics .buttons-left {
+	width: 25px;
+	border-right: 1px solid black;
+	text-align: center;
+	float: left;
+	visibility: hidden;
 }
 
-#metrics .buttons-right{
-	width:25px;
-	border-left:1px solid black;
-	text-align:center;
-	float:right;
-	visibility:hidden;
+#metrics .buttons-right {
+	width: 25px;
+	border-left: 1px solid black;
+	text-align: center;
+	float: right;
+	visibility: hidden;
 }
 
-#metrics a{
-	width:25px;
-	height:25px;
-	overflow:hidden;
-	display:block;
-	margin:0;
-	padding:0;
-	line-height:100%;
+#metrics a {
+	width: 25px;
+	height: 25px;
+	overflow: hidden;
+	display: block;
+	margin: 0;
+	padding: 0;
+	line-height: 100%;
 }
 
-#metrics a.dead{
+#metrics a.dead {
 	opacity: 0.2;
 }
 
-#metrics a.minor img{
-	background-color:#fff764;
-	border-bottom:1px solid black;
+#metrics a.minor img {
+	background-color: #fff764;
+	border-bottom: 1px solid black;
 }
 
-#metrics a.major img{
-	background-color:#ffa11b;
-	border-bottom:1px solid black;
+#metrics a.major img {
+	background-color: #ffa11b;
+	border-bottom: 1px solid black;
 }
 
-#metrics a.critical img{
-	background-color:#ff0b06;
+#metrics a.critical img {
+	background-color: #ff0b06;
 }
 
-#metrics div.bg1{
-	background-color:#c9d9ff;
+#metrics div.bg1 {
+	background-color: #c9d9ff;
 }
 
-#metrics div.bg2{
-	background-color:#fff4b0;
+#metrics div.bg2 {
+	background-color: #fff4b0;
 }
 
-#metrics .label{
-	width:98px;
-	height:100px;
-	overflow:hidden;
-	text-align:center;
-	font-size:12px;
-	font-weight:bold;
-	float:left;   
-	line-height:100px;
+#metrics .label {
+	width: 98px;
+	height: 100px;
+	overflow: hidden;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	line-height: 100px;
 }
 
-img.top-issue{
-	margin-right:5px;
+img.top-issue {
+	margin-right: 5px;
 }
 
-#report{
-	border:2px solid black;
-	border-collapse:collapse;
+#report {
+	border: 2px solid black;
+	border-collapse: collapse;
 }
 
-#report th, #report td{
-	border:2px solid black;
-	padding:5px;
+#report th, #report td {
+	border: 2px solid black;
+	padding: 5px;
 }
 
-#report th{
-	background-color:#c5d1eb;
+#report th {
+	background-color: #c5d1eb;
 }
 
-#report td{
-	text-align:right;
+#report td {
+	text-align: right;
 }
 
-#report .minor{
-	background-color:#feffdb;
+#report .minor {
+	background-color: #feffdb;
 }
 
-#report .major{
-	background-color:#ffe5c9;
+#report .major {
+	background-color: #ffe5c9;
 }
 
-#report .critical{
-	background-color:#ffeae5;
+#report .critical {
+	background-color: #ffeae5;
 }
 
-#report .white{
-	background-color:#white;
+#report .white {
+	background-color: #white;
 }
 
-#report td.subheading{
-	background-color:#65699e;
-	color:#dfd998;
-	text-align:center;
-	font-weight:bold;
+#report td.subheading {
+	background-color: #65699e;
+	color: #dfd998;
+	text-align: center;
+	font-weight: bold;
 }
 
-#report span.red{
-	color:red;
-	font-weight:bold;
+#report span.red {
+	color: red;
+	font-weight: bold;
 }
 
-#report td.strong{
-	font-weight:bold;
-}
-#report tr.subtotal{
-	background-color:#f4ed96;
+#report td.strong {
+	font-weight: bold;
 }
 
-#report tr.total{
-	background-color:#d6e3ff;
+#report tr.subtotal {
+	background-color: #f4ed96;
 }
 
-table.navigation-notes{
-	border-collapse:collapse;
-	position:relative;
-	top:-3px;
-	padding:0;
-	border:0;
+#report tr.total {
+	background-color: #d6e3ff;
 }
 
-table.navigation-notes td, table.navigation-notes tr{
-	border:0;
+table.navigation-notes {
+	border-collapse: collapse;
+	position: relative;
+	top: -3px;
+	padding: 0;
+	border: 0;
 }
 
-table.navigation-notes td.navigation{
-	font-size:80%;
+table.navigation-notes td, table.navigation-notes tr {
+	border: 0;
 }
 
-table.nav tr.highlight{
-	height:220px;
+table.navigation-notes td.navigation {
+	font-size: 80%;
 }
 
-table.nav tr.highlight td{
-	text-align:center;
+table.nav tr.highlight {
+	height: 220px;
 }
 
-table.nav a{
+table.nav tr.highlight td {
+	text-align: center;
+}
+
+table.nav a {
 	width: 20px;
 	height: 20px;
 	display: inline-block;
-	margin-bottom:5px;
+	margin-bottom: 5px;
 }
 
-table.nav a.set-highlight-off{
-	background-image:url(../images/highlight_off.png);
+table.nav a.set-highlight-off {
+	background-image: url(../images/highlight_off.png);
 }
 
-table.nav a.set-highlight-on{
-	background-image:url(../images/highlight_on.png);
+table.nav a.set-highlight-on {
+	background-image: url(../images/highlight_on.png);
 }
 
-table.nav a.clear-highlight-source, table.nav a.clear-highlight-target{
-	background-image:url(../images/highlight_clear.png);
+table.nav a.clear-highlight-source, table.nav a.clear-highlight-target {
+	background-image: url(../images/highlight_clear.png);
 }

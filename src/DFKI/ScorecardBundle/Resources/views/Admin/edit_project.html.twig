@@ -1,68 +1,60 @@
-{% extends 'DFKIScorecardBundle::base.html.twig' %}
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Edit project{% endblock %} {% block body %}
+<h1>Edit project</h1>
 
-{% block title %}Edit project{% endblock %}
+<p>
+	<a href="{{ path( "sc_editor", {'projectId': project.id})  }}">Open
+		project</a>
+</p>
 
-{% block body %}
-	<h1>Edit project</h1>
-	
-	<p><a href="{{ path( "sc_editor", {'projectId': project.id})  }}">Open project</a></p>
-	
-	<form action="{{ path('sc_post_edit_project') }}" method="post" enctype="multipart/form-data" id="file-submitter">
-		<table class="sctable">
-			<tr class="color">
-				<td width="200">Project name</td>
-				<td><input type="text" name="project_name" value="{{ project.name }}" />
-			</tr>
-			<tr>
-				<td>Bi-text file (tab-delimited, UTF-8</td>
-				<td>
-					{{ project.fileName }}<br/>
-					<input name="file" id="file" type="file">
-				</td>
-			</tr>
-			<tr class="color">
-				<td>Metric file</td>
-				<td>
-					{{ project.metricName }}<br/>
-					<input name="metric" id="metric" type="file">
-				</td>
-			</tr>
-			<tr>
-				<td>Specifications file</td>
-				<td>
-					{{ project.specificationsFileName }}<br/>
-					<input name="specificationFile" id="specificationFile" type="file">
-				</td>
-			</tr>
-			<tr class="color">
-				<td>Add user (search for username, realname, userid or emailadress)</td>
-				<td>
-					<input type="text" name="adduser" />
-				</td>
-			</tr>
-			<tr>
-				<td>Users</td>
-				<td>
-					{% if project.users|length == 0 %}
-						There are no users assigned to this project
-					{% else %}
-						<ul>
-						{% for user in project.users %}
-							<li>
-								{{ user.username }}
-								<a href="{{ path('sc_remove_user_project') }}?projectid={{ project.id }}&userid={{ user.id }}">remove</a>
-							</li>
-						{% endfor %}
-						</ul>
-					{% endif %}
-				</td>
-			</tr>
-			<tr class="color">
-				<td colspan="2"><input name="submit" value="Submit" type="submit"></td>
-			</tr>
-		</table>
-		<input type="hidden" name="projectid" value="{{ project.id }}" />
-	</form>
+<form action="{{ path('sc_post_edit_project') }}" method="post"
+	enctype="multipart/form-data" id="file-submitter">
+	<table class="sctable">
+		<tr class="color">
+			<td width="200">Project name</td>
+			<td><input type="text" name="project_name" value="{{ project.name }}" />
 		
-	<div style="clear:both;"></div>
+		</tr>
+		<tr>
+			<td>Bi-text file (tab-delimited, UTF-8</td>
+			<td>{{ project.fileName }}<br /> <input name="file" id="file"
+				type="file">
+			</td>
+		</tr>
+		<tr class="color">
+			<td>Metric file</td>
+			<td>{{ project.metricName }}<br /> <input name="metric" id="metric"
+				type="file">
+			</td>
+		</tr>
+		<tr>
+			<td>Specifications file</td>
+			<td>{{ project.specificationsFileName }}<br /> <input
+				name="specificationFile" id="specificationFile" type="file">
+			</td>
+		</tr>
+		<tr class="color">
+			<td>Add user (search for username, realname, userid or emailadress)</td>
+			<td><input type="text" name="adduser" /></td>
+		</tr>
+		<tr>
+			<td>Users</td>
+			<td>{% if project.users|length == 0 %} There are no users assigned to
+				this project {% else %}
+				<ul>
+					{% for user in project.users %}
+					<li>{{ user.username }} <a
+						href="{{ path('sc_remove_user_project') }}?projectid={{ project.id }}&userid={{ user.id }}">remove</a>
+					</li> {% endfor %}
+				</ul> {% endif %}
+			</td>
+		</tr>
+		<tr class="color">
+			<td colspan="2"><input name="submit" value="Submit" type="submit"></td>
+		</tr>
+	</table>
+	<input type="hidden" name="projectid" value="{{ project.id }}" />
+</form>
+
+<div style="clear: both;"></div>
 {% endblock %}

@@ -39,33 +39,33 @@ $(document).ready(function(){
 <table class="viewer" id="scorecard">
 	<thead>
 		<tr>
-			<th width="24" style="width:24px; padding:0"></th>
+			<th width="24" style="width: 24px; padding: 0"></th>
 			<th width="36"></th>
-			<th width="400">Source: <span class="selected-segment"></span> of {{ project.segments|length }}</th>
-			<th width="400">Target: <span class="selected-segment"></span> of {{ project.segments|length }}</th>
-			<th width="24" style="width:24px; padding:0"></th>
+			<th width="400">Source: <span class="selected-segment"></span> of {{
+				project.segments|length }}
+			</th>
+			<th width="400">Target: <span class="selected-segment"></span> of {{
+				project.segments|length }}
+			</th>
+			<th width="24" style="width: 24px; padding: 0"></th>
 			<th width="200">Notes</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td rowspan="2" style="padding:0">
+			<td rowspan="2" style="padding: 0">
 				<table class="nav">
 					<tr class="button">
-						<td>
-							<a href="#" class="nav_up"></a>
-						</td>
+						<td><a href="#" class="nav_up"></a></td>
 					</tr>
 					<tr class="highlight">
-						<td>
-							<a href="#" class="set-highlight-off tooltip" title="Enable/disable text highlighting"></a>
-							<a href="#" class="clear-highlight-source tooltip" title="Clear all highlighting in this source segment"></a>
-						</td>
+						<td><a href="#" class="set-highlight-off tooltip"
+							title="Enable/disable text highlighting"></a> <a href="#"
+							class="clear-highlight-source tooltip"
+							title="Clear all highlighting in this source segment"></a></td>
 					</tr>
 					<tr class="button">
-						<td>
-							<a href="#" class="nav_down"></a>
-						</td>
+						<td><a href="#" class="nav_down"></a></td>
 					</tr>
 				</table>
 			</td>
@@ -74,12 +74,19 @@ $(document).ready(function(){
 					<tr>
 						<td colspan="3" class="gray beginning">Beginning of file</td>
 					</tr>
-					{% for i in 0..(project.segments|length)-1 %}
-					{% set segment = project.segments[i] %}
-					<tr segment-id="{{ segment.id }}" class="segment-text" notes="{{ segment.notes|escape("html") }}">
-						<td width="36" rowspan="2" class="yellow">{{ i+1 }}</td>
+					{% for i in 0..(project.segments|length)-1 %} {% set segment =
+					project.segments[i] %}
+					<tr segment-id="{{ segment.id }}" class="segment-text"
+						notes="{{ segment.notes|escape("html") }}">
+						<td width="36" rowspan="3" class="yellow">{{ i+1 }}</td>
 						<td width="400" class="source">{{ segment.source|raw }}</td>
 						<td width="400" class="target">{{ segment.target|raw }}</td>
+					</tr>
+					<tr segment-id="{{ segment.id }}" class="segment-metadata">
+						<td colspan="3">{% for j in 0..(segment.metadata|length)-1 %} <span
+							class="category">{{ segment.metadata[j].category.name }}</span>:
+							{{ segment.metadata[j].text }} <br /> {% endfor %}
+						</td>
 					</tr>
 					<tr segment-id="{{ segment.id }}" class="issues gray">
 						<td class="issue-source">&nbsp;</td>
@@ -88,43 +95,36 @@ $(document).ready(function(){
 					{% endfor %}
 				</table>
 			</td>
-			<td rowspan="2" style="padding:0">
+			<td rowspan="2" style="padding: 0">
 				<table class="nav">
 					<tr class="button">
-						<td>
-							<a href="#" class="nav_up"></a>
-						</td>
-					</tr>					
-					<tr class="highlight">
-						<td>
-							<a href="#" class="set-highlight-off tooltip" title="Enable/disable text highlighting"></a>
-							<a href="#" class="clear-highlight-target tooltip" title="Clear all highlighting in this target segment"></a>
-						</td>
+						<td><a href="#" class="nav_up"></a></td>
 					</tr>
-					
+					<tr class="highlight">
+						<td><a href="#" class="set-highlight-off tooltip"
+							title="Enable/disable text highlighting"></a> <a href="#"
+							class="clear-highlight-target tooltip"
+							title="Clear all highlighting in this target segment"></a></td>
+					</tr>
+
 					<tr class="button">
-						<td>
-							<a href="#" class="nav_down"></a>
-						</td>
+						<td><a href="#" class="nav_down"></a></td>
 					</tr>
 				</table>
 			</td>
-			<td rowspan="2" style="padding:0">
+			<td rowspan="2" style="padding: 0">
 				<table class="navigation-notes">
 					<tr>
-						<td>
-							<textarea id="segment-notes"></textarea>
-							<input type="button" value="Save Note" onclick="javascript:sc.notes.save()" />
-						</td>
+						<td><textarea id="segment-notes"></textarea> <input type="button"
+							value="Save Note" onclick="javascript:sc.notes.save()" /></td>
 					</tr>
 					<tr>
 						<th>Navigation</th>
 					</tr>
 					<tr>
-						<td class="navigation">
-							Go to seg:
-							<input type="text" id="go-to-seg-input" size="9" value="" />
-							<input type="button" id="go-to-seg" value="Go" />
+						<td class="navigation">Go to seg: <input type="text"
+							id="go-to-seg-input" size="9" value="" /> <input type="button"
+							id="go-to-seg" value="Go" />
 						</td>
 					</tr>
 				</table>
@@ -139,49 +139,59 @@ $(document).ready(function(){
 <table id="metrics">
 	{% for i in 0..(issues|length)-1 %}
 	<tr topmetric="{{ issues[i][0].id }}">
-		<td valign="top">			
-			<img class="top-issue" src="{{ asset('bundles/dfkiscorecard/images/' ~ issues[i][0].id ~ '.png') }}" />
+		<td valign="top"><img class="top-issue"
+			src="{{ asset('bundles/dfkiscorecard/images/' ~ issues[i][0].id ~ '.png') }}" />
+		
 		<td>
-		<td>
-			{% for issue in issues[i] %}
-			{% if issue.display %}
+		
+		<td>{% for issue in issues[i] %} {% if issue.display %}
 			<div class="metric bg{{ i+1 }}">
 				<div class="buttons-left">
-					<a target="source" href="#" class="">
-						<img src="{{ asset('bundles/dfkiscorecard/images/S.png') }}" />
-					</a>
-					<a target="source" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="minor tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>source</strong> segment.">
+					<a target="source" href="#" class=""> <img
+						src="{{ asset('bundles/dfkiscorecard/images/S.png') }}" />
+					</a> <a target="source" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="minor tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>source</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-					<a target="source" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="major tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>source</strong> segment.">
+					</a> <a target="source" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="major tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>source</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-					<a target="source" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="critical tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>source</strong> segment.">
+					</a> <a target="source" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="critical tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>source</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
 					</a>
 				</div>
-				<div class="label tooltip" title="{{ issue.tooltip|escape("html") }}">{{ issue.name }}</div>
+				<div class="label tooltip"
+					title="{{ issue.tooltip|escape("html") }}">{{ issue.name }}</div>
 				<div class="buttons-right">
-					<a target="target" href="#" class="">
-						<img src="{{ asset('bundles/dfkiscorecard/images/T.png') }}" />
-					</a>
-					<a target="target" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="minor tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>target</strong> segment.">
+					<a target="target" href="#" class=""> <img
+						src="{{ asset('bundles/dfkiscorecard/images/T.png') }}" />
+					</a> <a target="target" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="minor tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>target</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-					<a target="target" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="major tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>target</strong> segment.">
+					</a> <a target="target" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="major tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>target</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-					<a target="target" issue-id="{{ issue.id }}" issue-name="{{ issue.name|escape('html') }}" href="#" class="critical tooltip" title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>target</strong> segment.">
+					</a> <a target="target" issue-id="{{ issue.id }}"
+						issue-name="{{ issue.name|escape('html') }}" href="#"
+						class="critical tooltip"
+						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>target</strong> segment.">
 						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
 					</a>
 				</div>
-				
-			</div>
-			{% endif %}
-			{% endfor %}
+
+			</div> {% endif %} {% endfor %}
 		</td>
 	</tr>
 	{% endfor %}
 </table>
 {% endif %}
-	

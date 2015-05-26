@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Jan Nehring <jan.nehring@dfki.de>
  */
@@ -8,89 +9,82 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ProjectVoter implements VoterInterface
-{
+class ProjectVoter implements VoterInterface {
 	const VIEW = 'view';
 	const EDIT = 'edit';
-	
-	public function supportsAttribute($attribute)
-	{
-		return in_array($attribute, array(
-			self::VIEW,
-			self::EDIT,
-		));
+	public function supportsAttribute($attribute) {
+		return in_array ( $attribute, array (
+				self::VIEW,
+				self::EDIT 
+		) );
 	}
-
-	public function supportsClass($class)
-	{
+	public function supportsClass($class) {
 		$supportedClass = 'DFKI\ScorecardBundle\Entity\Project';
-
-		return $supportedClass === $class || is_subclass_of($class, $supportedClass);
+		
+		return $supportedClass === $class || is_subclass_of ( $class, $supportedClass );
 	}
-
+	
 	/**
+	 *
 	 * @var DFKI\ScorecardBundle\Entity\Project $project
 	 */
-	public function vote(TokenInterface $token, $project, array $attributes)
-	{
+	public function vote(TokenInterface $token, $project, array $attributes) {
 		// check if class of this object is supported by this voter
-		if (!$this->supportsClass(get_class($project))) {
+		if (! $this->supportsClass ( get_class ( $project ) )) {
 			return VoterInterface::ACCESS_ABSTAIN;
 		}
-
+		
 		// check if the voter is used correct, only allow one attribute
 		// this isn't a requirement, it's just one easy way for you to
 		// design your voter
-		if (1 !== count($attributes)) {
-			throw new \InvalidArgumentException(
-					'Only one attribute is allowed for VIEW or EDIT'
-			);
+		if (1 !== count ( $attributes )) {
+			throw new \InvalidArgumentException ( 'Only one attribute is allowed for VIEW or EDIT' );
 		}
-
+		
 		// set the attribute to check against
-		$attribute = $attributes[0];
-
+		$attribute = $attributes [0];
+		
 		// check if the given attribute is covered by this voter
-		if (!$this->supportsAttribute($attribute)) {
+		if (! $this->supportsAttribute ( $attribute )) {
 			return VoterInterface::ACCESS_ABSTAIN;
 		}
-
+		
 		// get current logged in user
-		$user = $token->getUser();
-
+		$user = $token->getUser ();
+		
 		// make sure there is a user object (i.e. that the user is logged in)
-		if (!$user instanceof UserInterface) {
+		if (! $user instanceof UserInterface) {
 			return VoterInterface::ACCESS_DENIED;
 		}
 		
-		$roles = $user->getRoles();
-		if( $roles[0] == "ROLE_SUPER_ADMIN" ){
+		$roles = $user->getRoles ();
+		if ($roles [0] == "ROLE_SUPER_ADMIN") {
 			return VoterInterface::ACCESS_GRANTED;
-		} else{
+		} else {
 			$found = false;
-			for( $i=0; $i<sizeof($user->getProjects()); $i++ ){
-				$projects = $user->getProjects();
-				if( $projects[$i]->getId() == $project->getId() ){
+			for($i = 0; $i < sizeof ( $user->getProjects () ); $i ++) {
+				$projects = $user->getProjects ();
+				if ($projects [$i]->getId () == $project->getId ()) {
 					$found = true;
 					break;
 				}
 			}
-			if( !$found ){
+			if (! $found) {
 				return VoterInterface::ACCESS_DENIED;
 			}
 		}
-		switch($attribute) {
-			case self::VIEW:
+		switch ($attribute) {
+			case self::VIEW :
 				return VoterInterface::ACCESS_GRANTED;
-				
-			case self::EDIT:
-				foreach( $user->getRoles() as $role ){
-					if( $role == "ROLE_ADMIN" || $role == "ROLE_SUPER_ADMIN" )
+			
+			case self::EDIT :
+				foreach ( $user->getRoles () as $role ) {
+					if ($role == "ROLE_ADMIN" || $role == "ROLE_SUPER_ADMIN")
 						return VoterInterface::ACCESS_GRANTED;
 				}
 				return VoterInterface::ACCESS_DENIED;
 		}
-
+		
 		return VoterInterface::ACCESS_DENIED;
 	}
 }
