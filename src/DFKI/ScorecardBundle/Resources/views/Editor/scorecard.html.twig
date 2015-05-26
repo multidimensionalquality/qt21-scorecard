@@ -75,19 +75,23 @@ $(document).ready(function(){
 						<td colspan="3" class="gray beginning">Beginning of file</td>
 					</tr>
 					{% for i in 0..(project.segments|length)-1 %} {% set segment =
-					project.segments[i] %}
+					project.segments[i] %} {% set nRows = 3 %} {% if
+					segment.metadata|length== 0 %} {% set nRows = 2 %} {% endif %}
+
 					<tr segment-id="{{ segment.id }}" class="segment-text"
 						notes="{{ segment.notes|escape("html") }}">
-						<td width="36" rowspan="3" class="yellow">{{ i+1 }}</td>
+						<td width="36" rowspan="{{ nRows }}" class="yellow">{{ i+1 }}</td>
 						<td width="400" class="source">{{ segment.source|raw }}</td>
 						<td width="400" class="target">{{ segment.target|raw }}</td>
 					</tr>
+					{% if segment.metadata|length>0 %}
 					<tr segment-id="{{ segment.id }}" class="segment-metadata">
 						<td colspan="3">{% for j in 0..(segment.metadata|length)-1 %} <span
 							class="category">{{ segment.metadata[j].category.name }}</span>:
 							{{ segment.metadata[j].text }} <br /> {% endfor %}
 						</td>
 					</tr>
+					{% endif %}
 					<tr segment-id="{{ segment.id }}" class="issues gray">
 						<td class="issue-source">&nbsp;</td>
 						<td class="issue-target">&nbsp;</td>

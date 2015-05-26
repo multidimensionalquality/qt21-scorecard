@@ -108,9 +108,9 @@ var sc = {
 			sc.selector.selection = segmentId;
 			$('#scorecard tr').removeClass('selection-top');
 			$('#scorecard tr').removeClass('selection-bottom');
-			var rows = $('#scorecard tr[segment-id=' + segmentId + ']');
-			$(rows[0]).addClass( 'selection-top' );
-			$(rows[2]).addClass( 'selection-bottom' );
+			
+			$('#scorecard tr[segment-id=' + segmentId + ']').first().addClass( 'selection-top' );
+			$('#scorecard tr[segment-id=' + segmentId + ']').last().addClass( 'selection-bottom' );
 			
 			// show notes
 			var notes = $('tr[segment-id=' + segmentId + ']').first().attr('notes');
@@ -362,8 +362,7 @@ var sc = {
 					$('#sourceScore').html(sc.scores.formatScore(response.sourceScore));
 					$('#targetScore').html(sc.scores.formatScore(response.targetScore));
 					$('#compositeScore').html(sc.scores.formatScore(response.compositeScore));
-				}
-			);
+				});
 		}
 	}
 };
