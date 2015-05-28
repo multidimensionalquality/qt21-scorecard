@@ -111,9 +111,11 @@ class EditorRestController extends Controller {
 			throw new NotFoundHttpException ();
 		}
 		
-		//if (false === $this->get ( 'security.context' )->isGranted ( 'view', $issueReport->getProject () )) {
-		//	throw new AccessDeniedException ( 'Unauthorised access!' );
-		//}
+		$project = $issueReport->getIssueProjectMapping()->getProject();
+		
+		if (false === $this->get ( 'security.context' )->isGranted ( 'view', $project )) {
+			throw new AccessDeniedException ( 'Unauthorised access!' );
+		}
 		
 		$em->remove ( $issueReport );
 		$em->flush ();
