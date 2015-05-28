@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>{% block title %}MQM Scorecard{% endblock %}</title> {% block
-stylesheets %} {% stylesheets 'bundles/dfkiscorecard/css/*'
-filter='cssrewrite' %}
+<title>
+{% block title %}MQM Scorecard{% endblock %}</title>
+
+{% block stylesheets %} 
+
+{% stylesheets 'bundles/dfkiscorecard/css/*' filter='cssrewrite' %}
+	<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+{% stylesheets
+'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css' filter='cssrewrite' %}
 <link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% stylesheets
-'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css'
-filter='cssrewrite' %}
+{% endstylesheets %}
+
+{% stylesheets
+'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css' filter='cssrewrite' %}
 <link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% stylesheets
-'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css'
-filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% stylesheets
+{% endstylesheets %}
+
+{% stylesheets
 'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.theme.min.css'
 filter='cssrewrite' %}
 <link rel="stylesheet" href="{{ asset_url }}" />
