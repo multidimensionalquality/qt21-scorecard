@@ -35,6 +35,10 @@ class ProjectService {
 	public function createProject() {
 		$request = Request::createFromGlobals ();
 		
+		if( empty(trim($request->get ( "project_name" )))){
+			throw new Exception("Project name not set");
+		}
+		
 		$project = new Project ();
 		$project->setName ( $request->get ( "project_name" ) );
 		$project->setSourceWords ( 0 );
