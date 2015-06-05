@@ -26,7 +26,7 @@ class Segment {
 	private $id;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Project", inversedBy="segments")
+	 * @ORM\ManyToOne(targetEntity="Project")
 	 * @ORM\JoinColumn(name="project", referencedColumnName="id")
 	 */
 	private $project;

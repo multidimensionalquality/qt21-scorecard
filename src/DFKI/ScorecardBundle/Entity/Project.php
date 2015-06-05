@@ -103,10 +103,11 @@ class Project {
 	 * @ORM\OneToMany(targetEntity="IssueProjectMapping", mappedBy="project", cascade="remove")
 	 */
 	protected $issueProjectMapping;
+
 	
 	/**
-	 * @ORM\OneToOne(targetEntity="Segment")
-	 * @ORM\JoinColumn(name="lastTouchedSegment", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="Segment", inversedBy="projects", cascade="remove")
+	 * @ORM\JoinColumn(name="lastTouchedSegment", referencedColumnName="id", nullable=true)
 	 */
 	protected $lastTouchedSegment;
 	
@@ -511,27 +512,6 @@ class Project {
 	}
 	
 	/**
-	 * Set lastTouchedSegment
-	 *
-	 * @param \DFKI\ScorecardBundle\Entity\Segment $lastTouchedSegment        	
-	 * @return Project
-	 */
-	public function setLastTouchedSegment(\DFKI\ScorecardBundle\Entity\Segment $lastTouchedSegment = null) {
-		$this->lastTouchedSegment = $lastTouchedSegment;
-		
-		return $this;
-	}
-	
-	/**
-	 * Get lastTouchedSegment
-	 *
-	 * @return \DFKI\ScorecardBundle\Entity\Segment
-	 */
-	public function getLastTouchedSegment() {
-		return $this->lastTouchedSegment;
-	}
-	
-	/**
 	 * Set float
 	 *
 	 * @param float $float        	
@@ -572,4 +552,27 @@ class Project {
 	public function getCompletion() {
 		return $this->completion;
 	}
+
+    /**
+     * Set lastTouchedSegment
+     *
+     * @param \DFKI\ScorecardBundle\Entity\Segment $lastTouchedSegment
+     * @return Project
+     */
+    public function setLastTouchedSegment(\DFKI\ScorecardBundle\Entity\Segment $lastTouchedSegment = null)
+    {
+        $this->lastTouchedSegment = $lastTouchedSegment;
+
+        return $this;
+    }
+
+    /**
+     * Get lastTouchedSegment
+     *
+     * @return \DFKI\ScorecardBundle\Entity\Segment 
+     */
+    public function getLastTouchedSegment()
+    {
+        return $this->lastTouchedSegment;
+    }
 }

@@ -139,6 +139,14 @@ class ProjectService {
 		} else {
 			$this->importMulticolumnBitextFile ( $filecontent, $project );
 		}
+		
+		//set last touched segment to first segment
+		$segments = $project->getSegments();
+		if( sizeof( $segments ) == 0 ){
+			throw new Exception("The project contains no segments.");
+		}
+		
+		$project->setLastTouchedSegment($segments[0]);
 	}
 	
 	/**

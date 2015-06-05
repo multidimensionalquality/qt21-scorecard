@@ -181,6 +181,12 @@ class AdminController extends Controller {
 			throw new AccessDeniedException ( 'Unauthorised access!' );
 		}
 		
+		$segments = $project->getSegments();
+		for( $i=0; $i<sizeof( $segments ); $i++ ){
+			$em->remove($segments[$i]);
+		}
+		$em->flush();
+		
 		$em->remove ( $project );
 		$em->flush ();
 		
