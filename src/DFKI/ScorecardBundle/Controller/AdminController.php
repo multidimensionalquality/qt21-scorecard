@@ -56,8 +56,8 @@ class AdminController extends Controller {
 			$msg = sprintf ( "Failed to create project: " . $e->getMessage () );
 			$session->getFlashBag ()->add ( 'error', $msg );
 			return $this->render ( 'DFKIScorecardBundle:Admin:create_project.html.twig', array () );
-		} finally{
-		}
+		} //finally { // Commented out for Mac OSX install
+		//}
 		
 		$this->getDoctrine ()->getManager ()->flush ();
 		
