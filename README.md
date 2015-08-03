@@ -43,7 +43,7 @@ Now you have to run the MySQL commands defined in `data/issues.sql` on your data
 
 ### Create super user
 
-* Register user via normal scorecard registration form. Then run the following command to promote this user to a super user:
+Register user via normal scorecard registration form. Then run the following command to promote this user to a super user:
 
 ```
 php app/console scorecard:promote-superuser <<username>>
