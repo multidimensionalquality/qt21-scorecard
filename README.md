@@ -4,28 +4,51 @@ http://www.qt21.eu/scorecard
 
 ## Installation Instructions
 
+The installation instructions are targeted to users who know how to install a PHP application on a webserver. We assume that you have already installed
+
+* A webserver with PHP and MySQL support (e.g. Apache Webserver)
+* A MySQL server with one database
+* Git
+
+The example command line calls are written for Linux / Mac users. The process can be easily adapted to Windows systems.
+
+### Download sourcecodes
+
 ```
 git clone https://github.com/multidimensionalquality/qt21-scorecard.git
 ```
 
-Follow http://symfony.com/doc/current/cookbook/deployment/tools.html
+### Deploy Symfony 2 Application
 
-create mysql database, import data/issues.sql
+The QT21 Scorecard was created using the Symfony Framework. To deploy it on a webserver you must follow the [official documentation of Symfony 2](http://symfony.com/doc/current/cookbook/deployment/tools.html
+).
+
+### Create database and add database settings
+
+We assume you have already created a MySQL database. Create a new parameters file for your application:
 
 ```
 cp app/config/parameters.yml.dist app/config/parameters.yml
 ```
-put databse settings in app/config/parameters.yml
+
+And put your database settings (host, user, password, database) in `app/config/parameters.yml`.
+
+Initialize the database with the following command:
 
 ```
-php app/console doctrine:schema:update -force
+php app/console doctrine:schema:update --force
 ```
 
-* Register user via normal scorecard registration form
+Now you have to run the MySQL commands defined in `data/issues.sql` on your database.
+
+### Create super user
+
+* Register user via normal scorecard registration form. Then run the following command to promote this user to a super user:
+
 ```
 php app/console scorecard:promote-superuser <<username>>
 ```
-to promoter this user to superuser.
+
 
 ## License
 
