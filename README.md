@@ -39,7 +39,7 @@ Initialize the database with the following command:
 php app/console doctrine:schema:update --force
 ```
 
-Now you have to run the MySQL commands defined in `data/issues.sql` on your database.
+Now you have to run the MySQL commands defined in `data/issues.sql` on your database to import the issue definitions.
 
 ### Create super user
 
@@ -52,7 +52,7 @@ php app/console scorecard:promote-superuser <<username>>
 
 ## License
 
-Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+Copyright 2015 Deutsches Forschungszentrum fÃ¼r KÃ¼nstliche Intelligenz
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
