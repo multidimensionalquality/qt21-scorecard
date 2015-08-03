@@ -22,6 +22,7 @@ namespace DFKI\ScorecardBundle\Services;
 
 use DFKI\ScorecardBundle\Entity\Issue;
 use Doctrine\ORM\EntityManager;
+use Exception;
 
 class IssueImporter {
 	protected $em;
@@ -71,5 +72,51 @@ class IssueImporter {
 			
 			$this->em->flush ();
 		}
+	}
+	
+	/**
+	 * generate an id for an imported issue
+	 */
+	private function generateIssueId(){
+		$query = $this->em->createQuery('SELECT COUNT(i.id) FROM DFKIScorecardBundle:Issue i WHERE i.imported=true');
+		$count = $query->getSingleScalarResult();
+		return "imported-issue-$count";
+	}
+	
+
+	/**
+	 * Create a new issue during create project.
+	 * This issue will be marked as "imported".
+	 *
+	 * @param unknown $xml
+	 * @return \DFKI\ScorecardBundle\Entity\Issue
+	 */
+	public function createNewIssue($xml, $project) {
+		
+		$this->em->beginTransaction();
+		$issue = new Issue ();
+
+		$issueId = $this->generateIssueId();
+		$issue->setId($issueId);
+	
+		$attr = $xml->attributes ();
+
+		$label = null;
+		if( !empty($attr["label"])){
+			$label = $attr ["label"];
+		} else if( !empty($attr['type'])){
+			$label = $attr ["type"];
+		} else{
+			throw new Exception("Each issue in the metrics file should contain an attribute \"type\" or \"label\".");
+		}
+		
+		$issue->setName ( $label );
+		$issue->setProject ( $project );
+		$issue->setImported ( true );
+	
+		$this->em->persist ( $issue );
+		$this->em->flush ();
+		$this->em->commit();
+		return $issue;
 	}
 }

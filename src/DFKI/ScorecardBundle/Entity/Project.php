@@ -138,6 +138,12 @@ class Project {
 	 */
 	private $completion = 0;
 	
+
+	/**
+	 * @ORM\OneToMany(targetEntity="Issue", mappedBy="project", cascade="remove")
+	 */
+	protected $projectIssues;
+	
 	/**
 	 * Get id
 	 *
@@ -589,5 +595,38 @@ class Project {
     public function getLastTouchedSegment()
     {
         return $this->lastTouchedSegment;
+    }
+
+    /**
+     * Add projectIssues
+     *
+     * @param \DFKI\ScorecardBundle\Entity\Issue $projectIssues
+     * @return Project
+     */
+    public function addProjectIssue(\DFKI\ScorecardBundle\Entity\Issue $projectIssues)
+    {
+        $this->projectIssues[] = $projectIssues;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectIssues
+     *
+     * @param \DFKI\ScorecardBundle\Entity\Issue $projectIssues
+     */
+    public function removeProjectIssue(\DFKI\ScorecardBundle\Entity\Issue $projectIssues)
+    {
+        $this->projectIssues->removeElement($projectIssues);
+    }
+
+    /**
+     * Get projectIssues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectIssues()
+    {
+        return $this->projectIssues;
     }
 }

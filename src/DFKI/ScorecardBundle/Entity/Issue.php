@@ -21,6 +21,7 @@
 namespace DFKI\ScorecardBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DFKI\ScorecardBundle\Entity\Project;
 
 /**
  * Issue
@@ -44,19 +45,19 @@ class Issue {
 	
 	/**
 	 *
-	 * @var string @ORM\Column(name="definition", type="text")
+	 * @var string @ORM\Column(name="definition", type="text", nullable=true)
 	 */
 	private $definition;
 	
 	/**
 	 *
-	 * @var string @ORM\Column(name="notes", type="text")
+	 * @var string @ORM\Column(name="notes", type="text", nullable=true)
 	 */
 	private $notes;
 	
 	/**
 	 *
-	 * @var string @ORM\Column(name="examples", type="text")
+	 * @var string @ORM\Column(name="examples", type="text", nullable=true)
 	 */
 	private $examples;
 	
@@ -70,6 +71,18 @@ class Issue {
 	 * @ORM\OneToMany(targetEntity="Issue", mappedBy="parent" )
 	 */
 	private $children;
+	
+	/**
+	 *
+	 * @var boolean @ORM\Column(name="imported", type="boolean")
+	 */
+	private $imported;
+	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Project" )
+	 * @ORM\JoinColumn(name="project", referencedColumnName="id", nullable=true )
+	 */
+	private $project;
 	
 	/**
 	 * Get id
@@ -379,4 +392,27 @@ class Issue {
 	public function getIssue() {
 		return $this->issue;
 	}
+
+    /**
+     * Set imported
+     *
+     * @param boolean $imported
+     * @return Issue
+     */
+    public function setImported($imported)
+    {
+        $this->imported = $imported;
+
+        return $this;
+    }
+
+    /**
+     * Get imported
+     *
+     * @return boolean 
+     */
+    public function getImported()
+    {
+        return $this->imported;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
  *
@@ -6,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +17,7 @@
  */
 
 /**
+ *
  * @author Jan Nehring <jan.nehring@dfki.de>
  */
 namespace DFKI\ScorecardBundle\Services;
@@ -33,15 +35,19 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use DFKI\ScorecardBundle\Entity\IssueReport;
 use Exception;
 use DFKI\ScorecardBundle\DFKIScorecardBundle;
+use DFKI\ScorecardBundle\Services\IssueImporter;
 
 class ProjectService {
 	protected $em;
 	protected $securityContext;
 	protected $htmlPurifier;
-	public function __construct(EntityManager $entityManager, SecurityContext $securityContext, $htmlPurifier) {
+	protected $issueImporter;
+	
+	public function __construct(EntityManager $entityManager, SecurityContext $securityContext, $htmlPurifier, IssueImporter $issueImporter) {
 		$this->securityContext = $securityContext;
 		$this->em = $entityManager;
 		$this->htmlPurifier = $htmlPurifier;
+		$this->issueImporter = $issueImporter;
 	}
 	
 	/**
@@ -50,8 +56,8 @@ class ProjectService {
 	public function createProject() {
 		$request = Request::createFromGlobals ();
 		
-		if( empty(trim($request->get ( "project_name" )))){
-			throw new Exception("Project name not set");
+		if (empty ( trim ( $request->get ( "project_name" ) ) )) {
+			throw new Exception ( "Project name not set" );
 		}
 		
 		$project = new Project ();
@@ -111,29 +117,31 @@ class ProjectService {
 		$attr = $xml->attributes ();
 		
 		$id = ( string ) $attr ["type"];
-		$issue = $this->em->getRepository ( "DFKIScorecardBundle:Issue" )->findOneById ( $id );
+		$issue = $this->em->getRepository ( "DFKIScorecardBundle:Issue" )->findOneBy ( array (
+				"id" => $id,
+				"imported" => 0 
+		) );
 		
 		if (! is_object ( $issue )) {
-			throw new Exception ( sprintf ( "Could not find issue \"%s\" which is referenced in metric file.", $id ) );
+			$issue = $this->issueImporter->createNewIssue($xml, $project);
+		}
+		
+		$ipo = new IssueProjectMapping ();
+		$ipo->setIssue ( $issue );
+		$display = null;
+		if (strtolower ( $attr ["display"] ) == "yes") {
+			$display = true;
+		} else if (strtolower ( $attr ["display"] ) == "no") {
+			$display = false;
 		} else {
-			
-			$ipo = new IssueProjectMapping ();
-			$ipo->setIssue ( $issue );
-			$display = null;
-			if (strtolower ( $attr ["display"] ) == "yes") {
-				$display = true;
-			} else if (strtolower ( $attr ["display"] ) == "no") {
-				$display = false;
-			} else {
-				throw new Exception ( "Bad metric xml input file. Could not parse display attribute \"" . $attr ["display"] . "\"" );
-			}
-			$ipo->setDisplay ( $display );
-			$ipo->setProject ( $project );
-			$this->em->persist ( $ipo );
-			
-			foreach ( $xml->children () as $child ) {
-				$this->traverseMetric ( $child, $project );
-			}
+			throw new Exception ( "Bad metric xml input file. Could not parse display attribute \"" . $attr ["display"] . "\"" );
+		}
+		$ipo->setDisplay ( $display );
+		$ipo->setProject ( $project );
+		$this->em->persist ( $ipo );
+		
+		foreach ( $xml->children () as $child ) {
+			$this->traverseMetric ( $child, $project );
 		}
 	}
 	
@@ -159,13 +167,13 @@ class ProjectService {
 			$this->importMulticolumnBitextFile ( $filecontent, $project );
 		}
 		
-		//set last touched segment to first segment
-		$segments = $project->getSegments();
-		if( sizeof( $segments ) == 0 ){
-			throw new Exception("The project contains no segments.");
+		// set last touched segment to first segment
+		$segments = $project->getSegments ();
+		if (sizeof ( $segments ) == 0) {
+			throw new Exception ( "The project contains no segments." );
 		}
 		
-		$project->setLastTouchedSegment($segments[0]);
+		$project->setLastTouchedSegment ( $segments [0] );
 	}
 	
 	/**

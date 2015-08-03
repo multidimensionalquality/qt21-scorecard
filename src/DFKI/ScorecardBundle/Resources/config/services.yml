@@ -1,15 +1,16 @@
 services:
-    projectService:
-        class: DFKI\ScorecardBundle\Services\ProjectService
-        arguments: [@doctrine.orm.entity_manager, @security.context, @exercise_html_purifier.default]
-        
+
     issueImporterService:
         class: DFKI\ScorecardBundle\Services\IssueImporter
-        arguments: [@doctrine.orm.entity_manager]
-    
+        arguments: ["@doctrine.orm.entity_manager"]
+        
+    projectService:
+        class: DFKI\ScorecardBundle\Services\ProjectService
+        arguments: ["@doctrine.orm.entity_manager", "@security.context", "@exercise_html_purifier.default", "@issueImporterService"]
+         
     editorService:
         class: DFKI\ScorecardBundle\Services\EditorService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
 
     dfki_user.registration.form.type:
         class: DFKI\ScorecardBundle\Form\Type\RegistrationFormType
