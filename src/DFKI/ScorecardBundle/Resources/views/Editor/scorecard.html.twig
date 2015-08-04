@@ -139,15 +139,15 @@ $(document).ready(function(){
 	</tbody>
 </table>
 
-{% if issues|length>0 %}
+{% if issuesGrid|length>0 %}
 <div id="metrics">
 	{% set counter=0 %}
-	{% for i in 0..(issues|length)-1 %}
+	{% for i in 0..(issuesGrid|length)-1 %}
 		
-		{% if issues[i][0].type == "issue" %}
+		{% if issuesGrid[i][0].type == "issue" %}
 			{# row with issues #}
 			
-			{% for issue in issues[i] %} {% if issue.display %}
+			{% for issue in issuesGrid[i] %} {% if issue.display %}
 			<div class="metric bg{{ issue.bg }}">
 				<div class="buttons-left">
 					<a target="source" href="#" class=""> <img
@@ -195,7 +195,7 @@ $(document).ready(function(){
 			</div> {% endif %} {% endfor %}
 		{% else %}
 			{# header row #}
-			{% for issue in issues[i] %}
+			{% for issue in issuesGrid[i] %}
 				{%  if issue.type == "heading" %}
 					<div class="issue-header heading">{{ issue.name }}</div>
 				{% elseif issue.type == "blank" %}

@@ -57,7 +57,8 @@ class EditorController extends Controller {
 		
 		return $this->render ( 'DFKIScorecardBundle:Editor:editor.html.twig', array (
 				"project" => $project,
-				"issues" => $issueGrid,
+				"issuesGrid" => $issueGrid,
+				"issues" => $issueDefinitions,
 				"issueReports" => $issueReports 
 		) );
 	}
