@@ -121,8 +121,8 @@ class Project {
 
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Segment", inversedBy="projects", cascade="remove")
-	 * @ORM\JoinColumn(name="lastTouchedSegment", referencedColumnName="id", nullable=true)
+	 * @ORM\ManyToOne(targetEntity="Segment")
+	 * @ORM\JoinColumn(name="lastTouchedSegment", referencedColumnName="id", nullable=true, onDelete="SET NULL")
 	 */
 	protected $lastTouchedSegment;
 	

@@ -182,6 +182,7 @@ table.nav td {
 	border-collapse: collapse;
 	padding: 0;
 	border: 0;
+	margin-top:12px;
 }
 
 #metrics tr, #metrics td {
@@ -242,12 +243,28 @@ table.nav td {
 	background-color: #ff0b06;
 }
 
+#metrics div.bg0 {
+	background-color: #C3D5F3;
+}
+
 #metrics div.bg1 {
-	background-color: #c9d9ff;
+	background-color: #F1C7F3;
 }
 
 #metrics div.bg2 {
-	background-color: #fff4b0;
+	background-color: #F3BBBD;
+}
+
+#metrics div.bg3 {
+	background-color: #F3E6B8;
+}
+
+#metrics div.bg4 {
+	background-color: #C1F3B7;
+}
+
+#metrics div.bg5 {
+	background-color: #A8F3E2;
 }
 
 #metrics .label {
@@ -260,6 +277,24 @@ table.nav td {
 	float: left;
 	line-height: 100px;
 }
+
+#metrics div.issue-header{
+	width: 142px;
+	overflow: hidden;
+	text-align: left;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	padding:5px;
+}
+
+#metrics div.heading{
+	background-image: url("../images/issue-header-bg.png");
+	background-repeat: repeat-y;
+}
+
 
 img.top-issue {
 	margin-right: 5px;

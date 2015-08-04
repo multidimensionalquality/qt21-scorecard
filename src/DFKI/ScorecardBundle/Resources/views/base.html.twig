@@ -86,13 +86,13 @@ javascripts
 			<div style="clear: both;"></div>
 
 			{% for flashMessage in app.session.flashbag.get('notice') %}
-			<div class="flash-notice">{{ flashMessage }}</div>
+			<div class="flash-notice">{{ flashMessage|raw }}</div>
 			{% endfor %} {% for flashMessage in
 			app.session.flashbag.get('warning') %}
-			<div class="flash-warning">{{ flashMessage }}</div>
+			<div class="flash-warning">{{ flashMessage|raw }}</div>
 			{% endfor %} {% for flashMessage in app.session.flashbag.get('error')
 			%}
-			<div class="flash-error">{{ flashMessage }}</div>
+			<div class="flash-error">{{ flashMessage|raw }}</div>
 			{% endfor %} {% block body %}{% endblock %}
 
 		</div>

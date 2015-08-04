@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
  *
@@ -6,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +17,7 @@
  */
 
 /**
+ *
  * @author Jan Nehring <jan.nehring@dfki.de>
  */
 namespace DFKI\ScorecardBundle\Services;
@@ -77,46 +79,58 @@ class IssueImporter {
 	/**
 	 * generate an id for an imported issue
 	 */
-	private function generateIssueId(){
-		$query = $this->em->createQuery('SELECT COUNT(i.id) FROM DFKIScorecardBundle:Issue i WHERE i.imported=true');
-		$count = $query->getSingleScalarResult();
-		return "imported-issue-$count";
+	private function generateIssueId($project) {
+		$inc = 0;
+		$id = null;
+		while( $id == null){
+			$query = $this->em->createQuery ( 'SELECT COUNT(i.id) FROM DFKIScorecardBundle:Issue i WHERE i.imported=true AND i.project=:project' )->setParameter ( "project", $project );
+			$count = $query->getSingleScalarResult ();
+			$id = "imported-issue-".$project->getId()."-".($count+$inc);
+			
+			$issue = $this->em->getRepository("DFKIScorecardBundle:Issue")->findOneById($id);
+			if( $issue != null ){
+				$inc++;
+				$id = null;
+			}
+		}
+		
+		return $id;
 	}
 	
-
 	/**
 	 * Create a new issue during create project.
 	 * This issue will be marked as "imported".
 	 *
-	 * @param unknown $xml
+	 * @param unknown $xml        	
 	 * @return \DFKI\ScorecardBundle\Entity\Issue
 	 */
-	public function createNewIssue($xml, $project) {
-		
-		$this->em->beginTransaction();
+	public function createNewIssue($xml, $project, $parent) {
+		$this->em->beginTransaction ();
 		$issue = new Issue ();
-
-		$issueId = $this->generateIssueId();
-		$issue->setId($issueId);
-	
+		
+		$issueId = $this->generateIssueId ( $project );
+		$issue->setId ( $issueId );
+		
+		$issue->setParent ( $parent );
+		
 		$attr = $xml->attributes ();
-
+		
 		$label = null;
-		if( !empty($attr["label"])){
+		if (! empty ( $attr ["label"] )) {
 			$label = $attr ["label"];
-		} else if( !empty($attr['type'])){
+		} else if (! empty ( $attr ['type'] )) {
 			$label = $attr ["type"];
-		} else{
-			throw new Exception("Each issue in the metrics file should contain an attribute \"type\" or \"label\".");
+		} else {
+			throw new Exception ( "Each issue in the metrics file should contain an attribute \"type\" or \"label\"." );
 		}
 		
 		$issue->setName ( $label );
 		$issue->setProject ( $project );
 		$issue->setImported ( true );
-	
+		
 		$this->em->persist ( $issue );
 		$this->em->flush ();
-		$this->em->commit();
+		$this->em->commit ();
 		return $issue;
 	}
 }

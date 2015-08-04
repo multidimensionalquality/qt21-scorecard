@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
  *
@@ -6,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +17,7 @@
  */
 
 /**
+ *
  * @author Jan Nehring <jan.nehring@dfki.de>
  */
 namespace DFKI\ScorecardBundle\Controller;
@@ -71,13 +73,22 @@ class AdminController extends Controller {
 			$msg = sprintf ( "Failed to create project: " . $e->getMessage () );
 			$session->getFlashBag ()->add ( 'error', $msg );
 			return $this->render ( 'DFKIScorecardBundle:Admin:create_project.html.twig', array () );
-		} //finally { // Commented out for Mac OSX install
-		//}
+		} // finally { // Commented out for Mac OSX install
+		  // }
 		
 		$this->getDoctrine ()->getManager ()->flush ();
 		
 		$session = $req->getSession ();
+		
 		$msg = sprintf ( "Project \"%s\" was created.", $project->getName () );
+		$imports = $projectService->getImportedIssuesAsString ( $project );
+		if( $imports != null ){
+			$msg .= " The following issue definitions have been generated for this project: $imports.";
+		}
+		
+		$url = $this->generateUrl("sc_editor", array("projectId" => $project->getId()));
+		$msg .= " <a href=\"$url\">Open project</a>";
+		
 		$session->getFlashBag ()->add ( 'notice', $msg );
 		
 		return $this->render ( 'DFKIScorecardBundle:Admin:create_project.html.twig', array () );
@@ -196,11 +207,11 @@ class AdminController extends Controller {
 			throw new AccessDeniedException ( 'Unauthorised access!' );
 		}
 		
-		$segments = $project->getSegments();
-		for( $i=0; $i<sizeof( $segments ); $i++ ){
-			$em->remove($segments[$i]);
+		$segments = $project->getSegments ();
+		for($i = 0; $i < sizeof ( $segments ); $i ++) {
+			$em->remove ( $segments [$i] );
 		}
-		$em->flush();
+		$em->flush ();
 		
 		$em->remove ( $project );
 		$em->flush ();

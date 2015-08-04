@@ -157,6 +157,7 @@ report = {
 		<th class="white">Subtotal</th>
 	</tr>
 	{% if issues|length > 0 %} {% for i in 0..(issues|length)-1 %}
+		{% if issues[i][0].type == "issue" %}
 	<tr>
 		<td colspan="10" class="subheading">{{ issues[i][0].name }}</td>
 	</tr>
@@ -186,6 +187,8 @@ report = {
 		<td id="subtotal-target-subtotal-{{ issues[i][0].id }}"></td>
 		<td id="subtotal-total-{{ issues[i][0].id }}"></td>
 	</tr>
+			{% endif %}
+	
 	{% endfor %} {% endif %}
 	<tr class="total">
 		<td class="subtotal-heading strong">Total</td>

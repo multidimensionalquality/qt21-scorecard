@@ -42,7 +42,6 @@ class ProjectService {
 	protected $securityContext;
 	protected $htmlPurifier;
 	protected $issueImporter;
-	
 	public function __construct(EntityManager $entityManager, SecurityContext $securityContext, $htmlPurifier, IssueImporter $issueImporter) {
 		$this->securityContext = $securityContext;
 		$this->em = $entityManager;
@@ -93,11 +92,24 @@ class ProjectService {
 		$project->setMetric ( $str );
 		$project->setMetricName ( $metric->getClientOriginalName () );
 		$this->em->persist ( $project );
+		$this->em->flush();
 		
-		$xml = simplexml_load_file ( $metric->getPathname () );
+		libxml_use_internal_errors(true);
+		$xml = @simplexml_load_file ( $metric->getPathname () );
+		
+		if( $xml === false ){
+			$msg = "";
+			foreach(libxml_get_errors() as $error) {
+				$msg .= $error->message;
+				$msg .= "<br/>";
+			}
+				
+			throw new Exception("Error parsing metric file: <br/>$msg");
+		}
+		
 		foreach ( $xml->issue as $issue ) {
 			try {
-				$this->traverseMetric ( $issue, $project );
+				$this->traverseMetric ( $issue, $project, null );
 			} catch ( Exception $e ) {
 				throw $e;
 			}
@@ -113,7 +125,7 @@ class ProjectService {
 	 * @throws Exception
 	 * @return \DFKI\ScorecardBundle\Entity\Metric
 	 */
-	private function traverseMetric($xml, $project) {
+	private function traverseMetric($xml, $project, $parentIssue) {
 		$attr = $xml->attributes ();
 		
 		$id = ( string ) $attr ["type"];
@@ -123,7 +135,7 @@ class ProjectService {
 		) );
 		
 		if (! is_object ( $issue )) {
-			$issue = $this->issueImporter->createNewIssue($xml, $project);
+			$issue = $this->issueImporter->createNewIssue ( $xml, $project, $parentIssue );
 		}
 		
 		$ipo = new IssueProjectMapping ();
@@ -141,7 +153,7 @@ class ProjectService {
 		$this->em->persist ( $ipo );
 		
 		foreach ( $xml->children () as $child ) {
-			$this->traverseMetric ( $child, $project );
+			$this->traverseMetric ( $child, $project, $issue );
 		}
 	}
 	
@@ -401,7 +413,7 @@ class ProjectService {
 	 * @return \Doctrine\ORM\array
 	 */
 	public function getProjectIssues($project) {
-		$issues = $this->em->createQuery ( "SELECT i.id, i.name, m.display, i.notes, i.definition, i.examples FROM DFKIScorecardBundle:Issue i, DFKIScorecardBundle:IssueProjectMapping m, DFKIScorecardBundle:Project p 
+		$issues = $this->em->createQuery ( "SELECT i.id, i.name, m.display, i.notes, i.definition, i.examples, i.imported FROM DFKIScorecardBundle:Issue i, DFKIScorecardBundle:IssueProjectMapping m, DFKIScorecardBundle:Project p 
 				WHERE p.id = :project
 				AND m.project = p
 				AND m.issue=i" )->setParameter ( "project", $project )->getResult ();
@@ -410,6 +422,7 @@ class ProjectService {
 		
 		$map = array ();
 		foreach ( $issues as $issue ) {
+			
 			$parent = $topMapping [$issue ["id"]];
 			if (! isset ( $map [$parent] ))
 				$map [$parent] = array ();
@@ -540,6 +553,29 @@ class ProjectService {
 			}
 		} else {
 			return ( float ) ($lastTouchedSegment->getSegNum () - 1) / ($maxSegment - 1);
+		}
+	}
+	
+	/**
+	 * Create a list of all issues that were created for this project.
+	 * It returns either null (if no issues were created for this project) or a comma separated string with the issue names.
+	 *
+	 * @param unknown $project        	
+	 * @return NULL|string
+	 */
+	public function getImportedIssuesAsString($project) {
+		$query = $this->em->createQuery ( "SELECT i FROM DFKIScorecardBundle:Issue i WHERE i.imported=true AND i.project=:project" )->setParameter ( "project", $project );
+		$issues = $query->getResult ();
+		
+		if (count ( $issues ) == 0) {
+			return null;
+		} else {
+			$names = array ();
+			for($i = 0; $i < sizeof ( $issues ); $i ++) {
+				$issue = $issues [$i];
+				$names [] = "\"".$issue->getName ()."\"";
+			}
+			return trim(implode ( ", ", $names ));
 		}
 	}
 }

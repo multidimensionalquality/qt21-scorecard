@@ -38,6 +38,7 @@ class EditorController extends Controller {
 	public function editorAction($projectId) {
 		$project = $this->getDoctrine ()->getRepository ( "DFKIScorecardBundle:Project" )->findOneById ( $projectId );
 		
+		
 		if (! is_object ( $project )) {
 			throw new BadRequestHttpException ();
 		}
@@ -50,11 +51,13 @@ class EditorController extends Controller {
 		$issueDefinitions = $projectService->getProjectIssues ( $project );
 		
 		$editorService = $this->get ( "editorService" );
+		$issueGrid = $editorService->createIssueGrid($issueDefinitions);
+		
 		$issueReports = $editorService->getIssueReports ( $project );
 		
 		return $this->render ( 'DFKIScorecardBundle:Editor:editor.html.twig', array (
 				"project" => $project,
-				"issues" => $issueDefinitions,
+				"issues" => $issueGrid,
 				"issueReports" => $issueReports 
 		) );
 	}
@@ -88,26 +91,4 @@ class EditorController extends Controller {
 				"projectId" => $project->getId () 
 		) ), 301 );
 	}
-	// public function markAsFinishedAction($projectId){
-	// $em = $this->getDoctrine()->getEntityManager();
-	// $project = $em->getRepository ( "DFKIScorecardBundle:Project" )->findOneById ( $projectId );
-	
-	// if( !is_object($project)){
-	// throw new BadRequestHttpException();
-	// }
-	
-	// if (false === $this->get('security.context')->isGranted('view', $project)) {
-	// throw new AccessDeniedException('Unauthorised access!');
-	// }
-	
-	// $project->setFinished( !$project->getFinished() );
-	// $em->persist($project);
-	// $em->flush();
-	
-	// $session = new Session();
-	// $msg = "Your changes have been saved";
-	// $session->getFlashBag()->add('notice', $msg);
-	
-	// $this->editorAction($projectId);
-	// }
 }
