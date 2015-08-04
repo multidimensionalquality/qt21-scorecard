@@ -103,6 +103,9 @@ class EditorService {
 		for( $i=0; $i<sizeof($issues); $i++ ){
 			for( $j=0; $j<sizeof( $issues[$i] ); $j++ ){
 				$issue = $issues[$i][$j];
+				if( $issue["display"] == false ){
+					continue;
+				}
 				$issue["bg"] = $i % $nColors;
 				$issue["type"] = "issue";
 				$flatlist[] = $issue;
@@ -126,10 +129,7 @@ class EditorService {
 		$currentHeader = array();
 		for( $i=0; $i<sizeof( $rawGrid ); $i++ ){
 			for( $j=0; $j<sizeof($rawGrid[$i]); $j++){
-// 				echo $rawGrid[$i][$j]["name"]."<br>";
-// 				echo $rawGrid[$i][$j]["bg"]."<br>";
 				if( $rawGrid[$i][$j]["bg"] != $currentBg ){
-//					echo "add header<br>";
 					$currentBg = $rawGrid[$i][$j]["bg"];
 					// add header
 					while(sizeof( $currentHeader ) < $j ){
@@ -150,7 +150,7 @@ class EditorService {
 // 			foreach( $row as $cell ){
 // 				if( $cell["type"] == "issue" ){
 // 					echo $cell["bg"]." ".$cell["name"]."&nbsp;&nbsp;&nbsp;";
-// 				} else if( $cell["type"] == "empty" ){
+// 				} else if( $cell["type"] == "blank" ){
 // 					echo "&nbsp;-&nbsp;|";
 // 				} else{
 // 					echo $cell["name"]."|";
@@ -158,6 +158,7 @@ class EditorService {
 // 			}
 // 			echo '<br>------------------<br>';
 // 		}
+// 		exit;
 		return $grid;
 	}
 }
