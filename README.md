@@ -39,7 +39,7 @@ Initialize the database with the following command:
 php app/console doctrine:schema:update --force
 ```
 
-Now you have to run the MySQL commands defined in `data/issues.sql` on your database.
+Now you have to run the MySQL commands defined in `data/issues.sql` on your database to import the issue definitions.
 
 ### Create super user
 
@@ -52,7 +52,8 @@ php app/console scorecard:promote-superuser <<username>>
 
 ## License
 
-Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+```
+Copyright 2015 Deutsches Forschungszentrum fÃ¼r KÃ¼nstliche Intelligenz
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -65,4 +66,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
 
+This project uses 3rd party tools. You can find the list of 3rd party tools including their authors and licenses [here](https://github.com/multidimensionalquality/qt21-scorecard/blob/master/LICENSE-3RD-PARTY.txt)
