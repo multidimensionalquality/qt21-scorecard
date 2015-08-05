@@ -58,6 +58,7 @@ var sc = {
 				    url: sc.api + "editor/issues/" + reportid,
 				    type: 'DELETE',
 				    success: function(){
+						sc.scores.updateScores();
 				    },
 				    data: {}
 				  });
@@ -211,6 +212,8 @@ var sc = {
 							sc.issueReports.show();
 						}
 					}
+					
+					sc.scores.updateScores();
 				}
 			);
 		}
