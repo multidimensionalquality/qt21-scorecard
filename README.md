@@ -1,6 +1,7 @@
 # QT21-Scorecard
 
-http://www.qt21.eu/scorecard
+You can use the live demo: http://www.qt21.eu/scorecard
+Further documentation in the [wiki](https://github.com/multidimensionalquality/qt21-scorecard/wiki).
 
 ## Installation Instructions
 
@@ -12,18 +13,18 @@ The installation instructions are targeted to users who know how to install a PH
 
 The example command line calls are written for Linux / Mac users. The process can be easily adapted to Windows systems.
 
-### Download sourcecodes
+### 1. Download sourcecodes
 
 ```
 git clone https://github.com/multidimensionalquality/qt21-scorecard.git
 ```
 
-### Deploy Symfony 2 Application
+### 2. Deploy Symfony 2 Application
 
 The QT21 Scorecard was created using the Symfony Framework. To deploy it on a webserver you must follow the [official documentation of Symfony 2](http://symfony.com/doc/current/cookbook/deployment/tools.html
 ).
 
-### Create database and add database settings
+### 3. Create database and add database settings
 
 We assume you have already created a MySQL database. Create a new parameters file for your application:
 
@@ -41,7 +42,7 @@ php app/console doctrine:schema:update --force
 
 Now you have to run the MySQL commands defined in `data/issues.sql` on your database to import the issue definitions.
 
-### Create super user
+### 4. Create super user
 
 Register user via normal scorecard registration form. Then run the following command to promote this user to a super user:
 
