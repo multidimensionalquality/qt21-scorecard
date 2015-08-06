@@ -60,6 +60,7 @@ class IssueImporter {
 				$issue->setNotes ( $notes [$id] );
 				$issue->setExamples ( $examples [$id] );
 				$this->em->persist ( $issue );
+				$issue->setImported(0);
 				$map [$id] = $issue;
 			}
 			
