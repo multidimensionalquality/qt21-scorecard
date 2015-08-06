@@ -63,7 +63,7 @@ class Issue {
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="Issue" )
-	 * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true, onDelete="CASCADE" )
+	 * @ORM\JoinColumn(name="parent", referencedColumnName="id", nullable=true )
 	 */
 	private $parent;
 	
