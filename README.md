@@ -1,6 +1,7 @@
 # QT21-Scorecard
 
 You can use the live demo: http://www.qt21.eu/scorecard
+
 Further documentation in the [wiki](https://github.com/multidimensionalquality/qt21-scorecard/wiki).
 
 ## Installation Instructions
