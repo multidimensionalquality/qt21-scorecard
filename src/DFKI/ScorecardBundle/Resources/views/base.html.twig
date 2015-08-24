@@ -7,32 +7,15 @@
 
 {% block stylesheets %} 
 
-{% stylesheets 'bundles/dfkiscorecard/css/*' filter='cssrewrite' %}
-	<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/general.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/viewer.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/jQueryUI/jquery-ui.theme.min.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/tooltipster/tooltipster.css') }}" type="text/css" media="all" />
+<link rel="stylesheet" href="{{ asset('bundles/dfkiscorecard/css/tooltipster/tooltipster-overrides.css') }}" type="text/css" media="all" />
 
-{% stylesheets 'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.min.css' filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
-
-{% stylesheets
-'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.structure.min.css' filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
-
-{% stylesheets
-'bundles/dfkiscorecard/css/jQueryUI/jquery-ui.theme.min.css'
-filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% stylesheets
-'bundles/dfkiscorecard/css/tooltipster/tooltipster.css'
-filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% stylesheets
-'bundles/dfkiscorecard/css/tooltipster/tooltipster-overrides.css'
-filter='cssrewrite' %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %} {% endblock %} {% block javascripts %} {%
+{% endblock %} {% block javascripts %} {%
 javascripts
 '@DFKIScorecardBundle/Resources/public/js/jquery/jquery.min.js' %}
 <script src="{{ asset_url }}"></script>
