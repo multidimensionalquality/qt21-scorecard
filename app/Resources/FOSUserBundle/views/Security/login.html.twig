@@ -9,7 +9,7 @@
     <div class="flash-warning">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<h1>Login</h1>
+<h1>Loginyyyxxx</h1>
 
 <form action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -39,6 +39,12 @@
 		<tr>
 			<td colspan="2">
 				<input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />		
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br/>
+				<a href="{{ path('fos_user_resetting_request') }}">Forgot password ?</a>
 			</td>
 		</tr>
 	</table>
