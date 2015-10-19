@@ -14,6 +14,7 @@ var sc = {
 		this.goToSegment.init();
 		this.highlight.init();
 		this.scores.init();
+		this.filter.init();
 	},
 
 	issueReports:{
@@ -366,6 +367,38 @@ var sc = {
 					$('#targetScore').html(sc.scores.formatScore(response.targetScore));
 					$('#compositeScore').html(sc.scores.formatScore(response.compositeScore));
 				});
+		}
+	},
+	
+
+	filter: {
+		
+		filterText: null,
+		
+		init: function(){
+			$('#filter_text').val("");
+			$('#filter_text').keyup(function(){
+				var text = $(this).val();
+				sc.filter.filterText = text.toLowerCase();
+				sc.filter.applyFilter();
+			});
+			sc.filter.applyFilter();
+		},
+		
+		applyFilter: function(){
+			var count=0;
+			
+			$('#scorecard tr.segment-text').each(function(){
+				var segmentId = $(this).attr("segment-id");
+				var textInSource = $('tr[segment-id=' + segmentId + '] td.source div').html().toLowerCase().indexOf("xxx") >= 0;
+				var textInTarget = $('tr[segment-id=' + segmentId + '] td.target div').html().toLowerCase().indexOf("xxx") >= 0;
+				
+				$('tr[segment-id=' + segmentId + ']').removeClass("hide");
+
+				if( textInSource || textInTarget ){
+					$('tr[segment-id=' + segmentId + ']').addClass("hide");
+				}
+			});
 		}
 	}
 };

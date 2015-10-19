@@ -401,3 +401,21 @@ table.nav a.set-highlight-on {
 table.nav a.clear-highlight-source, table.nav a.clear-highlight-target {
 	background-image: url(../images/highlight_clear.png);
 }
+
+
+#filter-settings{
+	float:left;
+	width:239px;
+	border:1px solid black;
+	margin-top:16px;
+}
+
+#filter-settings .filter-heading{
+	background-color: #77809B;
+	border-bottom: 1px solid black;
+	width:229px; 
+	color: #FFF494;
+	padding:5px;
+	font-weight:bold;
+	font-size:90%;
+}

@@ -140,7 +140,7 @@ $(document).ready(function(){
 </table>
 
 {% if issuesGrid|length>0 %}
-<div id="metrics">
+<div id="metrics" style="width:1013px; float:left;">
 	{% set counter=0 %}
 	{% for i in 0..(issuesGrid|length)-1 %}
 		
@@ -208,116 +208,15 @@ $(document).ready(function(){
 	{% endfor %}
 </div>
 {% endif %}
-	
-		{#  
-		{% for issue in issues[i] %} {% if issue.display %}
-			<div class="metric bg{{ i+1 }}">
-				<div class="buttons-left">
-					<a target="source" href="#" class=""> <img
-						src="{{ asset('bundles/dfkiscorecard/images/S.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="minor tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="major tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="critical tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-				</div>
-				<div class="label tooltip"
-					title="{{ issue.tooltip|escape("html") }}">{{ issue.name }}</div>
-				<div class="buttons-right">
-					<a target="target" href="#" class=""> <img
-						src="{{ asset('bundles/dfkiscorecard/images/T.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="minor tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="major tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="critical tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-				</div>
-
-			</div> {% endif %} {% endfor %}
-	{% endfor %}
-</div>
-{% endif %}
-#}
-{#
-
-<table id="metrics" border="1">
-	{% for i in 0..(issues|length)-1 %}
-	<tr topmetric="{{ issues[i][0].id }}">
-		<td valign="top" style="transform: rotate(270deg); width:12px; overflow:hidden;">
-			<div style="white-space: nowrap; padding:3px; font-weight:bold; width:94px; height:20px; text-align:center; color:#fff200; background:#292873; display:block; overflow:hidden; font-size:12px">{{ issues[i][0].name }}</div>
-		<td>
 		
-		<td>{% for issue in issues[i] %} {% if issue.display %}
-			<div class="metric bg{{ i+1 }}">
-				<div class="buttons-left">
-					<a target="source" href="#" class=""> <img
-						src="{{ asset('bundles/dfkiscorecard/images/S.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="minor tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="major tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="source" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="critical tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>source</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-				</div>
-				<div class="label tooltip"
-					title="{{ issue.tooltip|escape("html") }}">{{ issue.name }}</div>
-				<div class="buttons-right">
-					<a target="target" href="#" class=""> <img
-						src="{{ asset('bundles/dfkiscorecard/images/T.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="minor tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>minor</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="major tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>major</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a> <a target="target" issue-id="{{ issue.id }}"
-						issue-name="{{ issue.name|escape('html') }}" href="#"
-						class="critical tooltip"
-						title="add <strong>{{ issue.name|escape('html') }}</strong> as <strong>critical</strong> issue to <strong>target</strong> segment.">
-						<img src="{{ asset('bundles/dfkiscorecard/images/plus.png') }}" />
-					</a>
-				</div>
-
-			</div> {% endif %} {% endfor %}
-		</td>
-	</tr>
-	{% endfor %}
-</table>
-{% endif %}
-#}
+<div id="filter-settings">
+	
+	<div class="filter-heading">Filter</div>
+	<div style="width:240px; padding:5px">
+		<input type="text" id="filter_text" />
+		<br/><br/>
+		<a href="javascript:void(0)" id="advanced_filter">Advanced</a>					
+	</div>
+	
+</div>
+<div style="clear:both"></div>
