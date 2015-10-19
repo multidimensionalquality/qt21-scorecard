@@ -1,4 +1,13 @@
 
+function time(){
+
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    return h + ":" + m + ":" + s;
+
+}
 "use strict";
 var sc = {
 
@@ -7,6 +16,7 @@ var sc = {
 	initSegment: -1,
 	
 	init: function(){
+
 		this.selector.init();
 		this.buttons.init();
 		this.issueReports.init();
@@ -14,7 +24,9 @@ var sc = {
 		this.goToSegment.init();
 		this.highlight.init();
 		this.scores.init();
+		console.log(time() + " 7");
 		this.filter.init();
+		console.log(time() + " 8");
 	},
 
 	issueReports:{
@@ -372,31 +384,43 @@ var sc = {
 	
 
 	filter: {
-		
+
 		filterText: null,
 		
 		init: function(){
+						
 			$('#filter_text').val("");
 			$('#filter_text').keyup(function(){
 				var text = $(this).val();
 				sc.filter.filterText = text.toLowerCase();
 				sc.filter.applyFilter();
 			});
-			sc.filter.applyFilter();
 		},
 		
 		applyFilter: function(){
 			var count=0;
 			
+			$('#scorecard tr.hide').removeClass("hide");
+			
+			if( sc.filter.filterText.trim().length == 0 ){
+				return;
+			}
+			
 			$('#scorecard tr.segment-text').each(function(){
-				var segmentId = $(this).attr("segment-id");
-				var textInSource = $('tr[segment-id=' + segmentId + '] td.source div').html().toLowerCase().indexOf("xxx") >= 0;
-				var textInTarget = $('tr[segment-id=' + segmentId + '] td.target div').html().toLowerCase().indexOf("xxx") >= 0;
 				
-				$('tr[segment-id=' + segmentId + ']').removeClass("hide");
+				var tr = $(this);
+				var segmentId = tr.attr("segment-id");
 
-				if( textInSource || textInTarget ){
-					$('tr[segment-id=' + segmentId + ']').addClass("hide");
+				var show = false;
+				var sourceText = tr.children("td.source").children("div").html().toLowerCase();
+				show = sourceText.indexOf(sc.filter.filterText) >= 0;
+				if( !show ){
+					var targetText = tr.children("td.target").children("div").html().toLowerCase();
+					hide = targetText.indexOf(sc.filter.filterText) >= 0;
+				}
+				
+				if( !show ){
+					$("tr[segment-id=" + segmentId + "]").addClass("hide");
 				}
 			});
 		}
