@@ -396,12 +396,14 @@ var sc = {
 						
 			$('#filter_text').val("");
 			$('#filter_text').keyup(function(){
+				$('#advanced_filter_input').val($('#filter_text').val());
 				sc.filter.applyFilter();
 			});
 			$('#clearFilter').click(function(){sc.filter.clearFilter(); return false;});
 			
 			$('#advanced_filter_dialog').dialog({
 				width:500,
+				autoOpen: false,
 				buttons: {
 					"Clear Filter": function(){
 						sc.filter.clearFilter();
@@ -412,12 +414,21 @@ var sc = {
 				}
 			});
 			
+			$('#advanced_filter_input').keyup(function(){
+				$('#filter_text').val($('#advanced_filter_input').val());
+				sc.filter.applyFilter();
+			});
+			
 			$('#advanced_filter_dialog input[type=checkbox]').click(function(){
 				sc.filter.applyFilter();
 			});
+			
+			$('#advanced_filter').click(function(){
+				$('#advanced_filter_dialog').dialog('open');
+			});
 		},
 		
-		applyFilter: function(){				
+		applyFilter: function(){
 		
 			var filterText = $('#filter_text').val().toLowerCase();
 			var filterIssues = [];
@@ -430,17 +441,12 @@ var sc = {
 				filterForIssues = true;
 			});
 
-			console.error(filterIssues);
-			console.error(filterForIssues);
-
 			var countTotal=0;
 			var countVisible=0;
 			
 			$('#scorecard tr.hide').removeClass("hide");
 			
 			if( filterText.trim().length == 0 && !filterForIssues ){
-				// no filter
-
 				$('#filterApplied').hide();
 			} else{
 				$('#scorecard tr.segment-text').each(function(){
@@ -465,11 +471,6 @@ var sc = {
 							
 							for( index in filterIssues ){
 								var issue = filterIssues[index];
-								if( segmentId == "8012" ){
-									console.error(filterIssues[issue]);
-									console.error(sc.issueReports.issuesPerSegment[issue]);
-								}
-								
 								if( typeof sc.issueReports.issuesPerSegment[segmentId][issue] != "undefined" ){
 									show = true;
 									break;
@@ -496,6 +497,8 @@ var sc = {
 		
 		clearFilter:function(){
 			$('#filter_text').val("");
+			$('#advanced_filter_input').val("");
+			$('#advanced_filter_dialog input:checked').attr("checked", false);
 			sc.filter.applyFilter();
 		}
 	}
