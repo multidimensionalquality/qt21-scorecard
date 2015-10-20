@@ -36,6 +36,7 @@ $(document).ready(function(){
 });
 
 </script>
+<p id="filterApplied" style="display:none">Currently only <span id="filterAppliedCount"></span> of {{ project.segments|length }} segments are visible. <a href="#" id="clearFilter">Clear filter</a></p>
 <table class="viewer" id="scorecard">
 	<thead>
 		<tr>
@@ -220,3 +221,36 @@ $(document).ready(function(){
 	
 </div>
 <div style="clear:both"></div>
+
+<div id="advanced_filter_dialog" title="Advanced Filter">
+	<table width="100%">
+		<tr>
+			<td colspan="3">Text: <input type="text" /><br/><br/></td>
+		</tr>
+		{% set counter=0 %}
+
+		{% for i in 0..(issuesGrid|length)-1 %}
+			
+			{% if issuesGrid[i][0].type == "issue" %}
+				
+				{% for issue in issuesGrid[i] %} 
+					{% if issue.display %}
+						
+						{% if counter%3==0 %}
+							<tr>
+						{% endif %}
+
+						<td><input type="checkbox" issue="{{ issue.id }}"/>{{ issue.name }}</td>
+						
+						{% if counter%3==2 %}
+							</tr>
+						{% endif %}
+						
+						{% set counter=counter+1 %}
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		
+		{% endfor  %}
+	</table>
+</div>

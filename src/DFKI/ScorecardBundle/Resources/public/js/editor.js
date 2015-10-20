@@ -24,9 +24,7 @@ var sc = {
 		this.goToSegment.init();
 		this.highlight.init();
 		this.scores.init();
-		console.log(time() + " 7");
 		this.filter.init();
-		console.log(time() + " 8");
 	},
 
 	issueReports:{
@@ -44,10 +42,19 @@ var sc = {
 				"issueReportId": issueReportId,
 				"issueId" : issueId
 			});
+			
+			if( typeof this.issuesPerSegment[segment] == "undefined"){
+				this.issuesPerSegment[segment] = {};
+			}
+			this.issuesPerSegment[segment][issueId] = true;
 			this.show();
 		},
+		
+		issuesPerSegment: {},
 
 		remove: function(index){
+			var issue = this.reports[index];
+			delete this.issuesPerSegment[issue.segment][issue.issueId];
 			this.reports.splice(index,1);
 			this.show();
 		},
@@ -384,45 +391,112 @@ var sc = {
 	
 
 	filter: {
-
-		filterText: null,
 		
 		init: function(){
 						
 			$('#filter_text').val("");
 			$('#filter_text').keyup(function(){
-				var text = $(this).val();
-				sc.filter.filterText = text.toLowerCase();
+				sc.filter.applyFilter();
+			});
+			$('#clearFilter').click(function(){sc.filter.clearFilter(); return false;});
+			
+			$('#advanced_filter_dialog').dialog({
+				width:500,
+				buttons: {
+					"Clear Filter": function(){
+						sc.filter.clearFilter();
+					},
+					"Close": function(){
+						$('#advanced_filter_dialog').dialog("close");
+					}
+				}
+			});
+			
+			$('#advanced_filter_dialog input[type=checkbox]').click(function(){
 				sc.filter.applyFilter();
 			});
 		},
 		
-		applyFilter: function(){
-			var count=0;
+		applyFilter: function(){				
+		
+			var filterText = $('#filter_text').val().toLowerCase();
+			var filterIssues = [];
+			var filterForIssues = false;
+			var filterForText = filterText.trim().length > 0;
+			
+			$('#advanced_filter_dialog input:checked').each(function(){
+				var issueId = $(this).attr("issue");
+				filterIssues.push(issueId);
+				filterForIssues = true;
+			});
+
+			console.error(filterIssues);
+			console.error(filterForIssues);
+
+			var countTotal=0;
+			var countVisible=0;
 			
 			$('#scorecard tr.hide').removeClass("hide");
 			
-			if( sc.filter.filterText.trim().length == 0 ){
-				return;
-			}
-			
-			$('#scorecard tr.segment-text').each(function(){
-				
-				var tr = $(this);
-				var segmentId = tr.attr("segment-id");
+			if( filterText.trim().length == 0 && !filterForIssues ){
+				// no filter
 
-				var show = false;
-				var sourceText = tr.children("td.source").children("div").html().toLowerCase();
-				show = sourceText.indexOf(sc.filter.filterText) >= 0;
-				if( !show ){
-					var targetText = tr.children("td.target").children("div").html().toLowerCase();
-					hide = targetText.indexOf(sc.filter.filterText) >= 0;
-				}
+				$('#filterApplied').hide();
+			} else{
+				$('#scorecard tr.segment-text').each(function(){
+					countTotal++;
+					var tr = $(this);
+					var segmentId = tr.attr("segment-id");
+	
+					var show = false;
+					
+					if( filterForText ){
+						var sourceText = tr.children("td.source").children("div").html().toLowerCase();
+						show = sourceText.indexOf(filterText) >= 0;
+						if( !show ){
+							var targetText = tr.children("td.target").children("div").html().toLowerCase();
+							hide = targetText.indexOf(filterText) >= 0;
+						}
+					}
+					
+					if( !show && filterForIssues){
+						
+						if( typeof sc.issueReports.issuesPerSegment[segmentId] != "undefined" ){
+							
+							for( index in filterIssues ){
+								var issue = filterIssues[index];
+								if( segmentId == "8012" ){
+									console.error(filterIssues[issue]);
+									console.error(sc.issueReports.issuesPerSegment[issue]);
+								}
+								
+								if( typeof sc.issueReports.issuesPerSegment[segmentId][issue] != "undefined" ){
+									show = true;
+									break;
+								}
+							}
+						}
+					}
+					
+					if( !show ){
+						$("tr[segment-id=" + segmentId + "]").addClass("hide");
+					} else{
+						countVisible++;
+					}
+				});
 				
-				if( !show ){
-					$("tr[segment-id=" + segmentId + "]").addClass("hide");
+				if( countVisible == countTotal ){
+					$('#filterApplied').hide();
+				} else{
+					$('#filterApplied').show();
 				}
-			});
+				$('#filterAppliedCount').html(countVisible);
+			}
+		},
+		
+		clearFilter:function(){
+			$('#filter_text').val("");
+			sc.filter.applyFilter();
 		}
 	}
 };
