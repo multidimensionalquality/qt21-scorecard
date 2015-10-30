@@ -2,7 +2,6 @@
 $(document).ready(function(){
 	sc.api = '{{ path("sc_start") }}api/';
 	sc.projectId = {{ project.id }};
-
 	
 	sc.init();
 	
@@ -37,6 +36,7 @@ $(document).ready(function(){
 
 </script>
 <p id="filterApplied" style="display:none">Currently only <span id="filterAppliedCount"></span> of {{ project.segments|length }} segments are visible. <a href="#" id="clearFilter">Clear filter</a></p>
+<div id="editor-container" style="width:1145px">
 <table class="viewer" id="scorecard">
 	<thead>
 		<tr>
@@ -141,7 +141,7 @@ $(document).ready(function(){
 </table>
 
 {% if issuesGrid|length>0 %}
-<div id="metrics" style="width:1013px; float:left;">
+<div id="metrics" style="width:942px; float:left;">
 	{% set counter=0 %}
 	{% for i in 0..(issuesGrid|length)-1 %}
 		
@@ -213,13 +213,13 @@ $(document).ready(function(){
 <div id="filter-settings">
 	
 	<div class="filter-heading">Filter</div>
-	<div style="width:240px; padding:5px">
+ 	<div style="width:240px; padding:5px">
 		<input type="text" id="filter_text" />
 		<br/><br/>
 		<a href="javascript:void(0)" id="advanced_filter">Advanced</a>					
 	</div>
-	
 </div>
+
 <div style="clear:both"></div>
 
 <div id="advanced_filter_dialog" title="Advanced Filter">
@@ -253,4 +253,5 @@ $(document).ready(function(){
 		
 		{% endfor  %}
 	</table>
+</div>
 </div>

@@ -461,7 +461,7 @@ var sc = {
 						show = sourceText.indexOf(filterText) >= 0;
 						if( !show ){
 							var targetText = tr.children("td.target").children("div").html().toLowerCase();
-							hide = targetText.indexOf(filterText) >= 0;
+							show = targetText.indexOf(filterText) >= 0;
 						}
 					}
 					
