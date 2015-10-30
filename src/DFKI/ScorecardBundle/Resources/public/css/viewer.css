@@ -404,18 +404,27 @@ table.nav a.clear-highlight-source, table.nav a.clear-highlight-target {
 
 
 #filter-settings{
-	float:left;
-	width:239px;
+	float:right;
+	width:200px;
 	border:1px solid black;
 	margin-top:16px;
+}
+
+#filter_text{
+	width:120px;
 }
 
 #filter-settings .filter-heading{
 	background-color: #77809B;
 	border-bottom: 1px solid black;
-	width:229px; 
+	width:190px; 
 	color: #FFF494;
 	padding:5px;
 	font-weight:bold;
 	font-size:90%;
+}
+
+
+.viewer tr.hide{
+	display:none;
 }
