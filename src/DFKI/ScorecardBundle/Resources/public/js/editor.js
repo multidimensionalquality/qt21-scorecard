@@ -454,35 +454,40 @@ var sc = {
 					var tr = $(this);
 					var segmentId = tr.attr("segment-id");
 	
-					var show = false;
-					
+					var textMatch = true;
 					if( filterForText ){
 						var sourceText = tr.children("td.source").children("div").html().toLowerCase();
-						show = sourceText.indexOf(filterText) >= 0;
-						if( !show ){
+						textMatch = sourceText.indexOf(filterText) >= 0;
+						if( !textMatch ){
 							var targetText = tr.children("td.target").children("div").html().toLowerCase();
-							show = targetText.indexOf(filterText) >= 0;
+							textMatch = targetText.indexOf(filterText) >= 0;
 						}
 					}
 					
-					if( !show && filterForIssues){
-						
+					var issueMatch = true;
+					if( filterForIssues){
+						issueMatch = false;
 						if( typeof sc.issueReports.issuesPerSegment[segmentId] != "undefined" ){
 							
+							var foundAll = true;
 							for( index in filterIssues ){
 								var issue = filterIssues[index];
-								if( typeof sc.issueReports.issuesPerSegment[segmentId][issue] != "undefined" ){
-									show = true;
+								if( typeof sc.issueReports.issuesPerSegment[segmentId][issue] == "undefined" ){
+									foundAll = false;
 									break;
 								}
+							}
+							
+							if( foundAll ){
+								issueMatch = true;
 							}
 						}
 					}
 					
-					if( !show ){
-						$("tr[segment-id=" + segmentId + "]").addClass("hide");
-					} else{
+					if( textMatch && issueMatch ){
 						countVisible++;
+					} else{
+						$("tr[segment-id=" + segmentId + "]").addClass("hide");
 					}
 				});
 				
