@@ -276,7 +276,7 @@ var sc = {
 		// return array of all segment ids
 		getIds: function(){
 			var ids = Array();
-			$('tr[notes]').each(function(){
+			$('tr.issues:visible').each(function(){
 				var id = parseInt($(this).attr('segment-id'));
 				ids.push(id);
 			});
