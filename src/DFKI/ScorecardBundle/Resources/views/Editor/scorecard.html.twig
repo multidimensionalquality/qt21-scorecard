@@ -24,10 +24,10 @@ $(document).ready(function(){
 	// add highlights
 	{% for segment in project.segments %}
 	{% if segment.highlightsSource is not null %}
-	sc.highlight.setHighlights( "{{ segment.id }}", "{{ segment.highlightsSource|escape("js") }}", "target" );
+	sc.highlight.setHighlights( "{{ segment.id }}", "{{ segment.highlightsSource|escape("js") }}", "source" );
 	{% endif %}
 	{% if segment.highlightsTarget is not null %}
-	sc.highlight.setHighlights( "{{ segment.id }}", "{{ segment.highlightsTarget|escape("js") }}", "source" );
+	sc.highlight.setHighlights( "{{ segment.id }}", "{{ segment.highlightsTarget|escape("js") }}", "target" );
 	{% endif %}
 	{% endfor %}
 	
