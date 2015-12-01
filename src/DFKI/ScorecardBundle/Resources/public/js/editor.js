@@ -255,7 +255,10 @@ var sc = {
 			$('table.nav a.nav_down').click(function(){
 				var selection = sc.selector.selection;
 				var ids = sc.sidebars.getIds();
-				var pos = ids.indexOf(selection);
+				var pos = ids.indexOf(parseInt(selection));
+				if( pos==-1){
+					pos=0;
+				}
 				if( selection != null && pos>=0 && pos<ids.length-1){
 					var nextid = ids[pos+1];
 					sc.selector.selectSegment(nextid);
@@ -265,7 +268,10 @@ var sc = {
 			$('table.nav a.nav_up').click(function(){
 				var selection = sc.selector.selection;
 				var ids = sc.sidebars.getIds();
-				var pos = ids.indexOf(selection);
+				var pos = ids.indexOf(parseInt(selection));
+				if( pos==-1){
+					pos=0;
+				}
 				if( selection != null && pos>=1){
 					var nextid = ids[pos-1];
 					sc.selector.selectSegment(nextid);
@@ -276,7 +282,7 @@ var sc = {
 		// return array of all segment ids
 		getIds: function(){
 			var ids = Array();
-			$('tr.issues:visible').each(function(){
+			$('tr.segment-text:visible').each(function(){
 				var id = parseInt($(this).attr('segment-id'));
 				ids.push(id);
 			});
