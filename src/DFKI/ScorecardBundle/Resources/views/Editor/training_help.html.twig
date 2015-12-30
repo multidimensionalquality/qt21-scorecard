@@ -16,18 +16,8 @@
 			heightStyle: "fill"
 		});
 	});
-	$(function() {
-		$( "#accordion-container" ).resizable({
-			minHeight: 500,
-			minWidth: 500,
-			resize: function() {
-				$( "#accordion" ).accordion( "refresh" );
-			}
-		});
-	});
 </script>
 
-<div id="accordion-container" class="ui-widget-content">
 <div id="accordion-training">
 	<h3>Overview</h3>
 	<div>
@@ -392,5 +382,4 @@ Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pr
 		</ul>
 		<p>If you need more detail on the issues found, the <strong>Reports</strong> tab provides an overview report of the types of issues found in both source and target and their severity. It does not provide a score because the scores are always available at the top of the editor, but is useful for cases where you want to understand what kinds of problems occurred in a translation.</p>
 	</div>
-</div>
 </div>
