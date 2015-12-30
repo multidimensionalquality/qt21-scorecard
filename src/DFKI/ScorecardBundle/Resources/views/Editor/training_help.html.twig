@@ -1,26 +1,41 @@
 <h2>Training and help</h2>
+<style>
+	#accordion-container {
+		padding: 10px;
+		height: 550pxpx;
+  }
+	#accordion-training *div {
+		overflow: scroll;
+		height: 500px;
+	}
+
+</style>
 <script>
-  $(function() {
-    $( "#accordion-training" ).accordion({
-      heightStyle: "fill"
-    });
-  });
-  $(function() {
-    $( "#accordion-training" ).resizable({
-      minHeight: 300,
-      minWidth: 600,
-      resize: function() {
-        $( "#accordion-training" ).accordion( "refresh" );
-      }
-    });
-  });
+	$(function() {
+		$( "#accordion-training" ).accordion({
+			heightStyle: "fill"
+		});
+	});
+	$(function() {
+		$( "#accordion-container" ).resizable({
+			minHeight: 500,
+			minWidth: 500,
+			resize: function() {
+				$( "#accordion" ).accordion( "refresh" );
+			}
+		});
+	});
 </script>
+
+<div id="accordion-container" class="ui-widget-content">
 <div id="accordion-training">
 	<h3>Overview</h3>
 	<div>
 		<p>The MQM Scorecard is an easy-to-use system for analyzing translated documents using the Multidimensional Quality Metrics (MQM) framework. Scorecard projects require two files: the text to be assessed and an XML metrics specification file. They may also optionally include an XML projects specifications file.</p>
 		<p>The Scorecard allows you to go through translated files segment by segment and apply issues to them. Issues are used to mark problems in the text that need to be resolved. (We use the term <em>issue</em> instead of <em>error</em> since issues may include items that are not errors that need to be changed.)</p>
-		<h3>Creating projects</h3>
+	</div>
+	<h3>Creating projects</h3>
+	<div>
 		<p>Projects can be created by users with appropriate administrative-level access by clicking on “Create project” at the top of the Scorecard interface. To create a project you will need, at a minimum, a tab-delimited translation file and an XML issues file.</p>
 		<h4>Translation files</h4>
 		<p>Simple translation files consist of a set of lines consisting of a source text segment followed by a tab character followed by a target text segment. These files must be UTF-8 encoded and can contain text in any language supported by your web browser.</p>
@@ -34,7 +49,7 @@ Das war lecker.	It was delicious.</pre>
 {{device}} would like to pair with this phone. To accept, enter the PIN on the device.	{{dispositivo}} quiere vincularse con este dispositivo. Para aceptar, escriba el PIN en el dispositivo.	passive-pair-pincode
 Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pre>
 		<p>In this example an internal message label is presented in the third column and is shown to the user. Metadata columns can contain any information you wish to provide to the user.</p>
-
+	</div>
 
 		<h4>Metrics files</h4>
 		<p>Metrics files define the issues that you can assign in your project. They should be selected to match your project specifications. (For example, if you are assessing an advertising text, you might add <em>Style</em> as an issue, while if you are assessing a service text, you might not.) Guidance on designing metrics is beyond the scope of this help file, but the <a href="http://tranquality.info" target="_blank">Tranquality</a> site has guidance on designing metrics.</p>
@@ -377,4 +392,5 @@ Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pr
 		</ul>
 		<p>If you need more detail on the issues found, the <strong>Reports</strong> tab provides an overview report of the types of issues found in both source and target and their severity. It does not provide a score because the scores are always available at the top of the editor, but is useful for cases where you want to understand what kinds of problems occurred in a translation.</p>
 	</div>
+</div>
 </div>
