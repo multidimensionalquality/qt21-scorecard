@@ -62,6 +62,23 @@ Register user via normal scorecard registration form. Then run the following com
 php app/console scorecard:promote-superuser <<username>>
 ```
 
+### 5. Publishing Changes
+
+To publish changes you have made you should type the following:
+
+```
+php app/console assets:install --symlink
+```
+Note, that --symlink is optional and may not work on systems which do not support symlinks.
+
+```
+php app/console assetic:dump
+```
+```
+php app/console clear:cache
+```
+
+Your changes should be visible after these commands.
 
 ## License
 
