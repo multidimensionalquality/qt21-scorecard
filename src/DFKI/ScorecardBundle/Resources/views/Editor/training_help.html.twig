@@ -336,12 +336,12 @@ Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pr
 		<h5>Quick filters</h5>
 		<p>A <em>quick filter</em> is performed when you enter text in the Filter pane. Quick filters search only the source and target text:</p>
 		<div style="text-align:center;padding:12px 0px 12px 0px;">
-			{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="1172" width="557" alt="[Quick filter results]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}
+			{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="1172" width="557" alt="[Quick filter results]" src="{{ asset_url }}" style="width:50%;height:50%;border:1px solid black;text-align:center;" /> {% endimage %}
 		</div>
 		<h5>Advanced filters</h5>
 		<p>An advanced filter lets you filter segments by issue type and combine text searches with search by issue type. Advanced filters are useful when you want to see all segments containing a particular issue type (e.g., if you want to see all Terminology issues). To set an advanced filter, click on “Advanced” in the Filter pane. You will be presented with a dialog similar to the following:</p>
 		<div style="text-align:center;padding:12px 0px 12px 0px;">
-			{% image '@DFKIScorecardBundle/Resources/public/images/advanced-filter.png' %} <img width="574" width="295" alt="[Advanced filter dialog]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}
+			{% image '@DFKIScorecardBundle/Resources/public/images/advanced-filter.png' %} <img width="574" width="295" alt="[Advanced filter dialog]" src="{{ asset_url }}" style="border:1px solid black;text-align:center;" /> {% endimage %}
 		</div>
 		<p>In this view selecting a combination of issues and/or text will show only segments containing ALL issues and text selected. Selecting “Clear filter” in the dialog will cancel the filter. Clicking “Close” will leave the current filter active. Clicking “Clear filter” above the editor will cancel any current advanced filter.</p>
 	</div>
