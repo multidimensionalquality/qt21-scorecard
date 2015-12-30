@@ -1,9 +1,19 @@
 <h2>Training and help</h2>
 <script>
-	$(function() {
-		$( "#accordion-training" ).accordion({
-      heightStyle: "content"
+  $(function() {
+    $( "#accordion-training" ).accordion({
+      heightStyle: "fill"
     });
+  });
+  $(function() {
+    $( "#accordion-training" ).resizable({
+      minHeight: 300,
+      minWidth: 600,
+      resize: function() {
+        $( "#accordion-training" ).accordion( "refresh" );
+      }
+    });
+  });
 </script>
 <div id="accordion-training">
 	<h3>Overview</h3>
