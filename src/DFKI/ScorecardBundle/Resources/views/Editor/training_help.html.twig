@@ -305,11 +305,17 @@ Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pr
 	<h3>Using the Scorecard Interface</h3>
 	<div>
 		<p>The heart of the Scorecard is the editor (under the “Scorecard” tab). In the editor you can scroll to any segment (or use the up and down arrows on either side of the text viewer to move to a new active segment). The Scorecard remembers the last segment edited (by any user) and will automatically open at that point. You can jump to any segment number using the Navigation pane. The current segment has a red border and the segment number is highlighted. Only the active segment can be edited in any fashion. You add issues by clicking on one of the issue buttons below the translation viewer. When you move your mouse over a button you will see an image like the following:</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/selecting-issue-severity.png' %} <img width="537" height="183" alt="[Selecting an issue severity]" src="{{ asset_url }}" /> {% endimage %}
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/selecting-issue-severity.png' %} <img width="537" height="183" alt="[Selecting an issue severity]" src="{{ asset_url }}" style="border:1px solid black;" /> {% endimage %}
+		</div>
 		<p>The colored buttons on the left side are used to mark issues in the source segment. Those on the right mark issues in the target segment. The yellow buttons add minor issues, the orange add major issues, and the red add critical issues. Hovering over any button will bring up a hover help that explains its action. In addition, hovering over the center of any issue button will bring up its MQM definition, as shown below:</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/selecting-issue-severity.png' %} <img width="456" height="464" alt="[Hover MQM definition for Omission]" src="{{ asset_url }}" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/selecting-issue-severity.png' %} <img width="456" height="464" alt="[Hover MQM definition for Omission]" src="{{ asset_url }}" style="border:1px solid black;text-align:center;" /> {% endimage %}
+		</div>
 		<p>Each time you select an issue it will be added to the current segment as a “lozenge”-style button:</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="873" width="185" alt="[Editor showing issues]" src="{{ asset_url }}" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="873" width="185" alt="[Editor showing issues]" src="{{ asset_url }}" style="border:1px solid black;text-align:center;" /> {% endimage %}
+		</div>
 		<p>To remove an issue, click on the red “[x]” in the upper right corner.</p>
 
 		<h4>Adding notes</h4>
@@ -317,18 +323,26 @@ Remove {{name}} from system?	¿Eliminar {{John}} del sistema?	remove-message</pr
 
 		<h4>Highlighting text</h4>
 		<p>The highlighter feature allows you to mark text in the current segment (source or target). When used in combination with the Notes feature, it enables you to pinpoint the location of particular problems or draw attention to specific text. To enable highlighting for a segment, click on the highligher icon. When it is active, it will be yellow.</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/enable-highlights.png' %} <img width="438" height="93" alt="[Enable highlights]" src="{{ asset_url }}" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/enable-highlights.png' %} <img width="438" height="93" alt="[Enable highlights]" src="{{ asset_url }}" style="border:1px solid black;text-align:center;" /> {% endimage %}
+		</div>
 		<p>When the highlighter is active, any text you select in the source or target segment will be “painted” yellow. To remove highlights from a segment, click on the cancel highlighter icon. Note that the cancel highlighter icon is active only on the side (source or target) on which it is clicked. As a result you can clear highlighting on each side separately without impacting the other side.
-		{% image '@DFKIScorecardBundle/Resources/public/images/clear-highlights.png' %} <img width="664" height="288" alt="[Clear highlights]" src="{{ asset_url }}" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/clear-highlights.png' %} <img width="664" height="288" alt="[Clear highlights]" src="{{ asset_url }}" style="border:1px solid black;text-align:center;" /> {% endimage %}
+		</div>
 
 		<h4>Filtering</h4>
 		<p>The Scorecard allows you to search for text or issues using the Filter feature. When a filter is active the number of segments shown will be displayed above the editor. To clear the current filter, click on “Clear filter”.</p>
 		<h5>Quick filters</h5>
 		<p>A <em>quick filter</em> is performed when you enter text in the Filter pane. Quick filters search only the source and target text:</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="1172" width="557" alt="[Quick filter results]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/editor-with-issues.png' %} <img width="1172" width="557" alt="[Quick filter results]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}
+		</div>
 		<h5>Advanced filters</h5>
 		<p>An advanced filter lets you filter segments by issue type and combine text searches with search by issue type. Advanced filters are useful when you want to see all segments containing a particular issue type (e.g., if you want to see all Terminology issues). To set an advanced filter, click on “Advanced” in the Filter pane. You will be presented with a dialog similar to the following:</p>
-		{% image '@DFKIScorecardBundle/Resources/public/images/advanced-filter.png' %} <img width="574" width="295" alt="[Advanced filter dialog]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}.
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/advanced-filter.png' %} <img width="574" width="295" alt="[Advanced filter dialog]" src="{{ asset_url }}" style="width:50%;height:50%" /> {% endimage %}
+		</div>
 		<p>In this view selecting a combination of issues and/or text will show only segments containing ALL issues and text selected. Selecting “Clear filter” in the dialog will cancel the filter. Clicking “Close” will leave the current filter active. Clicking “Clear filter” above the editor will cancel any current advanced filter.</p>
 	</div>
 
