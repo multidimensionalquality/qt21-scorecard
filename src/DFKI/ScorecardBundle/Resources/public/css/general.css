@@ -9,6 +9,7 @@ body {
 #outer {
 	background-color: white;
 	min-height: 700px;
+	min-width: 1180px;
 	padding: 8px;
 }
 

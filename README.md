@@ -25,6 +25,17 @@ git clone https://github.com/multidimensionalquality/qt21-scorecard.git
 The QT21 Scorecard was created using the Symfony Framework. To deploy it on a webserver you must follow the [official documentation of Symfony 2](http://symfony.com/doc/current/cookbook/deployment/tools.html
 ).
 
+If you want to use Composer to install Symfony, you may do the following (in  qt21-scorecard/):
+
+```
+curl -sS https://getcomposer.org/installer | php -- --filename=composer
+composer install
+```
+
+Note that php 5.4 or above is required. In a shared-host environment, this may require explicitly using the path to php 5.4 on your server.
+
+Also, you must enable the PHP module pdo_mysql.  In some shared-host environments you may need to enable it in your site-specific php.ini and copy the php.ini file into the qt21-scorecard/ and qt21-scorecard/web directories.
+
 ### 3. Create database and add database settings
 
 We assume you have already created a MySQL database. Create a new parameters file for your application:
@@ -51,6 +62,23 @@ Register user via normal scorecard registration form. Then run the following com
 php app/console scorecard:promote-superuser <<username>>
 ```
 
+### 5. Publishing Changes
+
+To publish changes you have made you should type the following:
+
+```
+php app/console assets:install --symlink
+```
+Note, that --symlink is optional and may not work on systems which do not support symlinks.
+
+```
+php app/console assetic:dump
+```
+```
+php app/console clear:cache
+```
+
+Your changes should be visible after these commands.
 
 ## License
 

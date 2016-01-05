@@ -1,6 +1,7 @@
 table.viewer {
 	display: inline-block;
 	border-collapse: collapse;
+	background-color: #f2f5f7;
 }
 
 table.viewer th, table.viewer td {
@@ -408,6 +409,7 @@ table.nav a.clear-highlight-source, table.nav a.clear-highlight-target {
 	width:200px;
 	border:1px solid black;
 	margin-top:16px;
+	background-color: #f2f5f7;
 }
 
 #filter_text{
