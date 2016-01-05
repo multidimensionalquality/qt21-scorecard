@@ -67,3 +67,10 @@ sc_profile:
 sc_delete_user:
     pattern: superadmin/delete_user/{userid}
     defaults: { _controller: DFKIScorecardBundle:Superadmin:deleteUser}
+
+sc_about:
+    pattern: /about
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    'DFKIScorecardBundle:Default:about.html.twig'
+    
