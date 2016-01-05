@@ -15,9 +15,9 @@ $(document).ready(function(){
 	
 	// add issue reports
 	{% for report in issueReports %}
-	sc.issueReports.addIssueReport( "{{ report.segment.id }}", "{{ report.side }}", "{{ report.issue.name|escape("js") }}", "{{ report.severity }}", "{{ report.id}}", "{{ report.issue.id }}" );
+	sc.issueReports.addIssueReportWithoutShow( "{{ report.segment.id }}", "{{ report.side }}", "{{ report.issue.name|escape("js") }}", "{{ report.severity }}", "{{ report.id}}", "{{ report.issue.id }}" );
 	{% endfor %}
-
+	sc.issueReports.show();
 	report.importIssues(sc.issueReports.reports);
 	report.show();
 

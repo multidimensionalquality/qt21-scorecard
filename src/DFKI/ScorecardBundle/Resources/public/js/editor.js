@@ -34,6 +34,11 @@ var sc = {
 		pendingCriticalIssue: null,
 
 		addIssueReport: function(segment, target, name, severity, issueReportId, issueId){
+			this.addIssueReportStep1(segment, target, name, severity, issueReportId, issueId);
+			this.show();
+		},
+		
+		addIssueReportWithoutShow: function(segment, target, name, severity, issueReportId, issueId){
 			this.reports.push({
 				"segment": segment,
 				"target": target,
@@ -47,7 +52,6 @@ var sc = {
 				this.issuesPerSegment[segment] = {};
 			}
 			this.issuesPerSegment[segment][issueId] = true;
-			this.show();
 		},
 		
 		issuesPerSegment: {},
