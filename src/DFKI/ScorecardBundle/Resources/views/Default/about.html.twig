@@ -1,11 +1,21 @@
 {% extends 'DFKIScorecardBundle::base.html.twig' %}
 
 {% block title%}
-About
+Contributors
 {% endblock %}
 
 {% block body %}
-<h1>About</h1>
-
-This is the about page.
+<h1>Contributors</h1>
+<p>The MQM Scorecard has been developed in a collaboration between the German Research Center for Artificial Intelligence (DFKI) GMbH, the Brigham Young University Translation Research Group (BYU TRG), and LTAC Global.</p>
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/contributor-logos.png' %} <img height="164" width="793" alt="[DFKI, BYU TRG, and LTAC logos]" src="{{ asset_url }}" style="border:text-align:center;" /> {% endimage %}
+		</div>
+<p>For purposes of copyright, DFKI GMbH is the owner of this work. The Scorecard is published under the <a href="https://github.com/multidimensionalquality/qt21-scorecard/blob/master/LICENSE.txt" target="_blank">Apache 2.0 License</a> on <a href="https://github.com/multidimensionalquality/qt21-scorecard/" target="_blank">GitHub</a>.
+<h2>Supporters</h2>
+<p>Special thanks to the Caribbean Regional Information and Translation Institute (CRITI) which has generously supported development of the MQM scorecard through financing from the European Union.</p>
+		<div style="text-align:center;padding:12px 0px 12px 0px;">
+			{% image '@DFKIScorecardBundle/Resources/public/images/criti-logo.png' %} <img height="131" width="400" alt="[CRITI logo]" src="{{ asset_url }}" style="text-align:center;" /> {% endimage %}
+		</div>
+<h3>Contact</h3>
+<p>Bugs and feature requests should be made via the MQM Scorecard project’s <a href="https://github.com/multidimensionalquality/qt21-scorecard/issues" target="_blank">bug tracker</a>. General inquiries can be sent to <a href="mailto:info@tranquality.info">info@tranquality.info</a>.</p>
 {% endblock %}
