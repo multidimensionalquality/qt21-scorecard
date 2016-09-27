@@ -34,7 +34,7 @@ var sc = {
 		pendingCriticalIssue: null,
 
 		addIssueReport: function(segment, target, name, severity, issueReportId, issueId){
-			this.addIssueReportStep1(segment, target, name, severity, issueReportId, issueId);
+			this.addIssueReportWithoutShow(segment, target, name, severity, issueReportId, issueId);
 			this.show();
 		},
 		
