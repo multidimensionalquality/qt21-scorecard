@@ -1,4 +1,6 @@
-<h2>Training and help</h2>
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Training and help{% endblock %} {% block body %}
+
 <style>
 	#accordion-training *div {
 		overflow: scroll;
@@ -378,3 +380,4 @@ Remove {{'{{'}}name{{'}}'}} from system?        ¿Eliminar {{'{{'}}John{{'}}'}} 
 		<p>If you need more detail on the issues found, the <strong>Reports</strong> tab provides an overview report of the types of issues found in both source and target and their severity. It does not provide a score because the scores are always available at the top of the editor, but is useful for cases where you want to understand what kinds of problems occurred in a translation.</p>
 	</div>
 </div>
+{% endblock %}

@@ -2,6 +2,10 @@ sc_start:
     path:     /
     defaults: { _controller: DFKIScorecardBundle:User:index }
 
+sc_training:
+    path:     /help
+    defaults: { _controller: DFKIScorecardBundle:Training:training }
+
 sc_list_projects:
     path:     /list
     defaults: { _controller: DFKIScorecardBundle:User:listProjects }
