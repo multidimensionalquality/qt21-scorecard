@@ -13,6 +13,7 @@ var sc = {
 
 	api: "",
 	projectId: -1,
+        projectName: '',
 	initSegment: -1,
 	
 	init: function(){
@@ -26,6 +27,49 @@ var sc = {
 		this.scores.init();
 		this.filter.init();
 	},
+
+        export: {
+                download: function(type, text) {
+                        var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
+                    
+                        var element = document.createElement('a');
+                        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                        element.setAttribute('download', filename);
+
+                        element.style.display = 'none';
+                        document.body.appendChild(element);
+
+                        element.click();
+
+                        document.body.removeChild(element);
+                },
+
+                all: function() {
+                        
+                        var scorecardReport = {
+                            'issues': sc.issueReports.reports,
+                            'notes': sc.notes.get(),
+                            'highlights': sc.highlight.getHighlights()
+                        };
+                        
+                        sc.export.download('all', JSON.stringify(scorecardReport));
+                },
+                
+                issues: function() {
+                        sc.export.download("issues", JSON.stringify(sc.issueReports.reports));
+                },
+                
+                notes: function() {
+                        var notes = sc.notes.get();
+                        sc.export.download("notes", JSON.stringify(notes));
+                },
+                
+                highlights: function() {
+                        var highlighted = sc.highlight.getHighlights();
+                        sc.export.download("highlights", JSON.stringify(highlighted));
+                }
+                
+        },
 
 	issueReports:{
 	
@@ -307,7 +351,24 @@ var sc = {
 					"notes": notes,
 				}
 			);
-		}
+		},
+                get: function(segmentId = null) {
+                        if (segmentId) {
+                            return $('#scorecard .segment-text[segment-id="'+ segmentId +'"]').attr('notes');
+                        }
+
+                        let notes = []
+
+                        $('#scorecard .segment-text').each(function(index, value) {
+                            let segmentNotes = $(value).attr('notes');
+
+                            if (segmentNotes.length > 0) {
+                                notes.push({'segment-id': $(value).attr('segment-id'), notes: segmentNotes});
+                            }
+                        }.bind(notes));
+                        
+                        return notes;
+                }
 	},
 	
 	highlight: {
@@ -374,6 +435,44 @@ var sc = {
 			);
 		},
 		
+                getHighlights: function(segmentId = null) {
+                    if (segmentId) {
+                        let highlighted = {
+                            source: [],
+                            target: []
+                        }
+                        
+                        $('#scorecard .segment-text[segment-id="' + segmentId + '"] .source .highlighted').each(function(index, value){
+                            highlighted.source.push($(value).text());
+                        }.bind(highlighted));
+                        
+                        $('#scorecard .segment-text[segment-id="' + segmentId + '"] .target .highlighted').each(function(index, value){
+                            highlighted.target.push($(value).text());
+                        }.bind(highlighted));
+                        
+                        return highlighted;
+                    }
+                    
+                    let highlighted = [];
+                    
+                    $('#scorecard .segment-text').each(function(index, value) {
+                        var highlightedChildren = $(value).find('.highlighted');
+                        
+                        if (highlightedChildren.length < 1) return;
+                        
+                        var segmentId = $(value).attr('segment-id');
+
+                        var highlightGroup = {
+                            'segment-id': segmentId,
+                            'highlights': sc.highlight.getHighlights(segmentId)
+                        }
+
+                        highlighted.push(highlightGroup);                        
+                    }.bind(highlighted));
+                    
+                    return highlighted;
+                },
+                
 		setHighlights: function(segmentid,str, side){
 			this.highlighters[segmentid + "-" + side].deserializeHighlights(str);
 		}

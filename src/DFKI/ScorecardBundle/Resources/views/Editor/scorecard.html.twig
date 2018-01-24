@@ -2,6 +2,7 @@
 $(document).ready(function(){
 	sc.api = '{{ path("sc_start") }}api/';
 	sc.projectId = {{ project.id }};
+        sc.projectName = '{{ project.name|raw }}';
 	
 	sc.init();
 	
