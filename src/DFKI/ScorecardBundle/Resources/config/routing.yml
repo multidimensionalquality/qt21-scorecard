@@ -77,4 +77,3 @@ sc_about:
     defaults:
         _controller: FrameworkBundle:Template:template
         template:    'DFKIScorecardBundle:Default:about.html.twig'
-    
