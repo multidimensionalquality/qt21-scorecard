@@ -80,7 +80,7 @@ $(document).ready(function(){
 						project.segments[i] %} {% set nRows = 3 %} {% if
 						segment.metadata|length== 0 %} {% set nRows = 2 %} {% endif %}
 	
-						<tr segment-id="{{ segment.id }}" class="segment-text"
+						<tr segment-id="{{ segment.id }}" segment-num="{{ i+1 }}" class="segment-text"
 							notes="{{ segment.notes|escape("html") }}">
 							<td width="36" rowspan="{{ nRows }}" class="yellow">{{ i+1 }}</td>
 							<td width="400" class="source"><div style="width:400px; word-wrap:break-word">{{ segment.source|raw }}</div></td>

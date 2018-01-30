@@ -27,7 +27,19 @@ var sc = {
 		this.scores.init();
 		this.filter.init();
 	},
-
+        
+        segmentIdNumLink: {
+            key: function() {
+                var key = {};
+                
+                $('#scorecard .segment-text').each(function(index, value) {
+                        key[$(value).attr('segment-id')] = $(value).attr('segment-num');
+                    }.bind(key));
+                    
+                return key;
+            }
+        },
+        
         export: {
                 download: function(type, text) {
                         var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
@@ -47,9 +59,12 @@ var sc = {
                 all: function() {
                         
                         var scorecardReport = {
+                            'key': sc.segmentIdNumLink.key(),
                             'issues': sc.issueReports.reports,
                             'notes': sc.notes.get(),
-                            'highlights': sc.highlight.getHighlights()
+                            'highlights': sc.highlight.getHighlights(),
+                            'issueReport': sc.issueReports.getReport(),
+                            'scores': sc.scores.getScores()
                         };
                         
                         sc.export.download('all', JSON.stringify(scorecardReport));
@@ -100,6 +115,19 @@ var sc = {
 		
 		issuesPerSegment: {},
 
+                getAllIssues: function(){
+                    var issues = [];
+                    $('.metric .label').each(function(index, value){
+                        issues.push($(value).text());
+                    }.bind(issues))
+                    
+                    return issues;
+                },
+                
+                getReport: function() {
+                    return $('#report').prop('outerHTML');
+                },
+                
 		remove: function(index){
 			var issue = this.reports[index];
 			delete this.issuesPerSegment[issue.segment][issue.issueId];
@@ -495,7 +523,15 @@ var sc = {
 					$('#targetScore').html(sc.scores.formatScore(response.targetScore));
 					$('#compositeScore').html(sc.scores.formatScore(response.compositeScore));
 				});
-		}
+		},
+                
+                getScores: function() {
+                    return {
+                        'sourceScore': $('#sourceScore').html(),
+                        'targetScore': $('#targetScore').html(),
+                        'compositeScore': $('#compositeScore').html()
+                    }
+                }
 	},
 	
 
