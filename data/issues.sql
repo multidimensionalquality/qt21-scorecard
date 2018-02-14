@@ -1,5 +1,5 @@
 SET foreign_key_checks = 0;
-USE `gevtermn_scorecard`;
+USE `scorecard`;
 
 DELETE FROM `Issue` WHERE `imported` = 0;
 

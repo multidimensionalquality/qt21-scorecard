@@ -1,5 +1,7 @@
 <script type="text/javascript">
 
+
+
 report = {
 
 	issues: {},
@@ -133,18 +135,21 @@ report = {
 		}
 
 		this.show();
-	}
+	},
+        
+        generate: function(useRevised = false) {
+            $('#report_data_container').val(JSON.stringify(sc.export.getDataWithSegments(useRevised)));
+        },
+        
+        export: function(withSegments = true) {
+            sc.export.all(withSegments)
+        }
 }
 </script>
 
 <h2>Report on Annotation Results</h2>
 
-<div style="float: right; margin-top: -45px;">
-    <button onclick="sc.export.all()">download JSON export</button>
-    <a href="/web/ReportGenerator/index.html" target="_blank"><button>Open Report Creator</button></a>
-</div>
-
-<table id="report">
+<table style="display: inline-block;" id="report">
 	<tr>
 		<th rowspan="2">Issue</th>
 		<th colspan="4">Source</th>
@@ -206,3 +211,12 @@ report = {
 		<td id="total"></td>
 	</tr>
 </table>
+        
+<div style="display: inline-block; vertical-align: top;">
+    <form action="{{ path('sc_generate_report') }}" method="post" target="_blank">
+        <input id="report_data_container" type="text" name="data" hidden />
+        <input style="margin: 10px; height: 45px; width: 300px; font-family: Roboto, sans-serif;" type="submit" value="Generate Report" onclick="report.generate()"/>
+    </form>
+        <button style="margin: 10px; height: 45px; width: 300px; font-family: Roboto, sans-serif;" onclick="report.export()">Export Scorecard data (JSON)</button>
+        {#<button style="margin: 10px; height: 45px; width: 300px; display: block;" onclick="report.export(false)">Export Scorecard data, no segments</button>#}
+</div>

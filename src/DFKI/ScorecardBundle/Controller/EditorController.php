@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ class EditorController extends Controller {
 		$issueGrid = $editorService->createIssueGrid($issueDefinitions);
 		
 		$issueReports = $editorService->getIssueReports ( $project );
-		
+                
 		return $this->render ( 'DFKIScorecardBundle:Editor:editor.html.twig', array (
 				"project" => $project,
 				"issuesGrid" => $issueGrid,
@@ -92,4 +92,27 @@ class EditorController extends Controller {
 				"projectId" => $project->getId () 
 		) ), 301 );
 	}
+        
+        /**
+         * generate a report
+         * 
+         * @param string $reportData
+         */
+        public function reportAction(Request $req) {
+            
+                $fileLocator = $this->get('file_locator');
+                $path = $fileLocator->locate('@DFKIScorecardBundle/Resources/public/react_apps/ReportGenerator/asset-manifest.json');  
+                $json = file_get_contents($path);
+                $manifest = json_decode($json, true);
+                
+                $paths = array(
+                    "main_js" => $manifest['main.js'],
+                    "main_css" => $manifest['main.css']
+                );
+            
+                return $this->render ( 'DFKIScorecardBundle:Editor:generate_report.html.twig', array(
+                                "data" => $req->request->get('data'),
+                                "asset_map" => $paths
+                ));
+        }
 }

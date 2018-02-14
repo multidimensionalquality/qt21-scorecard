@@ -17,7 +17,11 @@ sc_editor:
 sc_mark_as_finished:
     pattern:  /editor/mark_as_finished/{projectId}
     defaults: { _controller: DFKIScorecardBundle:Editor:markAsFinished }
-    
+
+sc_generate_report:
+    pattern:  /report
+    defaults: { _controller: DFKIScorecardBundle:Editor:report }    
+
 sc_admin_dashboard:
     pattern: /admin/dashboard       
     defaults:

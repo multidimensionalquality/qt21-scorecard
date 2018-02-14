@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="{{ asset('bundles/dfkiscorecard/react_apps/ReportGenerator/manifest.json') }}">
+  <link rel="shortcut icon" href="{{ asset('bundles/dfkiscorecard/react_apps/ReportGenerator/favicon.ico') }}">
+  <title>MQM Scorecard Report Generator</title>
+  <link href="{{ asset('bundles/dfkiscorecard/react_apps/ReportGenerator/' ~ asset_map.main_css) }}" rel="stylesheet">
+</head>
+
+<body><noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script type="text/javascript">
+      function setReportData() { 
+          var report_data_shell = [{{ data | raw }}];
+          return (report_data_shell.length > 0) ? report_data_shell[0] : null 
+      };
+      
+      window.report_data = setReportData()
+      console.log(window.report_data)
+  </script>
+  <script type="text/javascript" src="{{ asset('bundles/dfkiscorecard/react_apps/ReportGenerator/' ~ asset_map.main_js) }}"></script>
+</body>
+
+</html>

@@ -17,7 +17,6 @@ var sc = {
 	initSegment: -1,
 	
 	init: function(){
-
 		this.selector.init();
 		this.buttons.init();
 		this.issueReports.init();
@@ -41,6 +40,27 @@ var sc = {
         },
         
         export: {
+                getDataWithSegments: function(useRevised = false) {
+                    var scorecardReport = sc.export.getData(useRevised);
+                    scorecardReport['segments'] = sc.segments.get();
+                    return scorecardReport;
+                },
+            
+                getData: function(useRevised = false) {
+                    var scorecardReport = {
+                            'projectName': sc.projectName + "_" + sc.projectId,
+                            'key': sc.segmentIdNumLink.key(),
+                            'issues': sc.issueReports.reports,
+                            'notes': sc.notes.get(),
+                            'highlights': sc.highlight.getHighlights(),
+                            'issueReport': sc.issueReports.getReport(),
+                            'scores': sc.scores.getScores(),
+                            'useRevised': useRevised
+                        };
+                        
+                    return scorecardReport;
+                },
+            
                 download: function(type, text) {
                         var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
                     
@@ -56,17 +76,8 @@ var sc = {
                         document.body.removeChild(element);
                 },
 
-                all: function() {
-                        
-                        var scorecardReport = {
-                            'key': sc.segmentIdNumLink.key(),
-                            'issues': sc.issueReports.reports,
-                            'notes': sc.notes.get(),
-                            'highlights': sc.highlight.getHighlights(),
-                            'issueReport': sc.issueReports.getReport(),
-                            'scores': sc.scores.getScores()
-                        };
-                        
+                all: function(withSegments = true, useRevised = false) {
+                        var scorecardReport = (withSegments) ? sc.export.getDataWithSegments(useRevised) : sc.export.getData(useRevised);
                         sc.export.download('all', JSON.stringify(scorecardReport));
                 },
                 
@@ -86,6 +97,25 @@ var sc = {
                 
         },
 
+        segments: {
+                get: function() {
+                    var data = {
+                        source: [],
+                        target: []
+                    }
+                    
+                    $('tr.segment-text .source').each(function(index, val){
+                        data.source.push($(val).text());
+                    }.bind(data));
+                    
+                    $('tr.segment-text .target').each(function(index, val){
+                        data.target.push($(val).text());
+                    }.bind(data));
+                    
+                    return data;
+                }
+        },
+        
 	issueReports:{
 	
 		reports: [],
