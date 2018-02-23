@@ -51,8 +51,8 @@ $(document).ready(function(){
 	<tr  {% if loop.index is odd %} class="color"  {% endif %}>
 		<td>{{ project.id }}</td>
 		<td id="project-name-{{ project.id }}">{{ project.name }}</td>
-		<td>{% if project.finished %} finished {% else %} not finished - {{
-			(project.completion*100)|round(2) }}% complete{% endif %}</td>
+		<td>{% if project.finished %} finished {% else %} not finished - current segment: {{
+			project.lastTouchedSegment.segNum }}{% endif %}</td>
 		<td>{% if actions.open %} <a
 			href="{{ path( "sc_editor", {'projectId': project.id})  }}">open</a>
 			{% endif %} {% if actions.edit %} <a
