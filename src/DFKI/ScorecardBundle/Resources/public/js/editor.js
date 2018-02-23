@@ -27,6 +27,39 @@ var sc = {
 		this.filter.init();
 	},
         
+        alert: {
+            css: `
+                display: block;
+                position: absolute;
+                width: 400px;
+                min-height: 100px;
+                padding: 10px;
+                border: 2px solid red;
+                background-color: #DCECF6;
+                left: 40%;
+                top: 40%;
+                z-index: 1;
+            `,
+            onOk: function(){console.log("Ok")},
+            onCancel: function(){console.log("Cancel")},
+            show: function(message, onOk = sc.alert.onOk, onCancel = sc.alert.onCancel, ok = 'OK', cancel = 'Cancel'){
+                sc.alert.onOk = onOk;
+                sc.alert.onCancel = onCancel;
+                $('#alertBox').attr('style', sc.alert.css);
+                $('#alertBox').html($(
+                        '<div style="width: 100%; min-height: 150px; text-align: center;">'+message+'</div>'+
+                        '<div style="width: 100%; height: 100px;">'+
+                            '<button onclick="javascript:sc.alert.onOk(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; right: 30px; ">'+ok+'</button>'+
+                            '<button onclick="javascript:sc.alert.onCancel(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; left: 30px;">'+cancel+'</button>'+
+                        '</div>'
+                        ));
+            },
+            hide: function(){
+                $('#alertBox').attr('style', '');
+                $('#alertBox').html('');
+            }
+        },
+        
         segmentIdNumLink: {
             key: function() {
                 var key = {};
@@ -226,12 +259,30 @@ var sc = {
 		init: function(){
 			var that = this;
 			$('#scorecard .td-segtable tr').dblclick(function(){
-				that.selection = $(this).attr('segment-id');
-				that.selectSegment(that.selection);
+				var selection = $(this).attr('segment-id');
+				that.selectSegment(selection, true);
 			});
 		},
-
-		selectSegment: function(segmentId){
+		selectSegment: function(segmentId, checkNotes = false){
+                        if (checkNotes) {
+                            if (sc.notes.checkChanged()) {
+                                sc.alert.show(
+                                        "You have unsaved notes for the current segment.  Would you like to save or discard them?",
+                                        function(){
+                                            sc.notes.save();
+                                            sc.selector.selectSegment(segmentId);
+                                        },
+                                        function(){
+                                            sc.selector.selectSegment(segmentId);
+                                        },
+                                        "Save",
+                                        "Discard"
+                                );
+                        
+                                return;
+                            }
+                        }
+                    
 			sc.selector.selection = segmentId;
 			$('#scorecard tr').removeClass('selection-top');
 			$('#scorecard tr').removeClass('selection-bottom');
@@ -350,7 +401,7 @@ var sc = {
 			$('#go-to-seg').click(function(){
 				var index = $('#go-to-seg-input').val()*2-1;
 				var segmentid =  $($('#scorecard tr[segment-id]')[index]).attr("segment-id");
-				sc.selector.selectSegment(segmentid);
+				sc.selector.selectSegment(segmentid, true);
 			});
 		}
 	},
@@ -367,7 +418,7 @@ var sc = {
 				}
 				if( selection != null && pos>=0 && pos<ids.length-1){
 					var nextid = ids[pos+1];
-					sc.selector.selectSegment(nextid);
+					sc.selector.selectSegment(nextid, true);
 				}
 				return false;
 			});
@@ -380,7 +431,7 @@ var sc = {
 				}
 				if( selection != null && pos>=1){
 					var nextid = ids[pos-1];
-					sc.selector.selectSegment(nextid);
+					sc.selector.selectSegment(nextid, true);
 				}
 				return false;
 			});
@@ -397,6 +448,13 @@ var sc = {
 	},
 	
 	notes: {
+                checkChanged: function(){
+                    var segmentId = sc.selector.selection;
+                    var old_notes = $('tr[segment-id=' + segmentId + ']').first().attr('notes');
+                    var current_notes = $('#segment-notes').val();
+                    
+                    return (old_notes !== current_notes) ? true: false;
+                },
 		save: function(){
 			var segment = sc.selector.selection;
 			var notes = $('#segment-notes').val();
