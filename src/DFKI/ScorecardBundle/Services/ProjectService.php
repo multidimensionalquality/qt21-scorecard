@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fÃ¼r KÃ¼nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -265,8 +265,7 @@ class ProjectService {
 		$seg_number = 1;
 		
 		foreach ( $filecontent as $thisLine ) {
-			
-			if (strlen ( trim ( $thisLine [0] ) ) == 0) {
+			if (strlen($thisLine) == 0 || strlen ( trim ( $thisLine [0] ) ) == 0) {
 				continue;
 			}
 			
