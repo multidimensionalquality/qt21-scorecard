@@ -1,4 +1,5 @@
-{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+{% extends 'DFKIScorecardBundle::base.html.twig' %} 
+{% block title
 %}Edit project{% endblock %} {% block body %}
 <h1>Edit project</h1>
 
@@ -17,14 +18,26 @@
 		</tr>
 		<tr>
 			<td>Bi-text file (tab-delimited, UTF-8</td>
-			<td>{{ project.fileName }}<br /> <input name="file" id="file"
-				type="file">
+			<td>{{ project.fileName }}<br /> 
+                            
+                            <input name="file" id="file"
+				type="file" 
+                                {% if issueReports|length > 0 %}
+                                    disabled
+                                {% endif %}
+                                >
+                            
 			</td>
 		</tr>
 		<tr class="color">
 			<td>Metric file</td>
-			<td>{{ project.metricName }}<br /> <input name="metric" id="metric"
-				type="file">
+			<td>{{ project.metricName }}<br /> 
+                            <input name="metric" id="metric"
+				type="file"
+                                {% if issueReports|length > 0 %}
+                                    disabled
+                                {% endif %}
+                                >
 			</td>
 		</tr>
 		<tr>

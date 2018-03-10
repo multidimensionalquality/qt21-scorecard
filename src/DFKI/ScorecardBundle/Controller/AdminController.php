@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,6 +139,7 @@ class AdminController extends Controller {
 				$projectService->importMetricFile ( $project, $metric );
 			}
 			$issues = $request->files->get ( "file" );
+                        
 			if (! empty ( $issues )) {
 				$em->createQuery ( "DELETE DFKIScorecardBundle:Segment s 
 				WHERE s.project=:projectid" )->setParameter ( "projectid", $project->getId () )->getResult ();
@@ -180,9 +181,18 @@ class AdminController extends Controller {
 	 * @throws NotFoundHttpException
 	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function editProjectAction($projectId) {
+	public function editProjectAction(Request $req, $projectId) {
+                $session = $req->getSession ();
 		$em = $this->getDoctrine ()->getManager ();
 		$project = $em->getRepository ( "DFKIScorecardBundle:Project" )->findOneById ( $projectId );
+                $editorService = $this->get ( "editorService" );
+                $issueReports = $editorService->getIssueReports ( $project );
+                
+                if (count($issueReports) > 0 ) {
+                        $msg = "Note: Issues have been assigned to segments in this project. Changing the bi-text or metric files not be possible until all reported issues are removed.";
+                        $session->getFlashBag()->add ( 'notice', $msg );
+                }
+                
 		if (! is_object ( $project )) {
 			throw new NotFoundHttpException ( "Project not found" );
 		}
@@ -192,7 +202,8 @@ class AdminController extends Controller {
 		}
 		
 		return $this->render ( 'DFKIScorecardBundle:Admin:edit_project.html.twig', array (
-				"project" => $project 
+				"project" => $project,
+                                "issueReports" => $issueReports
 		) );
 	}
 	public function deleteProjectAction(Request $req, $projectId) {
