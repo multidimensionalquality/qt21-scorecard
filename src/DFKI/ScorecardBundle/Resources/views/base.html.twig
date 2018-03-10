@@ -76,7 +76,9 @@ javascripts
 			{% endfor %} {% for flashMessage in app.session.flashbag.get('error')
 			%}
 			<div class="flash-error">{{ flashMessage|raw }}</div>
-			{% endfor %} {% block body %}{% endblock %}
+			{% endfor %} 
+                        <span id="alertBox"></span>
+                        {% block body %}{% endblock %}
 
 		</div>
 		<div style="clear: both;"></div>
