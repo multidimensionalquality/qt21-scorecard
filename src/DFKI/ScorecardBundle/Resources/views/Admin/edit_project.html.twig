@@ -30,6 +30,12 @@
 			</td>
 		</tr>
 		<tr class="color">
+			<td>Specifications file (optional)</td>
+			<td>{{ project.specificationsFileName }}<br /> <input
+				name="specificationFile" id="specificationFile" type="file">
+			</td>
+		</tr>
+		<tr>
 			<td>Metric file</td>
 			<td>{{ project.metricName }}<br /> 
                             <input name="metric" id="metric"
@@ -38,12 +44,6 @@
                                     disabled
                                 {% endif %}
                                 >
-			</td>
-		</tr>
-		<tr>
-			<td>Specifications file</td>
-			<td>{{ project.specificationsFileName }}<br /> <input
-				name="specificationFile" id="specificationFile" type="file">
 			</td>
 		</tr>
 		<tr class="color">
