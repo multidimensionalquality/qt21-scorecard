@@ -7,12 +7,12 @@
 	<table class="sctable">
 		<tr class="color">
 			<td width="200">Project name</td>
-			<td><input type="text" name="project_name" />
+			<td><input type="text" name="project_name" required />
 		
 		</tr>
 		<tr>
 			<td>Bi-text file (tab-delimited, UTF-8</td>
-			<td><input name="file" id="file" type="file"></td>
+			<td><input name="file" id="file" type="file" required ></td>
 		</tr>
 		<tr class="color">
 			<td>Specifications file (optional)</td>
@@ -21,7 +21,7 @@
 		</tr>
                 <tr>
 			<td>Metrics file</td>
-			<td><input name="metric" id="metric" type="file"></td>
+			<td><input name="metric" id="metric" type="file" required></td>
 		</tr>
 		<tr class="color">
 			<td colspan="2"><input name="submit" value="Submit" type="submit"></td>
