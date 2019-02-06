@@ -5,7 +5,7 @@ $(document).ready(function(){
         sc.projectName = '{{ project.name|raw }}';
 	
 	sc.init();
-	
+	sc.segments.total = {{ project.segments|length }};
 	// select first segment
 	var selection = -1;
 	{% if project.lastTouchedSegment is not null %}
@@ -80,8 +80,8 @@ $(document).ready(function(){
 						project.segments[i] %} {% set nRows = 3 %} {% if
 						segment.metadata|length== 0 %} {% set nRows = 2 %} {% endif %}
 	
-						<tr segment-id="{{ segment.id }}" segment-num="{{ i+1 }}" class="segment-text"
-							notes="{{ segment.notes|escape("html") }}">
+						<tr id="{{ 'segment-' ~ segment.id }}" segment-id="{{ segment.id }}" segment-num="{{ i+1 }}" class="segment-text"
+							notes="{{ segment.notes|escape("html") }}" tabindex="0">
 							<td width="36" rowspan="{{ nRows }}" class="yellow">{{ i+1 }}</td>
 							<td width="400" class="source"><div style="width:400px; word-wrap:break-word">{{ segment.source|raw }}</div></td>
 							<td width="400" class="target"><div style="width:400px; word-wrap:break-word">{{ segment.target|raw }}</div></td>

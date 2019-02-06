@@ -131,6 +131,7 @@ var sc = {
         },
 
         segments: {
+                total: 0,
                 get: function() {
                     var data = {
                         source: [],
@@ -262,6 +263,20 @@ var sc = {
 				var selection = $(this).attr('segment-id');
 				that.selectSegment(selection, true);
 			});
+                        $('#scorecard').keydown(function(e){
+                            if (e.key === "Tab" && $('#segment-' + that.selection).is(":focus")) {
+                                
+                                let incrimentor = (e.shiftKey) ? -1 : 1;
+                                let segNum = parseInt($('#segment-' + that.selection).attr("segment-num"));
+
+                                if (segNum + incrimentor > 0 && segNum + incrimentor <= sc.segments.total) {
+                                    let nextSeg = parseInt(that.selection) + incrimentor;
+                                    that.selectSegment(nextSeg, true);
+                                } else {
+                                    e.preventDefault();
+                                }
+                            }
+                        })
 		},
 		selectSegment: function(segmentId, checkNotes = false){
                         if (checkNotes) {
@@ -282,8 +297,8 @@ var sc = {
                                 return;
                             }
                         }
-                    
 			sc.selector.selection = segmentId;
+                        
 			$('#scorecard tr').removeClass('selection-top');
 			$('#scorecard tr').removeClass('selection-bottom');
 			
