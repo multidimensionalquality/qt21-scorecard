@@ -12,30 +12,39 @@
 				maxWidth: 400,
 				minWidth: 400
 			});
+			$('#score-display-block').hide(); //hide on first load
+			$('#view-hide-scores-button').on('click', function(e) {
+				if ($(e.target).val() === "0") {
+					$('#score-display-block').show();
+					$(e.target).text("Hide Scores");
+					$(e.target).val(1);
+				} else {
+					$('#score-display-block').hide();
+					$(e.target).text("View Scores");
+					$(e.target).val(0);
+				}
+			});	
 		});
-                $('#view-hide-scores-button').on('click', function(e) {
-                    if ($(e).value()) {
-                        $('.score-display-item').foreach(item => $(item).show())
-                        $(e).text("View Scores");
-                    } else {
-                        $('.score-display-item').foreach(item => $(item).hide())
-                        $(e).text("Hide Scores");
-                    }
-                })
-	</script>
+				
+				
+</script>
 
 <h1 style="display: inline">Editor: {{ project.name }}</h1>
-<span class="score-display-item" style="float: right; margin-top: 14px;"> source score: <span
-	id="sourceScore"></span>, target score: <span id="targetScore" class="score-display-item"></span>,
-	composite score: <span id="compositeScore" class="score-display-item"></span>,
-        <button id="view-hide-scores-button" value="0">View Scores</button>
+
+<div style="float: right; margin-top: 14px;">
+	<div id="score-display-block" style="display: inline;">
+		 source score: <span id="sourceScore"></span>,
+		 target score: <span id="targetScore"></span>,
+		 composite score: <span id="compositeScore"></span>,
+	</div>
+		<button id="view-hide-scores-button" value="0">View Scores</button>
 	<form style="display: inline"
 		action="{{ path("sc_mark_as_finished", { 'projectId': project.id } ) }}">
 		{% if project.finished %} <input type="submit"
 			value="mark project as not finished" /> {% else %} <input
 			type="submit" value="mark project as finished" /> {% endif %}
 	</form>
-</span>
+</div>
 <div style="clear: both"></div>
 
 <div id="tabs">
