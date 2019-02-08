@@ -13,12 +13,22 @@
 				minWidth: 400
 			});
 		});
+                $('#view-hide-scores-button').on('click', function(e) {
+                    if ($(e).value()) {
+                        $('.score-display-item').foreach(item => $(item).show())
+                        $(e).text("View Scores");
+                    } else {
+                        $('.score-display-item').foreach(item => $(item).hide())
+                        $(e).text("Hide Scores");
+                    }
+                })
 	</script>
 
 <h1 style="display: inline">Editor: {{ project.name }}</h1>
 <span class="score-display-item" style="float: right; margin-top: 14px;"> source score: <span
 	id="sourceScore"></span>, target score: <span id="targetScore" class="score-display-item"></span>,
 	composite score: <span id="compositeScore" class="score-display-item"></span>,
+        <button id="view-hide-scores-button" value="0">View Scores</button>
 	<form style="display: inline"
 		action="{{ path("sc_mark_as_finished", { 'projectId': project.id } ) }}">
 		{% if project.finished %} <input type="submit"
@@ -33,7 +43,8 @@
 		<li><a href="#tabs-1">Scorecard</a></li>
 		<li><a href="#tabs-3">Project specifications</a></li>
 		<li><a href="#tabs-4">Reports</a></li>
-		<li><a href="#tabs-5">About</a></li>
+		<li><a href="#tabs-5">Training and help</a></li>
+		<li><a href="#tabs-6">About</a></li>
 	</ul>
 	<div id="tabs-1">{% include
 		'DFKIScorecardBundle:Editor:scorecard.html.twig' %}</div>
@@ -42,6 +53,8 @@
 	<div id="tabs-4">{% include
 		'DFKIScorecardBundle:Editor:reports.html.twig' %}</div>
 	<div id="tabs-5">{% include
+		'DFKIScorecardBundle:Editor:training_help.html.twig' %}</div>
+	<div id="tabs-6">{% include
 		'DFKIScorecardBundle:Editor:about.html.twig' %}</div>
 
 </div>
