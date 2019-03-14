@@ -1,11 +1,11 @@
 
 function time(){
 
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-    return h + ":" + m + ":" + s;
+	var today = new Date();
+	var h = today.getHours();
+	var m = today.getMinutes();
+	var s = today.getSeconds();
+	return h + ":" + m + ":" + s;
 
 }
 "use strict";
@@ -13,7 +13,7 @@ var sc = {
 
 	api: "",
 	projectId: -1,
-        projectName: '',
+		projectName: '',
 	initSegment: -1,
 	
 	init: function(){
@@ -26,130 +26,130 @@ var sc = {
 		this.scores.init();
 		this.filter.init();
 	},
-        
-        alert: {
-            css: `
-                display: block;
-                position: absolute;
-                width: 400px;
-                min-height: 100px;
-                padding: 10px;
-                border: 2px solid red;
-                background-color: #DCECF6;
-                left: 40%;
-                top: 40%;
-                z-index: 1;
-            `,
-            onOk: function(){console.log("Ok")},
-            onCancel: function(){console.log("Cancel")},
-            show: function(message, onOk = sc.alert.onOk, onCancel = sc.alert.onCancel, ok = 'OK', cancel = 'Cancel'){
-                sc.alert.onOk = onOk;
-                sc.alert.onCancel = onCancel;
-                $('#alertBox').attr('style', sc.alert.css);
-                $('#alertBox').html($(
-                        '<div style="width: 100%; min-height: 150px; text-align: center;">'+message+'</div>'+
-                        '<div style="width: 100%; height: 100px;">'+
-                            '<button onclick="javascript:sc.alert.onOk(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; right: 30px; ">'+ok+'</button>'+
-                            '<button onclick="javascript:sc.alert.onCancel(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; left: 30px;">'+cancel+'</button>'+
-                        '</div>'
-                        ));
-            },
-            hide: function(){
-                $('#alertBox').attr('style', '');
-                $('#alertBox').html('');
-            }
-        },
-        
-        segmentIdNumLink: {
-            key: function() {
-                var key = {};
-                
-                $('#scorecard .segment-text').each(function(index, value) {
-                        key[$(value).attr('segment-id')] = $(value).attr('segment-num');
-                    }.bind(key));
-                    
-                return key;
-            }
-        },
-        
-        export: {
-                getDataWithSegments: function(useRevised = false) {
-                    var scorecardReport = sc.export.getData(useRevised);
-                    scorecardReport['segments'] = sc.segments.get();
-                    return scorecardReport;
-                },
-            
-                getData: function(useRevised = false) {
-                    var scorecardReport = {
-                            'projectName': sc.projectName + "_" + sc.projectId,
-                            'key': sc.segmentIdNumLink.key(),
-                            'issues': sc.issueReports.reports,
-                            'notes': sc.notes.get(),
-                            'highlights': sc.highlight.getHighlights(),
-                            'issueReport': sc.issueReports.getReport(),
-                            'scores': sc.scores.getScores(),
-                            'useRevised': useRevised
-                        };
-                        
-                    return scorecardReport;
-                },
-            
-                download: function(type, text) {
-                        var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
-                    
-                        var element = document.createElement('a');
-                        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-                        element.setAttribute('download', filename);
+		
+		alert: {
+			css: `
+				display: block;
+				position: absolute;
+				width: 400px;
+				min-height: 100px;
+				padding: 10px;
+				border: 2px solid red;
+				background-color: #DCECF6;
+				left: 40%;
+				top: 40%;
+				z-index: 1;
+			`,
+			onOk: function(){console.log("Ok")},
+			onCancel: function(){console.log("Cancel")},
+			show: function(message, onOk = sc.alert.onOk, onCancel = sc.alert.onCancel, ok = 'OK', cancel = 'Cancel'){
+				sc.alert.onOk = onOk;
+				sc.alert.onCancel = onCancel;
+				$('#alertBox').attr('style', sc.alert.css);
+				$('#alertBox').html($(
+						'<div style="width: 100%; min-height: 150px; text-align: center;">'+message+'</div>'+
+						'<div style="width: 100%; height: 100px;">'+
+							'<button onclick="javascript:sc.alert.onOk(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; right: 30px; ">'+ok+'</button>'+
+							'<button onclick="javascript:sc.alert.onCancel(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; left: 30px;">'+cancel+'</button>'+
+						'</div>'
+						));
+			},
+			hide: function(){
+				$('#alertBox').attr('style', '');
+				$('#alertBox').html('');
+			}
+		},
+		
+		segmentIdNumLink: {
+			key: function() {
+				var key = {};
+				
+				$('#scorecard .segment-text').each(function(index, value) {
+						key[$(value).attr('segment-id')] = $(value).attr('segment-num');
+					}.bind(key));
+					
+				return key;
+			}
+		},
+		
+		export: {
+				getDataWithSegments: function(useRevised = false) {
+					var scorecardReport = sc.export.getData(useRevised);
+					scorecardReport['segments'] = sc.segments.get();
+					return scorecardReport;
+				},
+			
+				getData: function(useRevised = false) {
+					var scorecardReport = {
+							'projectName': sc.projectName + "_" + sc.projectId,
+							'key': sc.segmentIdNumLink.key(),
+							'issues': sc.issueReports.reports,
+							'notes': sc.notes.get(),
+							'highlights': sc.highlight.getHighlights(),
+							'issueReport': sc.issueReports.getReport(),
+							'scores': sc.scores.getScores(),
+							'useRevised': useRevised
+						};
+						
+					return scorecardReport;
+				},
+			
+				download: function(type, text) {
+						var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
+					
+						var element = document.createElement('a');
+						element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+						element.setAttribute('download', filename);
 
-                        element.style.display = 'none';
-                        document.body.appendChild(element);
+						element.style.display = 'none';
+						document.body.appendChild(element);
 
-                        element.click();
+						element.click();
 
-                        document.body.removeChild(element);
-                },
+						document.body.removeChild(element);
+				},
 
-                all: function(withSegments = true, useRevised = false) {
-                        var scorecardReport = (withSegments) ? sc.export.getDataWithSegments(useRevised) : sc.export.getData(useRevised);
-                        sc.export.download('all', JSON.stringify(scorecardReport));
-                },
-                
-                issues: function() {
-                        sc.export.download("issues", JSON.stringify(sc.issueReports.reports));
-                },
-                
-                notes: function() {
-                        var notes = sc.notes.get();
-                        sc.export.download("notes", JSON.stringify(notes));
-                },
-                
-                highlights: function() {
-                        var highlighted = sc.highlight.getHighlights();
-                        sc.export.download("highlights", JSON.stringify(highlighted));
-                }
-                
-        },
+				all: function(withSegments = true, useRevised = false) {
+						var scorecardReport = (withSegments) ? sc.export.getDataWithSegments(useRevised) : sc.export.getData(useRevised);
+						sc.export.download('all', JSON.stringify(scorecardReport));
+				},
+				
+				issues: function() {
+						sc.export.download("issues", JSON.stringify(sc.issueReports.reports));
+				},
+				
+				notes: function() {
+						var notes = sc.notes.get();
+						sc.export.download("notes", JSON.stringify(notes));
+				},
+				
+				highlights: function() {
+						var highlighted = sc.highlight.getHighlights();
+						sc.export.download("highlights", JSON.stringify(highlighted));
+				}
+				
+		},
 
-        segments: {
-                total: 0,
-                get: function() {
-                    var data = {
-                        source: [],
-                        target: []
-                    }
-                    
-                    $('tr.segment-text .source').each(function(index, val){
-                        data.source.push($(val).text());
-                    }.bind(data));
-                    
-                    $('tr.segment-text .target').each(function(index, val){
-                        data.target.push($(val).text());
-                    }.bind(data));
-                    
-                    return data;
-                }
-        },
-        
+		segments: {
+				total: 0,
+				get: function() {
+					var data = {
+						source: [],
+						target: []
+					}
+					
+					$('tr.segment-text .source').each(function(index, val){
+						data.source.push($(val).text());
+					}.bind(data));
+					
+					$('tr.segment-text .target').each(function(index, val){
+						data.target.push($(val).text());
+					}.bind(data));
+					
+					return data;
+				}
+		},
+		
 	issueReports:{
 	
 		reports: [],
@@ -179,19 +179,19 @@ var sc = {
 		
 		issuesPerSegment: {},
 
-                getAllIssues: function(){
-                    var issues = [];
-                    $('.metric .label').each(function(index, value){
-                        issues.push($(value).text());
-                    }.bind(issues))
-                    
-                    return issues;
-                },
-                
-                getReport: function() {
-                    return $('#report').prop('outerHTML');
-                },
-                
+				getAllIssues: function(){
+					var issues = [];
+					$('.metric .label').each(function(index, value){
+						issues.push($(value).text());
+					}.bind(issues))
+					
+					return issues;
+				},
+				
+				getReport: function() {
+					return $('#report').prop('outerHTML');
+				},
+				
 		remove: function(index){
 			var issue = this.reports[index];
 			delete this.issuesPerSegment[issue.segment][issue.issueId];
@@ -215,12 +215,12 @@ var sc = {
 				sc.issueReports.remove(index);
 				sc.issueReports.show();
 				$.ajax({
-				    url: sc.api + "editor/issues/" + reportid,
-				    type: 'DELETE',
-				    success: function(){
+					url: sc.api + "editor/issues/" + reportid,
+					type: 'DELETE',
+					success: function(){
 						sc.scores.updateScores();
-				    },
-				    data: {}
+					},
+					data: {}
 				  });
 				return false;
 			});
@@ -263,42 +263,41 @@ var sc = {
 				var selection = $(this).attr('segment-id');
 				that.selectSegment(selection, true);
 			});
-                        $('#scorecard').keydown(function(e){
-                            if (e.key === "Tab" && $('#segment-' + that.selection).is(":focus")) {
-                                
-                                let incrimentor = (e.shiftKey) ? -1 : 1;
-                                let segNum = parseInt($('#segment-' + that.selection).attr("segment-num"));
+			$('#editor-container').keydown(function(e){
+				
+				if (e.key === "Tab" && !$('#segment-notes').is(":focus")) {
+					e.preventDefault();
+					let incrimentor = (e.shiftKey) ? -1 : 1;
+					let segNum = parseInt($('#segment-' + that.selection).attr("segment-num"));
 
-                                if (segNum + incrimentor > 0 && segNum + incrimentor <= sc.segments.total) {
-                                    let nextSeg = parseInt(that.selection) + incrimentor;
-                                    that.selectSegment(nextSeg, true);
-                                } else {
-                                    e.preventDefault();
-                                }
-                            }
-                        })
+					if (segNum + incrimentor > 0 && segNum + incrimentor <= sc.segments.total) {
+						let nextSeg = parseInt(that.selection) + incrimentor;
+						that.selectSegment(nextSeg, true);
+					}
+				}
+			})
 		},
 		selectSegment: function(segmentId, checkNotes = false){
-                        if (checkNotes) {
-                            if (sc.notes.checkChanged()) {
-                                sc.alert.show(
-                                        "You have unsaved notes for the current segment.  Would you like to save or discard them?",
-                                        function(){
-                                            sc.notes.save();
-                                            sc.selector.selectSegment(segmentId);
-                                        },
-                                        function(){
-                                            sc.selector.selectSegment(segmentId);
-                                        },
-                                        "Save",
-                                        "Discard"
-                                );
-                        
-                                return;
-                            }
-                        }
+						if (checkNotes) {
+							if (sc.notes.checkChanged()) {
+								sc.alert.show(
+										"You have unsaved notes for the current segment.  Would you like to save or discard them?",
+										function(){
+											sc.notes.save();
+											sc.selector.selectSegment(segmentId);
+										},
+										function(){
+											sc.selector.selectSegment(segmentId);
+										},
+										"Save",
+										"Discard"
+								);
+						
+								return;
+							}
+						}
 			sc.selector.selection = segmentId;
-                        
+						
 			$('#scorecard tr').removeClass('selection-top');
 			$('#scorecard tr').removeClass('selection-bottom');
 			
@@ -463,13 +462,13 @@ var sc = {
 	},
 	
 	notes: {
-                checkChanged: function(){
-                    var segmentId = sc.selector.selection;
-                    var old_notes = $('tr[segment-id=' + segmentId + ']').first().attr('notes');
-                    var current_notes = $('#segment-notes').val();
-                    
-                    return (old_notes !== current_notes) ? true: false;
-                },
+				checkChanged: function(){
+					var segmentId = sc.selector.selection;
+					var old_notes = $('tr[segment-id=' + segmentId + ']').first().attr('notes');
+					var current_notes = $('#segment-notes').val();
+					
+					return (old_notes !== current_notes) ? true: false;
+				},
 		save: function(){
 			var segment = sc.selector.selection;
 			var notes = $('#segment-notes').val();
@@ -483,23 +482,23 @@ var sc = {
 				}
 			);
 		},
-                get: function(segmentId = null) {
-                        if (segmentId) {
-                            return $('#scorecard .segment-text[segment-id="'+ segmentId +'"]').attr('notes');
-                        }
+				get: function(segmentId = null) {
+						if (segmentId) {
+							return $('#scorecard .segment-text[segment-id="'+ segmentId +'"]').attr('notes');
+						}
 
-                        let notes = []
+						let notes = []
 
-                        $('#scorecard .segment-text').each(function(index, value) {
-                            let segmentNotes = $(value).attr('notes');
+						$('#scorecard .segment-text').each(function(index, value) {
+							let segmentNotes = $(value).attr('notes');
 
-                            if (segmentNotes.length > 0) {
-                                notes.push({'segment-id': $(value).attr('segment-id'), notes: segmentNotes});
-                            }
-                        }.bind(notes));
-                        
-                        return notes;
-                }
+							if (segmentNotes.length > 0) {
+								notes.push({'segment-id': $(value).attr('segment-id'), notes: segmentNotes});
+							}
+						}.bind(notes));
+						
+						return notes;
+				}
 	},
 	
 	highlight: {
@@ -566,44 +565,44 @@ var sc = {
 			);
 		},
 		
-                getHighlights: function(segmentId = null) {
-                    if (segmentId) {
-                        let highlighted = {
-                            source: [],
-                            target: []
-                        }
-                        
-                        $('#scorecard .segment-text[segment-id="' + segmentId + '"] .source .highlighted').each(function(index, value){
-                            highlighted.source.push($(value).text());
-                        }.bind(highlighted));
-                        
-                        $('#scorecard .segment-text[segment-id="' + segmentId + '"] .target .highlighted').each(function(index, value){
-                            highlighted.target.push($(value).text());
-                        }.bind(highlighted));
-                        
-                        return highlighted;
-                    }
-                    
-                    let highlighted = [];
-                    
-                    $('#scorecard .segment-text').each(function(index, value) {
-                        var highlightedChildren = $(value).find('.highlighted');
-                        
-                        if (highlightedChildren.length < 1) return;
-                        
-                        var segmentId = $(value).attr('segment-id');
+				getHighlights: function(segmentId = null) {
+					if (segmentId) {
+						let highlighted = {
+							source: [],
+							target: []
+						}
+						
+						$('#scorecard .segment-text[segment-id="' + segmentId + '"] .source .highlighted').each(function(index, value){
+							highlighted.source.push($(value).text());
+						}.bind(highlighted));
+						
+						$('#scorecard .segment-text[segment-id="' + segmentId + '"] .target .highlighted').each(function(index, value){
+							highlighted.target.push($(value).text());
+						}.bind(highlighted));
+						
+						return highlighted;
+					}
+					
+					let highlighted = [];
+					
+					$('#scorecard .segment-text').each(function(index, value) {
+						var highlightedChildren = $(value).find('.highlighted');
+						
+						if (highlightedChildren.length < 1) return;
+						
+						var segmentId = $(value).attr('segment-id');
 
-                        var highlightGroup = {
-                            'segment-id': segmentId,
-                            'highlights': sc.highlight.getHighlights(segmentId)
-                        }
+						var highlightGroup = {
+							'segment-id': segmentId,
+							'highlights': sc.highlight.getHighlights(segmentId)
+						}
 
-                        highlighted.push(highlightGroup);                        
-                    }.bind(highlighted));
-                    
-                    return highlighted;
-                },
-                
+						highlighted.push(highlightGroup);						
+					}.bind(highlighted));
+					
+					return highlighted;
+				},
+				
 		setHighlights: function(segmentid,str, side){
 			this.highlighters[segmentid + "-" + side].deserializeHighlights(str);
 		}
@@ -627,14 +626,14 @@ var sc = {
 					$('#compositeScore').html(sc.scores.formatScore(response.compositeScore));
 				});
 		},
-                
-                getScores: function() {
-                    return {
-                        'sourceScore': $('#sourceScore').html(),
-                        'targetScore': $('#targetScore').html(),
-                        'compositeScore': $('#compositeScore').html()
-                    }
-                }
+				
+				getScores: function() {
+					return {
+						'sourceScore': $('#sourceScore').html(),
+						'targetScore': $('#targetScore').html(),
+						'compositeScore': $('#compositeScore').html()
+					}
+				}
 	},
 	
 
