@@ -633,7 +633,7 @@ var sc = {
 		},
 		
 		formatScore: function(score){
-			return Math.round(score);
+			return score.toFixed(2);
 		},
 		
 		updateScores: function(){

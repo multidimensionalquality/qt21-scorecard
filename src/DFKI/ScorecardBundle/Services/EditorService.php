@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ class EditorService {
 	 */
 	public function getIssueReports(Project $project) {
 		$issueReports = $this->em->createQuery ( "SELECT ir FROM DFKIScorecardBundle:IssueReport ir, DFKIScorecardBundle:Segment s 
-			WHERE s.project = :project AND ir.segment=s.id" )->setParameter ( "project", $project )->getResult ();
+			WHERE s.project = :project AND ir.segment=s.id ORDER BY ir.issue")->setParameter ( "project", $project )->getResult ();
 		return $issueReports;
 	}
 	
@@ -52,39 +52,56 @@ class EditorService {
 	 */
 	public function getProjectScore($project) {
 		$reports = $this->getIssueReports ( $project );
-		
 		$targetPenalty = 0;
 		$sourcePenalty = 0;
 		
-		for($i = 0; $i < sizeof ( $reports ); $i ++) {
-			$report = $reports [$i];
+		$reports_hash = array();
+		
+		foreach ($reports as $report) {
+			if (!array_key_exists($report->getIssue()->getName(), $reports_hash))
+			{
+				$reports_hash[$report->getIssue()->getName()] = array ();
+				$reports_hash[$report->getIssue()->getName()]['data'] = array($report);
+				$reports_hash[$report->getIssue()->getName()]['minor'] = 0;
+				$reports_hash[$report->getIssue()->getName()]['major'] = 0;
+				$reports_hash[$report->getIssue()->getName()]['critical'] = 0;
+			} else {
+				array_push($reports_hash[$report->getIssue()->getName()]['data'], $report);
+			}
 			
-			$severity = 0;
-			if ($report->getSeverity () == "minor")
-				$severity = 1;
-			else if ($report->getSeverity () == "major")
-				$severity = 10;
-			else if ($report->getSeverity () == "critical")
-				$severity = 100;
-			else
-				throw new \Exception ();
+			$reports_hash[$report->getIssue()->getName()][$report->getSeverity()] += 1; 
+		}
+		$APT = 0;
+		
+		$severity_minor = 1;
+		$severity_major = 5;
+		$severity_critical = 25;
+		
+		foreach (array_keys($reports_hash) as $r) {
+			$reports_hash[$r]['ETPTi'] = 0;
+			foreach ($reports_hash[$r]['data'] as $report){
 			
-			$severity *= $report->getIssueProjectMapping ()->getWeight ();
-			
-			if ($report->getSide () == "source")
-				$sourcePenalty += $severity;
-			else
-				$targetPenalty += $severity;
+			//Error Type penalty total for error type I
+			$reports_hash[$r]['ETPTi'] += ( $reports_hash[$r]['minor']*$severity_minor +
+					$reports_hash[$r]['major']*$severity_major +
+					$reports_hash[$r]['critical']*$severity_critical
+					) * $report->getIssueProjectMapping()->getWeight();
+			}
+			$APT += $reports_hash[$r]['ETPTi'];
 		}
 		
-		$sourceScore = 1 - $sourcePenalty / $project->getSourceWords ();
-		$targetScore = 1 - $targetPenalty / $project->getTargetWords ();
-		$compositeScore = $targetScore + 1 - $sourceScore;
+		$EWC = $project->getTargetWords();
+		$RWC = $project->getSourceWords();
+		$PS = 1.0;
+		
+		$ONPT = ($APT / $EWC) * ($RWC * $PS);
+		$OQF = 1 - ($ONPT / $RWC);
+		
+		$MSV = 100;
+		$OQS = $OQF * $MSV;
 		
 		return array (
-				"sourceScore" => $sourceScore * 100,
-				"targetScore" => $targetScore * 100,
-				"compositeScore" => $compositeScore * 100 
+			"OverallQualityScore" => $OQS
 		);
 	}
 	
