@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,6 +127,46 @@ class SuperadminController extends Controller {
 		
 		$session = $req->getSession ();
 		$msg = sprintf ( "You \"%s\" has been deleted.", $user->getName () );
+		$session->getFlashBag ()->add ( 'notice', $msg );
+		
+		$em->flush ();
+		
+		return $this->redirect ( $this->generateUrl ( 'sc_manage_users' ), 301 );
+	}
+	
+	/**
+	 * clear all assigned projects from a user
+	 * 
+	 * @param unknown $userid
+	 * @throws AccessDeniedException
+	 */
+	public function unassignAllProjectsAction(Request $req) {
+		if (! $this->get ( "security.context" )->isGranted ( 'ROLE_SUPER_ADMIN' )) {
+			throw new AccessDeniedException ( 'Unauthorised access!' );
+		}
+		
+		$em = $this->getDoctrine ()->getEntityManager ();
+		$userid = $req->query->get("userid");
+		$user = $em->getRepository( "DFKIScorecardBundle:User" )->findOneById ( $userid );
+		
+		if (! is_object ( $user )) {
+			throw new BadRequestHttpException ();
+		}
+		
+		$projects = $user->getProjects();
+		
+		foreach ($projects as $project) {
+			$project->removeUser($user);
+			$em->persist($project);
+			$em->flush();
+			
+			$user->removeProject($project);
+		}
+		$em->persist($user);
+		$em->flush ();
+		
+		$session = $req->getSession ();
+		$msg = sprintf ( "You unassigned all projectss from user \"%s\"", $user->getUsername ());
 		$session->getFlashBag ()->add ( 'notice', $msg );
 		
 		$em->flush ();

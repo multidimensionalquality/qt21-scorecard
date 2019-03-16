@@ -57,14 +57,17 @@ $(document).ready(function(){
 		<td>{{ u.email}}</td>
 		<td>{% if u.roles[0] == 'ROLE_SUPER_ADMIN' %} superadmin {% elseif
 			u.roles[0] == 'ROLE_ADMIN' %} admin {% else %} user {% endif %}</td>
-		<td><a class="delete-user" user-id="{{ u.id }}"
-			href="javascript:void(0);">delete</a> <a
+		<td>
+			<a class="delete-user" user-id="{{ u.id }}"
+			href="javascript:void(0);">delete</a> --- <a
 			href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_USER">set
-				user</a> <a
+				user</a> --- <a
 			href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_ADMIN">set
-				admin</a> <a
+				admin</a> --- <a
 			href="{{ path('sc_set_user_role') }}?userid={{ u.id }}&role=ROLE_SUPER_ADMIN">set
-				superadmin</a></td>
+				superadmin</a> --- <a
+			href="{{ path('sc_unset_user_projects') }}?userid={{ u.id }}">unassign all projects</a>
+		</td>
 	</tr>
 	{% endfor %}
 </table>

@@ -68,6 +68,10 @@ sc_set_user_role:
     pattern: superadmin/set_user_role
     defaults: { _controller: DFKIScorecardBundle:Superadmin:setUserRole}
 
+sc_unset_user_projects:
+    pattern: superadmin/unset_user_projects
+    defaults: { _controller: DFKIScorecardBundle:Superadmin:unassignAllProjects}
+
 sc_profile:   
     pattern: user/profile
     defaults: { _controller: DFKIScorecardBundle:User:editProfile}
