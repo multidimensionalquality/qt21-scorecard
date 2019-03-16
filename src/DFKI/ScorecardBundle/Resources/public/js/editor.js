@@ -17,6 +17,7 @@ var sc = {
 	initSegment: -1,
 	
 	init: function(){
+		this.toast.init();
 		this.selector.init();
 		this.buttons.init();
 		this.issueReports.init();
@@ -27,128 +28,144 @@ var sc = {
 		this.filter.init();
 	},
 		
-		alert: {
-			css: `
-				display: block;
-				position: absolute;
-				width: 400px;
-				min-height: 100px;
-				padding: 10px;
-				border: 2px solid red;
-				background-color: #DCECF6;
-				left: 40%;
-				top: 40%;
-				z-index: 1;
-			`,
-			onOk: function(){console.log("Ok")},
-			onCancel: function(){console.log("Cancel")},
-			show: function(message, onOk = sc.alert.onOk, onCancel = sc.alert.onCancel, ok = 'OK', cancel = 'Cancel'){
-				sc.alert.onOk = onOk;
-				sc.alert.onCancel = onCancel;
-				$('#alertBox').attr('style', sc.alert.css);
-				$('#alertBox').html($(
-						'<div style="width: 100%; min-height: 150px; text-align: center;">'+message+'</div>'+
-						'<div style="width: 100%; height: 100px;">'+
-							'<button onclick="javascript:sc.alert.onOk(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; right: 30px; ">'+ok+'</button>'+
-							'<button onclick="javascript:sc.alert.onCancel(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; left: 30px;">'+cancel+'</button>'+
-						'</div>'
-						));
+	alert: {
+		css: `
+			display: block;
+			position: absolute;
+			width: 400px;
+			min-height: 100px;
+			padding: 10px;
+			border: 2px solid red;
+			background-color: #DCECF6;
+			left: 40%;
+			top: 40%;
+			z-index: 1;
+		`,
+		onOk: function(){console.log("Ok")},
+		onCancel: function(){console.log("Cancel")},
+		show: function(message, onOk = sc.alert.onOk, onCancel = sc.alert.onCancel, ok = 'OK', cancel = 'Cancel'){
+			sc.alert.onOk = onOk;
+			sc.alert.onCancel = onCancel;
+			$('#alertBox').attr('style', sc.alert.css);
+			$('#alertBox').html($(
+					'<div style="width: 100%; min-height: 150px; text-align: center;">'+message+'</div>'+
+					'<div style="width: 100%; height: 100px;">'+
+						'<button onclick="javascript:sc.alert.onOk(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; right: 30px; ">'+ok+'</button>'+
+						'<button onclick="javascript:sc.alert.onCancel(); sc.alert.hide();" style="width: 160px; height: 40px; position: absolute; bottom: 30px; left: 30px;">'+cancel+'</button>'+
+					'</div>'
+					));
+		},
+		hide: function(){
+			$('#alertBox').attr('style', '');
+			$('#alertBox').html('');
+		}
+	},
+
+	toast: {
+		init: () => {
+			$("#toast").on("click", sc.toast.hide);
+			sc.toast.hide();
+		},
+		show: async function(message, time = 2000, error = false) {
+			(error) ? sc.toast.red() : sc.toast.blue();
+			$("#toast").show();
+			$("#toast").text(message);
+			setTimeout(sc.toast.hide, time);
+		},
+		hide: () => $("#toast").hide(),
+		blue: () => $("#toast").attr("class", ""),
+		red: () => $("#toast").attr("class", "red")
+	},
+
+	segmentIdNumLink: {
+		key: function() {
+			var key = {};
+
+			$('#scorecard .segment-text').each(function(index, value) {
+					key[$(value).attr('segment-id')] = $(value).attr('segment-num');
+				}.bind(key));
+
+			return key;
+		}
+	},
+
+	export: {
+			getDataWithSegments: function(useRevised = false) {
+				var scorecardReport = sc.export.getData(useRevised);
+				scorecardReport['segments'] = sc.segments.get();
+				return scorecardReport;
 			},
-			hide: function(){
-				$('#alertBox').attr('style', '');
-				$('#alertBox').html('');
+
+			getData: function(useRevised = false) {
+				var scorecardReport = {
+						'projectName': sc.projectName + "_" + sc.projectId,
+						'key': sc.segmentIdNumLink.key(),
+						'issues': sc.issueReports.reports,
+						'notes': sc.notes.get(),
+						'highlights': sc.highlight.getHighlights(),
+						'issueReport': sc.issueReports.getReport(),
+						'scores': sc.scores.getScores(),
+						'useRevised': useRevised
+					};
+
+				return scorecardReport;
+			},
+
+			download: function(type, text) {
+					var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
+
+					var element = document.createElement('a');
+					element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+					element.setAttribute('download', filename);
+
+					element.style.display = 'none';
+					document.body.appendChild(element);
+
+					element.click();
+
+					document.body.removeChild(element);
+			},
+
+			all: function(withSegments = true, useRevised = false) {
+					var scorecardReport = (withSegments) ? sc.export.getDataWithSegments(useRevised) : sc.export.getData(useRevised);
+					sc.export.download('all', JSON.stringify(scorecardReport));
+			},
+
+			issues: function() {
+					sc.export.download("issues", JSON.stringify(sc.issueReports.reports));
+			},
+
+			notes: function() {
+					var notes = sc.notes.get();
+					sc.export.download("notes", JSON.stringify(notes));
+			},
+
+			highlights: function() {
+					var highlighted = sc.highlight.getHighlights();
+					sc.export.download("highlights", JSON.stringify(highlighted));
 			}
-		},
-		
-		segmentIdNumLink: {
-			key: function() {
-				var key = {};
-				
-				$('#scorecard .segment-text').each(function(index, value) {
-						key[$(value).attr('segment-id')] = $(value).attr('segment-num');
-					}.bind(key));
-					
-				return key;
+
+	},
+
+	segments: {
+			total: 0,
+			get: function() {
+				var data = {
+					source: [],
+					target: []
+				}
+
+				$('tr.segment-text .source').each(function(index, val){
+					data.source.push($(val).text());
+				}.bind(data));
+
+				$('tr.segment-text .target').each(function(index, val){
+					data.target.push($(val).text());
+				}.bind(data));
+
+				return data;
 			}
-		},
-		
-		export: {
-				getDataWithSegments: function(useRevised = false) {
-					var scorecardReport = sc.export.getData(useRevised);
-					scorecardReport['segments'] = sc.segments.get();
-					return scorecardReport;
-				},
-			
-				getData: function(useRevised = false) {
-					var scorecardReport = {
-							'projectName': sc.projectName + "_" + sc.projectId,
-							'key': sc.segmentIdNumLink.key(),
-							'issues': sc.issueReports.reports,
-							'notes': sc.notes.get(),
-							'highlights': sc.highlight.getHighlights(),
-							'issueReport': sc.issueReports.getReport(),
-							'scores': sc.scores.getScores(),
-							'useRevised': useRevised
-						};
-						
-					return scorecardReport;
-				},
-			
-				download: function(type, text) {
-						var filename = sc.projectName + "_" + sc.projectId + "_export_" + type + ".json";
-					
-						var element = document.createElement('a');
-						element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-						element.setAttribute('download', filename);
-
-						element.style.display = 'none';
-						document.body.appendChild(element);
-
-						element.click();
-
-						document.body.removeChild(element);
-				},
-
-				all: function(withSegments = true, useRevised = false) {
-						var scorecardReport = (withSegments) ? sc.export.getDataWithSegments(useRevised) : sc.export.getData(useRevised);
-						sc.export.download('all', JSON.stringify(scorecardReport));
-				},
-				
-				issues: function() {
-						sc.export.download("issues", JSON.stringify(sc.issueReports.reports));
-				},
-				
-				notes: function() {
-						var notes = sc.notes.get();
-						sc.export.download("notes", JSON.stringify(notes));
-				},
-				
-				highlights: function() {
-						var highlighted = sc.highlight.getHighlights();
-						sc.export.download("highlights", JSON.stringify(highlighted));
-				}
-				
-		},
-
-		segments: {
-				total: 0,
-				get: function() {
-					var data = {
-						source: [],
-						target: []
-					}
-					
-					$('tr.segment-text .source').each(function(index, val){
-						data.source.push($(val).text());
-					}.bind(data));
-					
-					$('tr.segment-text .target').each(function(index, val){
-						data.target.push($(val).text());
-					}.bind(data));
-					
-					return data;
-				}
-		},
+	},
 		
 	issueReports:{
 	
@@ -470,6 +487,7 @@ var sc = {
 					return (old_notes !== current_notes) ? true: false;
 				},
 		save: function(){
+			sc.toast.show("Note saving...",10000);
 			var segment = sc.selector.selection;
 			var notes = $('#segment-notes').val();
 			
@@ -479,8 +497,9 @@ var sc = {
 				{
 					"segment": segment,
 					"notes": notes,
-				}
-			);
+				},
+				() => sc.toast.show("Note saved.", 3000),
+			).fail(() => sc.toast.show("Nothing saved.", 3000, error = true));
 		},
 				get: function(segmentId = null) {
 						if (segmentId) {
@@ -614,23 +633,19 @@ var sc = {
 		},
 		
 		formatScore: function(score){
-			return Math.round(score*100)/100 + "&#037;";
+			return Math.round(score);
 		},
 		
 		updateScores: function(){
 			$.get(
 				sc.api + "editor/projectscore/" + sc.projectId,
 				function(response){
-					$('#sourceScore').html(sc.scores.formatScore(response.sourceScore));
-					$('#targetScore').html(sc.scores.formatScore(response.targetScore));
-					$('#compositeScore').html(sc.scores.formatScore(response.compositeScore));
+					$('#compositeScore').html(sc.scores.formatScore(response.OverallQualityScore));
 				});
 		},
 				
 				getScores: function() {
 					return {
-						'sourceScore': $('#sourceScore').html(),
-						'targetScore': $('#targetScore').html(),
 						'compositeScore': $('#compositeScore').html()
 					}
 				}
