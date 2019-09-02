@@ -52,7 +52,7 @@ Initialize the database with the following command:
 php app/console doctrine:schema:update --force
 ```
 
-Now you have to run the MySQL commands defined in `data/issues.sql` on your database to import the issue definitions.
+Now you have to run the MySQL commands defined in `data/issues.sql` on your database to import the issue definitions. The default database name in the `data/issues.sql` file is "scorecard". If your database name is different, you will need to edit this file accordingly.
 
 ### 4. Create super user
 
@@ -75,7 +75,7 @@ Note, that --symlink is optional and may not work on systems which do not suppor
 php app/console assetic:dump
 ```
 ```
-php app/console clear:cache
+php app/console cache:clear
 ```
 
 Your changes should be visible after these commands.
