@@ -35,18 +35,18 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use DFKI\ScorecardBundle\Entity\IssueReport;
 use Exception;
 use DFKI\ScorecardBundle\DFKIScorecardBundle;
-use DFKI\ScorecardBundle\Services\IssueImporter;
+use DFKI\ScorecardBundle\Services\TypologyService;
 
 class ProjectService {
 	protected $em;
 	protected $securityContext;
 	protected $htmlPurifier;
-	protected $issueImporter;
-	public function __construct(EntityManager $entityManager, SecurityContext $securityContext, $htmlPurifier, IssueImporter $issueImporter) {
+	protected $typologyService;
+	public function __construct(EntityManager $entityManager, SecurityContext $securityContext, $htmlPurifier, TypologyService $typologyService) {
 		$this->securityContext = $securityContext;
 		$this->em = $entityManager;
 		$this->htmlPurifier = $htmlPurifier;
-		$this->issueImporter = $issueImporter;
+		$this->typologyService = $typologyService;
 	}
 	
 	/**
@@ -135,7 +135,7 @@ class ProjectService {
 		) );
 		
 		if (! is_object ( $issue )) {
-			$issue = $this->issueImporter->createNewIssue ( $xml, $project, $parentIssue );
+			$issue = $this->typologyService->createNewIssueFromMeticFile ( $xml, $project, $parentIssue );
 		}
 		
 		$ipo = new IssueProjectMapping ();
@@ -564,6 +564,29 @@ class ProjectService {
 	 */
 	public function getImportedIssuesAsString($project) {
 		$query = $this->em->createQuery ( "SELECT i FROM DFKIScorecardBundle:Issue i WHERE i.imported=true AND i.project=:project" )->setParameter ( "project", $project );
+		$issues = $query->getResult ();
+		
+		if (count ( $issues ) == 0) {
+			return null;
+		} else {
+			$names = array ();
+			for($i = 0; $i < sizeof ( $issues ); $i ++) {
+				$issue = $issues [$i];
+				$names [] = "\"".$issue->getName ()."\"";
+			}
+			return trim(implode ( ", ", $names ));
+		}
+	}
+
+	/**
+	 * Create a list of all issues that were created from a new typology.
+	 * It returns either null (if no issues were created for this project) or a comma separated string with the issue names.
+	 *
+	 * @param unknown $project        	
+	 * @return NULL|string
+	 */
+	public function getImportedIssuesFromTypologyAsString() {
+		$query = $this->em->createQuery ( "SELECT i FROM DFKIScorecardBundle:Issue i WHERE i.imported=false AND i.project IS NULL" );
 		$issues = $query->getResult ();
 		
 		if (count ( $issues ) == 0) {

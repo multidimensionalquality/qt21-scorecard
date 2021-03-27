@@ -35,7 +35,7 @@ class EditorController extends Controller {
 	 *
 	 * @param unknown $projectId        	
 	 */
-	public function editorAction($projectId) {
+	public function editorAction(Request $req, $projectId) {
 		$project = $this->getDoctrine ()->getRepository ( "DFKIScorecardBundle:Project" )->findOneById ( $projectId );
 		
 		
@@ -47,19 +47,32 @@ class EditorController extends Controller {
 			throw new AccessDeniedException ( 'Unauthorised access!' );
 		}
 		
+		$session = $req->getSession ();
+		$msg = "";
 		$projectService = $this->get ( "projectService" );
 		$issueDefinitions = $projectService->getProjectIssues ( $project );
-		
+		if (empty($issueDefinitions)) {
+			$msg .= "The issues associated with this project could not be found in the currently defined error typology. Reloading the metrics file may be necessary.";
+		}
+
 		$editorService = $this->get ( "editorService" );
 		$issueGrid = $editorService->createIssueGrid($issueDefinitions);
-		
+
 		$issueReports = $editorService->getIssueReports ( $project );
-                
+		if (empty($issueDefinitions) && !empty($issueReports)) {
+			$msg .= "<br><br>Since issue reports have already been made on this project using the missing issues, replacing the metrics file is impossible and
+					the project is irreparable.";
+		}
+
+		if (count($msg) > 0) {
+			$session->getFlashBag ()->add ( 'error', $msg);
+		}
+
 		return $this->render ( 'DFKIScorecardBundle:Editor:editor.html.twig', array (
 				"project" => $project,
 				"issuesGrid" => $issueGrid,
 				"issues" => $issueDefinitions,
-				"issueReports" => $issueReports 
+				"issueReports" => $issueReports
 		) );
 	}
 	

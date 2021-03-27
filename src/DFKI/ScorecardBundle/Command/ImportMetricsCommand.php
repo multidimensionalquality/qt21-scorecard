@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ class ImportMetricsCommand extends ContainerAwareCommand {
 	}
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$file = $input->getArgument ( 'file' );
-		$importer = $this->getContainer ()->get ( "issueImporterService" );
+		$importer = $this->getContainer ()->get ( "typologyService" );
 		$text = $importer->import ( $file );
 		$output->writeln ( $text );
 	}

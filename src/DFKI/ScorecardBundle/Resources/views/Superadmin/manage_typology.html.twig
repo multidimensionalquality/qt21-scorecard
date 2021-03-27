@@ -1,0 +1,35 @@
+{% extends 'DFKIScorecardBundle::base.html.twig' %} {% block title
+%}Manage typology{% endblock %}
+{% block body %}
+<h1>Manage typology</h1>
+
+<form action="{{ path('sc_post_typology') }}" method="post"
+	enctype="multipart/form-data" id="file-submitter">
+	<table class="sctable">
+        <tr>
+			<td>Typology file</td>
+			<td><input name="typology" id="typology" type="file" required></td>
+		</tr>
+		<tr class="color">
+			<td colspan="2"><input name="submit" value="Submit" type="submit"></td>
+		</tr>
+	</table>
+</form>
+
+<script type="text/javascript">
+    $('#file-submitter').on('submit', e => {
+        if (!confirm('**********WARING**********\n' +
+                     'This action will *REMOVE* the default typology and try to replace it.\n\n' +
+                     'If the import fails, the default typology could become empty and require another import attempt.\n\n' +
+                     'Additionally, any existing projects which relied on the previous typology will be affected.\n' +
+                     'In these projects:\n' +
+                     ' - If no issues have been reported, replacing the metrics file may be sufficient.\n' +
+                     ' - If issues *have* been reported, replacing the metrics file is not possible and the project will be irreparable.\n' +
+                     'Continue?')) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+<div style="clear: both;"></div>
+{% endblock %}

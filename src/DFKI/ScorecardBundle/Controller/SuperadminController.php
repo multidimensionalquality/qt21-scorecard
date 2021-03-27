@@ -55,7 +55,64 @@ class SuperadminController extends Controller {
 				"pagination" => $pagination 
 		) );
 	}
+
+	/**
+	 * Load form for updating default error typology (will delete old typology)
+	 * 
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function manageTypologyAction() {
+		// if (! $this->get ( "security.context" )->isGranted ( 'ROLE_SUPER_ADMIN' )) {
+		// 	throw new AccessDeniedException ( 'Unauthorised access!' );
+		// }
+
+		return $this->render ( 'DFKIScorecardBundle:Superadmin:manage_typology.html.twig', array() );
+	}
+
+	/**
+	 * Delete previous typology and import new typology.
+	 * 
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function postTypologyAction(Request $req) {
+		if (! $this->get ( "security.context" )->isGranted ( 'ROLE_SUPER_ADMIN' )) {
+			throw new AccessDeniedException ( 'Unauthorised access!' );
+		}
+		
+		$typology = $req->files->get ( "typology" );
+
+		$typologyService = $this->get ( "typologyService" );
+		$projectService = $this->get ( "projectService" );
+
+		$em = $this->getDoctrine ()->getManager ();
+		$em->getConnection ()->beginTransaction ();
+
+		try {
+			$typologyService->deleteIssues();
+			$typologyService->importTypologyFile( $typology );
+		} catch ( \Exception $e ) {
+			$em->getConnection ()->rollback ();
+			$session = $req->getSession ();
+			$msg = sprintf ( "Failed to import typology: " . $e->getMessage () );
+			$session->getFlashBag ()->add ( 'error', $msg );
+			return $this->render ( 'DFKIScorecardBundle:Admin:manage_typology.html.twig', array () );
+		}
+
+		$session = $req->getSession ();
+		
+		$msg = "Typology has been redefined.";
+		$imports = $projectService->getImportedIssuesFromTypologyAsString();
+		if( $imports != null ){
+			$msg .= " The following issue definitions have been imported: $imports.";
+		}
+		
+		$session->getFlashBag ()->add ( 'notice', $msg );
+
+		return $this->render ( 'DFKIScorecardBundle:Superadmin:manage_typology.html.twig', array() );
+	}
 	
+	/**  */
+
 	/**
 	 * Set the role of a user and redirect to user list
 	 */

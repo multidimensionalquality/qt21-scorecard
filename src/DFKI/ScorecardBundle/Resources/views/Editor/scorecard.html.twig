@@ -14,14 +14,20 @@ $(document).ready(function(){
 	sc.selector.selectSegment({{ project.segments[0].id }});
 	{% endif %}
 	
-	// add issue reports
-	{% for report in issueReports %}
-	sc.issueReports.addIssueReportWithoutShow( "{{ report.segment.id }}", "{{ report.side }}", "{{ report.issue.name|escape("js") }}", "{{ report.severity }}", "{{ report.id}}", "{{ report.issue.id }}" );
-	{% endfor %}
-	sc.issueReports.show();
-	report.importIssues(sc.issueReports.reports);
-	report.show();
+	{% if issuesGrid is empty %}
+	sc.toast.show("Issues cannot be found. Check metrics file against currently defined error typology.", 100000, true);
+	{% endif %}
 
+	// add issue reports
+	{% if not issues is empty %}
+		{% for report in issueReports %}
+		sc.issueReports.addIssueReportWithoutShow( "{{ report.segment.id }}", "{{ report.side }}", "{{ report.issue.name|escape("js") }}", "{{ report.severity }}", "{{ report.id}}", "{{ report.issue.id }}" );
+		{% endfor %}
+		sc.issueReports.show();
+		report.importIssues(sc.issueReports.reports);
+		report.show();
+	{% endif %}
+	
 	// add highlights
 	{% for segment in project.segments %}
 	{% if segment.highlightsSource is not null %}
@@ -229,29 +235,26 @@ $(document).ready(function(){
 			<td colspan="3">Text: <input type="text" id="advanced_filter_input" /><br/><br/></td>
 		</tr>
 		{% set counter=0 %}
-
-		{% for i in 0..(issuesGrid|length)-1 %}
-			
-			{% if issuesGrid[i][0].type == "issue" %}
-				
-				{% for issue in issuesGrid[i] %} 
-					{% if issue.display %}
-						
-						{% if counter%3==0 %}
-							<tr>
-						{% endif %}
-
-						<td><input type="checkbox" issue="{{ issue.id }}"/>{{ issue.name }}</td>
-						
-						{% if counter%3==2 %}
-							</tr>
-						{% endif %}
-						
-						{% set counter=counter+1 %}
-					{% endif %}
-				{% endfor %}
-			{% endif %}
 		
+		{% for i in 0..(issuesGrid|length)-1 %}
+				{% if not issuesGrid is empty and issuesGrid[i][0].type == "issue" %}	
+					{% for issue in issuesGrid[i] %} 
+						{% if issue.display %}
+							
+							{% if counter%3==0 %}
+								<tr>
+							{% endif %}
+
+							<td><input type="checkbox" issue="{{ issue.id }}"/>{{ issue.name }}</td>
+							
+							{% if counter%3==2 %}
+								</tr>
+							{% endif %}
+							
+							{% set counter=counter+1 %}
+						{% endif %}
+					{% endfor %}
+				{% endif %}
 		{% endfor  %}
 	</table>
 </div>

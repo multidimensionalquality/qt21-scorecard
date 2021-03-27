@@ -27,6 +27,12 @@
 !bin/symfony_requirements
 /vendor/
 
+# Node
+/node*
+
+# NetBeans
+/nbproject*
+
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
@@ -43,4 +49,5 @@
 /build/
 
 # Composer PHAR
-/composer.phar
+/composer*
+/composer

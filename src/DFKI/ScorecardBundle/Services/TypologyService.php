@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2015 Deutsches Forschungszentrum für Künstliche Intelligenz
+ * Copyright 2015 Deutsches Forschungszentrum fï¿½r Kï¿½nstliche Intelligenz
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ use DFKI\ScorecardBundle\Entity\Issue;
 use Doctrine\ORM\EntityManager;
 use Exception;
 
-class IssueImporter {
+class TypologyService {
 	protected $em;
 	public function __construct(EntityManager $entityManager) {
 		$this->em = $entityManager;
@@ -77,6 +77,8 @@ class IssueImporter {
 		}
 	}
 	
+
+	
 	/**
 	 * generate an id for an imported issue
 	 */
@@ -105,7 +107,7 @@ class IssueImporter {
 	 * @param unknown $xml        	
 	 * @return \DFKI\ScorecardBundle\Entity\Issue
 	 */
-	public function createNewIssue($xml, $project, $parent) {
+	public function createNewIssueFromMeticFile($xml, $project, $parent) {
 		$this->em->beginTransaction ();
 		$issue = new Issue ();
 		
@@ -133,5 +135,88 @@ class IssueImporter {
 		$this->em->flush ();
 		$this->em->commit ();
 		return $issue;
+	}
+
+	/**
+	 * Create a new issue as part of overriding the existing default error typology.
+	 * 
+	 * @param unknown $typologyFile
+	 */
+	public function importTypologyFile($typologyFile) {
+		libxml_use_internal_errors(true);
+		$xml = @simplexml_load_file ( $typologyFile->getPathname () );
+		
+		if( $xml === false ){
+			$msg = "";
+			foreach(libxml_get_errors() as $error) {
+				$msg .= $error->message;
+				$msg .= "<br/>";
+			}
+				
+			throw new Exception("Error parsing metric file: <br/>$msg");
+		}
+
+		foreach ( $xml->children() as $errorType ) {
+			$this->parseErrorTypeElt($errorType, null);
+		}
+	}
+
+	/**
+	 * Recursive descent parser for typology file
+	 * 
+	 * @param unknown $elt
+	 * @param \DFKI\ScorecardBundle\Entity\Issue $parent
+	 * @return \DFKI\ScorecardBundle\Entity\Issue
+	 */
+	private function parseErrorTypeElt($elt, $parent) {
+		$this->em->beginTransaction ();
+		$issue = new Issue ();
+		
+		$attr = $elt->attributes ();
+		$name = $attr["name"];
+		$id = strtolower( preg_replace('/\W/', '-', $name) );
+		
+		$issue->setId( $id );
+		$issue->setName( $name );
+		$issue->setParent( $parent );
+		$issue->setImported ( false );
+
+		$persisted = false;
+		foreach ( $elt->children() as $child ) {
+			switch ( $child->getName() ) {
+				case "description":
+					$issue->setDefinition( (string) $child );
+					break;
+				case "notes":
+					$issue->setNotes( (string) $child );
+					break;
+				case "examples":
+					$issue->setExamples( (string) $child );
+					break;
+				case "errorType":
+					$this->em->persist ( $issue );
+					$persisted = true;
+					$this->parseErrorTypeElt($child, $issue);
+					break;
+			}
+		}
+		if (!$persisted) {
+			$this->em->persist ($issue );
+		}
+
+		$this->em->flush ();
+		$this->em->commit ();
+	}
+
+	/**
+	 * Delete all existing issues.
+	 */
+	public function deleteIssues() {
+		$connection = $this->em->getConnection ();
+		$connection->query ( 'SET FOREIGN_KEY_CHECKS=0' );
+		$this->em->createQuery ( "DELETE FROM DFKIScorecardBundle:Issue i" )->execute ();
+		$connection->query ( 'SET FOREIGN_KEY_CHECKS=1' );
+		$this->em->flush ();
+		$this->em->commit ();
 	}
 }
