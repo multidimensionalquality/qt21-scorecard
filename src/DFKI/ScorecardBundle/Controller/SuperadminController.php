@@ -95,7 +95,7 @@ class SuperadminController extends Controller {
 			$session = $req->getSession ();
 			$msg = sprintf ( "Failed to import typology: " . $e->getMessage () );
 			$session->getFlashBag ()->add ( 'error', $msg );
-			return $this->render ( 'DFKIScorecardBundle:Admin:manage_typology.html.twig', array () );
+			return $this->render ( 'DFKIScorecardBundle:Superadmin:manage_typology.html.twig', array () );
 		}
 
 		$session = $req->getSession ();
