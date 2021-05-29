@@ -64,7 +64,7 @@ class EditorController extends Controller {
 					the project is irreparable.";
 		}
 
-		if (count($msg) > 0) {
+		if (strlen($msg) > 0) {
 			$session->getFlashBag ()->add ( 'error', $msg);
 		}
 
