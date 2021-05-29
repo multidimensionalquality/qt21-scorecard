@@ -174,7 +174,7 @@ class TypologyService {
 		
 		$attr = $elt->attributes ();
 		$name = $attr["name"];
-		$id = strtolower( preg_replace('/\W/', '-', $name) );
+		$id = $attr["id"]; 
 		
 		$issue->setId( $id );
 		$issue->setName( $name );
