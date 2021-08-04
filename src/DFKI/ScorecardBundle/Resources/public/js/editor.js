@@ -543,6 +543,11 @@ var sc = {
 					},
 					onAfterHighlight: function(range, hlts ){
 						sc.highlight.saveHighlights(segmentid, side);
+                        navigator.clipboard.writeText(hlts[0].innerText).then(() => {
+                            sc.toast.show("Highlighted text copied to clipboard.", 2000);
+                        }, () => {
+                            sc.toast.show("Highlighted text could not be copied to clipboard.", 2000, true);
+                        });
 					}
 				});
 				hltr.setColor("#FFFF7B");
