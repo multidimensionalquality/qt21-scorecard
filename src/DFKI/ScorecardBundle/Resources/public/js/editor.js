@@ -775,3 +775,18 @@ var sc = {
 		}
 	}
 };
+$(document).ready(() => {
+
+    $('tr.segment-text .source, tr.segment-text .target').each((index, val) => {
+        $(val).on('pointerup', event => {
+            var selection = window.getSelection().toString();
+            if (!sc.highlight.active || selection === "") return;
+
+            var tmp = $(`<p>${window.getSelection().toString()}</p>`);
+            tmp.select();
+            document.execCommand('copy');
+
+            sc.toast.show("Highlighted text copied to clipboard.", 2000);
+        });
+    });
+});
