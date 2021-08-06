@@ -389,7 +389,7 @@ var sc = {
 				}
 
                 sc.clipboard = issueid;
-                sc.toast.show("Issue Id copied to local clipboard. (CTRL+SHIFT+V in Notes text area to paste.)", 2000);
+                sc.toast.show("Issue Id copied to local clipboard. (CTRL+SHIFT+V in Notes text area to paste.)", 3000);
 
 				return false;
 			});
