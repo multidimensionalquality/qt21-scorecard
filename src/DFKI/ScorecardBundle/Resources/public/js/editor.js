@@ -9,13 +9,15 @@ function time(){
 
 }
 "use strict";
+
 var sc = {
 
 	api: "",
 	projectId: -1,
 		projectName: '',
 	initSegment: -1,
-	
+    clipboard: "",
+
 	init: function(){
 		this.toast.init();
 		this.selector.init();
@@ -385,6 +387,10 @@ var sc = {
 				} else{
 					sc.buttons.addIssue(issueid, issuename, target, severity);
 				}
+
+                sc.clipboard = issueid;
+                sc.toast.show("Issue Id copied to local clipboard. (CTRL+SHIFT+V in Notes text area to paste.)", 2000);
+
 				return false;
 			});
 			
@@ -521,7 +527,7 @@ var sc = {
 	},
 	
 	highlight: {
-		
+
 		highlighters: [],
 		active: false,
 		
@@ -543,6 +549,8 @@ var sc = {
 					},
 					onAfterHighlight: function(range, hlts ){
 						sc.highlight.saveHighlights(segmentid, side);
+                        sc.clipboard = hlts[0].innerText;
+                        sc.toast.show("Highlighted text copied to local clipboard. (CTRL+SHIFT+V in Notes text area to paste.)", 3000);
 					}
 				});
 				hltr.setColor("#FFFF7B");
@@ -771,17 +779,19 @@ var sc = {
 	}
 };
 $(document).ready(() => {
-
-    $('tr.segment-text .source, tr.segment-text .target').each((index, val) => {
-        $(val).on('pointerup', event => {
-            var selection = window.getSelection().toString();
-            if (!sc.highlight.active || selection === "") return;
-
-            var tmp = $(`<p>${window.getSelection().toString()}</p>`);
-            tmp.select();
-            document.execCommand('copy');
-
-            sc.toast.show("Highlighted text copied to clipboard.", 2000);
-        });
+    var ctrlPressed 	= false,
+        shiftPressed 	= false;
+    $('#segment-notes').keydown(event => {
+        if (event.keyCode === 17 || event.keyCode === 91) ctrlPressed = true;
+        if (event.keyCode === 16 || event.keyCode === 16) shiftPressed = true;
+        if (event.keyCode === 86 && ctrlPressed && shiftPressed) {
+            var preCursor = $(event.currentTarget).val().substring(0, event.currentTarget.selectionStart);
+            var postCursor = $(event.currentTarget).val().substring(event.currentTarget.selectionStart);
+            $(event.currentTarget).val(`${preCursor}${sc.clipboard}${postCursor}`);
+            return false;
+        }
+    }).keyup(event => {
+        if (event.keyCode === 17 || event.keyCode === 91) ctrlPassed = false;
+        if (event.keyCode === 16 || event.keyCode === 16) shiftPressed = false;
     });
 });
